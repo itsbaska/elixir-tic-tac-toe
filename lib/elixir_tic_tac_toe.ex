@@ -1,18 +1,13 @@
 defmodule ElixirTicTacToe do
-  @moduledoc """
-  Documentation for ElixirTicTacToe.
-  """
-
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> ElixirTicTacToe.hello
-      :world
-
-  """
   def hello do
     :world
   end
+
+  def talk do
+    response = IO.gets  "Is this where we are?" 
+    answer = response
+    # IO.puts answer
+  end
 end
+
+ElixirTicTacToe
