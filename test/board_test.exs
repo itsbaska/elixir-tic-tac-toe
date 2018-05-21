@@ -26,4 +26,8 @@ defmodule BoardTest do
   test "mark board with player marker" do
     assert Board.make_mark(["X", 1, "X", "X", "O", 5, 6, "X", 8], 6, "O") == ["X", 1, "X", "X", "O", 5, "O", "X", 8]
   end
+
+  test "returns all available spaces" do
+    assert Board.available_spaces(["X", 1, "X", "X", "O", 5, 6, "X", 8]) == [1, 5, 6, 8]
+  end
 end

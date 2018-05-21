@@ -23,4 +23,8 @@ defmodule Board do
     List.replace_at(board, space, player)
   end
 
+  def available_spaces(board) do
+    Enum.filter(board, fn(space) -> space != "X" and space != "O" end)
+  end
+
 end
