@@ -4,14 +4,26 @@ defmodule BoardTest do
   doctest Board
 
   test "returns the board" do
-    assert Board.get_board == [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    assert Board.create == [0, 1, 2, 3, 4, 5, 6, 7, 8]
   end
 
-  test "returns true if winning space" do 
-    assert Board.is_winning_space?([0, 1, 2]) == true
+  test "returns true if 'O' three in a row" do
+    assert Board.three_in_a_row?(["X", 1, "O", "X", "O", 5, "O", "X", 8]) == true
+  end
+  
+  test "returns false if no three in a row" do
+    assert Board.three_in_a_row?(["X", 1, "X", "X", "O", 5, "O", "X", 8]) == false
   end
 
-  test "returns false if not a winning space" do 
-    assert Board.is_winning_space?([0, 1, 3]) == false
+  test "returns true if board space is available" do
+    assert Board.is_available?(["X", 1, "X", "X", "O", 5, "O", "X", 8], 5) == true
+  end
+
+  test "returns false if board space is not available" do
+    assert Board.is_available?(["X", 1, "X", "X", "O", 5, "O", "X", 8], 6) == false
+  end
+
+  test "mark board with player marker" do
+    assert Board.make_mark(["X", 1, "X", "X", "O", 5, 6, "X", 8], 6, "O") == ["X", 1, "X", "X", "O", 5, "O", "X", 8]
   end
 end
