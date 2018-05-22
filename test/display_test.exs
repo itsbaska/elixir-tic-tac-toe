@@ -60,12 +60,21 @@ defmodule DisplayTest do
       Instructions:
       Select the spot you want to mark by entering the corresponding number.
       The first to get three marks in a row will win the game.
-      
+
       You are player "X", please start the game.
       """
     end
   end
 
-
+  describe "when the user enters an invalid entry" do
+    test "#print_invalid_msg" do
+      test_output = fn -> 
+        Display.print_invalid_msg
+      end
+      assert capture_io(test_output) == """
+      Please enter a number between 0-8.
+      """
+    end
+  end
   
 end

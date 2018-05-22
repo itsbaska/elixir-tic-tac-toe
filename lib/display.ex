@@ -26,4 +26,10 @@ defmodule Display do
     You are player "X", please start the game.
     """
   end
+
+  def print_invalid_msg do
+    IO.write"""
+    Please enter a number between 0-8.
+    """
+  end
 end
