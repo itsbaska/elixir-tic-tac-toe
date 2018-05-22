@@ -3,6 +3,11 @@ defmodule BoardTest do
 
   doctest Board
 
+  test "player struct" do
+    assert %Board{} === %Board{spaces: [0, 1, 2, 3, 4, 5, 6, 7, 8]}
+
+  end
+
   test "returns the board" do
     assert Board.create == [0, 1, 2, 3, 4, 5, 6, 7, 8]
   end
