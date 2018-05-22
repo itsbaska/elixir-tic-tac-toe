@@ -49,6 +49,23 @@ defmodule DisplayTest do
     
   end
 
+  describe "when the game starts running" do
+    test "#print_welcom_msg" do
+      test_output = fn -> 
+        Display.print_welcome_msg
+      end
+      assert capture_io(test_output) == """
+      Tic Tac Toe
+      -----------
+      Instructions:
+      Select the spot you want to mark by entering the corresponding number.
+      The first to get three marks in a row will win the game.
+      
+      You are player "X", please start the game.
+      """
+    end
+  end
+
 
   
 end

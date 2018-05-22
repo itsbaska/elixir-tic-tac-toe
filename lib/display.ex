@@ -14,4 +14,16 @@ defmodule Display do
     
     """
   end
+
+  def print_welcome_msg do 
+    IO.write"""
+    Tic Tac Toe
+    -----------
+    Instructions:
+    Select the spot you want to mark by entering the corresponding number.
+    The first to get three marks in a row will win the game.
+
+    You are player "X", please start the game.
+    """
+  end
 end
