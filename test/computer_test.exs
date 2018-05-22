@@ -2,6 +2,12 @@ defmodule ComputerTest do
   use ExUnit.Case
   doctest Computer
 
+
+  test "player struct" do
+    assert %Computer{} === %Computer{mark: "O"}
+
+  end
+
   test "returns the Computer mark" do
     assert Computer.mark == "O"
   end

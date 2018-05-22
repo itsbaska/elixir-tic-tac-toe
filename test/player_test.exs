@@ -3,6 +3,11 @@ defmodule PlayerTest do
 
   doctest Player
 
+  test "player struct" do
+    assert %Player{} === %Player{mark: "X"}
+
+  end
+  
   test "returns the Player mark" do
     assert Player.mark == "X"
   end
