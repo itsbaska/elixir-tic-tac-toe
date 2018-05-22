@@ -1,5 +1,7 @@
 defmodule Player do
-  # defstruct mark: "X"
+  # create a defstruct for the player type.
+
+  defstruct mark: "X"
 
   def mark do
     "X"
