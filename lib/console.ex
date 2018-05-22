@@ -1,4 +1,4 @@
-defmodule Display do
+defmodule Console do
   def print_board(board) do
     IO.write """
 
@@ -32,4 +32,13 @@ defmodule Display do
     Please enter a number between 0-8.
     """
   end
+
+  def print_spot_taken_msg do
+    IO.write"""
+    Spot is taken.
+    Please try again at a different spot.
+    """
+  end
+
+  
 end

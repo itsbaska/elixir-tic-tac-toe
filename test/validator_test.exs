@@ -12,6 +12,10 @@ defmodule ValidatorTest do
     test "return false if input is a letter" do
       assert Validator.is_valid_input("C") == false
     end
+
+    test "return false if input is out of bounds" do
+      assert Validator.is_valid_input("9") == false
+    end
   end
   
 end

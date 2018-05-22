@@ -1,14 +1,14 @@
-defmodule DisplayTest do
+defmodule ConsoleTest do
   use ExUnit.Case
   import ExUnit.CaptureIO
 
-  doctest Display
+  doctest Console
 
   describe "when there are no markers on the board" do
     test "#print_board" do
       board = [0, 1, 2, 3, 4, 5, 6, 7, 8]
       test_output = fn -> 
-        Display.print_board(board)
+        Console.print_board(board)
       end
       assert capture_io(test_output) == """
      
@@ -30,7 +30,7 @@ defmodule DisplayTest do
     test "#print_board" do
       board = [0, 1, 2, 3, "X", 5, 6, 7, 8]
       test_output = fn -> 
-        Display.print_board(board)
+        Console.print_board(board)
       end
       assert capture_io(test_output) == """
 
@@ -50,9 +50,9 @@ defmodule DisplayTest do
   end
 
   describe "when the game starts running" do
-    test "#print_welcom_msg" do
+    test "#print_welcome_msg" do
       test_output = fn -> 
-        Display.print_welcome_msg
+        Console.print_welcome_msg
       end
       assert capture_io(test_output) == """
       Tic Tac Toe
@@ -69,10 +69,20 @@ defmodule DisplayTest do
   describe "when the user enters an invalid entry" do
     test "#print_invalid_msg" do
       test_output = fn -> 
-        Display.print_invalid_msg
+        Console.print_invalid_msg
       end
       assert capture_io(test_output) == """
       Please enter a number between 0-8.
+      """
+    end
+
+    test "#print_spot_taken_msg" do
+      test_output = fn -> 
+        Console.print_spot_taken_msg
+      end
+      assert capture_io(test_output) == """
+      Spot is taken.
+      Please try again at a different spot.
       """
     end
   end
