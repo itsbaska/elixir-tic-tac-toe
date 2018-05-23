@@ -40,5 +40,9 @@ defmodule Console do
     """
   end
 
-  
+  def get_user_spot do
+    IO.gets("Please enter spot number")
+    # IO.inspect response
+  end
+
 end

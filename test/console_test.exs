@@ -86,5 +86,13 @@ defmodule ConsoleTest do
       """
     end
   end
-  
+
+  describe "receive user input" do
+    test "get_user_spot" do
+      # input = Console.get_user_spot
+      # assert capture_io([input: "1"], fn -> 
+      #   Console.get_user_spot
+      # end) == "1"
+    end
+  end
 end
