@@ -18,5 +18,3 @@ defmodule Message do
                     Please try again at a different spot.
                     """
 end
-
-Message
