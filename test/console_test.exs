@@ -49,50 +49,35 @@ defmodule ConsoleTest do
     
   end
 
-  describe "when the game starts running" do
-    test "#print_welcome_msg" do
-      test_output = fn -> 
-        Console.print_welcome_msg
-      end
+  describe "when app starts" do
+    test "print welcome message" do 
+      test_output = fn -> Console.print(%Message{}.welcome) end
       assert capture_io(test_output) == """
-      Tic Tac Toe
-      -----------
-      Instructions:
-      Select the spot you want to mark by entering the corresponding number.
-      The first to get three marks in a row will win the game.
-
-      You are player "X", please start the game.
-      """
+                                        Tic Tac Toe
+                                        -----------
+                                        Instructions:
+                                        Select the spot you want to mark by entering the corresponding number.
+                                        The first to get three marks in a row will win the game.
+                                    
+                                        You are player "X", please start the game.
+                                        """
     end
   end
 
   describe "when the user enters an invalid entry" do
-    test "#print_invalid_msg" do
-      test_output = fn -> 
-        Console.print_invalid_msg
-      end
+    test "print invalid message" do
+      test_output = fn -> Console.print(%Message{}.invalid) end
       assert capture_io(test_output) == """
-      Please enter a number between 0-8.
-      """
+                                        Please enter a number between 0-8.
+                                        """
     end
 
     test "#print_spot_taken_msg" do
-      test_output = fn -> 
-        Console.print_spot_taken_msg
-      end
+      test_output = fn -> Console.print(%Message{}.spot_taken)end
       assert capture_io(test_output) == """
-      Spot is taken.
-      Please try again at a different spot.
-      """
-    end
-  end
-
-  describe "receive user input" do
-    test "get_user_spot" do
-      # input = Console.get_user_spot
-      # assert capture_io([input: "1"], fn -> 
-      #   Console.get_user_spot
-      # end) == "1"
+                                        Spot is taken.
+                                        Please try again at a different spot.
+                                        """
     end
   end
 end
