@@ -28,9 +28,9 @@ defmodule ConsoleTest do
 
   describe "when there is a marker on the board" do
     test "#print_board" do
-      board = [0, 1, 2, 3, "X", 5, 6, 7, 8]
+      board = [0, 1, 2, 3, 4, 5, 6, 7, 8]
       test_output = fn -> 
-        Console.print_board(board)
+        Player.move(board, 4) |> Console.print_board
       end
       assert capture_io(test_output) == """
 
