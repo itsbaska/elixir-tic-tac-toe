@@ -4,6 +4,6 @@ defmodule Computer do
   def move(board, space) do
     Board.make_mark(board, space, %Computer{}.mark)
   end
-
+  
   
 end
