@@ -1,5 +1,9 @@
 defmodule Game do
-  defstruct player_1: %Player{}, player_2: %Computer{}, current_player: %Player{mark: "X"}, winner: nil, board: %Board{}.spaces
+  defstruct player_1: %Player{}, 
+            player_2: %Computer{}, 
+            current_player: %Player{}, 
+            winner: nil, 
+            board: %Board{}.spaces
   
   def check_three([x, x, x]), do: true
   def check_three([a, b, c]), do: false
@@ -25,5 +29,8 @@ defmodule Game do
         false
     end
   end
+
+  def change_turn(%Player{}), do: %{ %Game{} | current_player: %Computer{}}
+  def change_turn(%Computer{}), do: %{ %Game{} | current_player: %Player{}}
 
 end

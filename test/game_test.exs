@@ -6,6 +6,17 @@ defmodule GameTest do
     assert %Game{} == %Game{player_1: %Player{mark: "X"}, player_2: %Computer{mark: "O"}, current_player: %Player{mark: "X"}, winner: nil, board: [0, 1, 2, 3, 4, 5, 6, 7, 8]}
   end
 
+  describe "when current user is the player" do
+    test "change_turn to computer" do
+      assert Game.change_turn(%Player{}).current_player ==  %Computer{}
+    end
+
+    test "change_turn to player" do
+      %{ %Game{} | current_player: %Computer{}}
+      assert Game.change_turn(%Player{}).current_player ==  %Computer{}
+    end
+  end
+
   describe "when game is not over" do
     test "board is empty" do
       assert Game.game_over?([0, 1, 2, 3, 4, 5, 6, 7, 8]) == false
@@ -20,8 +31,8 @@ defmodule GameTest do
 
   describe "when game is over" do
     test "first row win" do
-      assert Game.game_over?(["X", "X", "X",
-                              "O", "O", "X",
+      assert Game.game_over?(["O", "O", "O",
+                              "O", "X", "X",
                               "X", "O", "O"]) == true
     end
 
