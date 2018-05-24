@@ -27,4 +27,16 @@ defmodule MessageTest do
                                   Please try again at a different spot.
                                   """
   end
+
+  test "return Computer win message" do
+    assert %Message{}.win === """
+                                  Computer Wins!!!
+                                  """
+  end
+
+  test "return game tie message" do
+    assert %Message{}.tie === """
+                                  It's a Tie!!!
+                                  """
+  end
 end
