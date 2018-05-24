@@ -36,7 +36,7 @@ defmodule GameTest do
                               "X", "O", "O"]) == true
     end
 
-    test "sencond row win" do
+    test "second row win" do
       assert Game.game_over?(["O", "X", "O",
                               "X", "X", "X",
                               "X", "O", "X"]) == true
@@ -54,7 +54,7 @@ defmodule GameTest do
                               "X", "O", "X"]) == true
     end
 
-    test "sencond column win" do
+    test "second column win" do
       assert Game.game_over?(["O", "X", "O", 
                               "X", "X", "X",
                               "O", "X", "X"]) == true
@@ -63,6 +63,20 @@ defmodule GameTest do
     test "third column win" do
       assert Game.game_over?(["O", "X", "X",
                               "O", "O", "X",
+                              "X", "O", "X"]) == true
+                              
+    end
+
+    test "diagonal win 1" do
+      assert Game.game_over?(["O", "X", "X",
+                              "O", "X", "X",
+                              "X", "O", "O"]) == true
+                              
+    end    
+    
+    test "diagonal win 2" do
+      assert Game.game_over?(["X", "O", "X",
+                              "O", "X", "O",
                               "X", "O", "X"]) == true
                               
     end

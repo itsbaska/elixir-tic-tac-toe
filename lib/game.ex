@@ -4,13 +4,16 @@ defmodule Game do
             current_player: %Player{}, 
             winner: nil, 
             board: %Board{}.spaces
-  
+            
+  # convert to private functions?
   def check_three([x, x, x]), do: true
   def check_three([a, b, c]), do: false
-  
+
+  # convert to private functions?
   def check_line([head | tail]), do: [check_three(head) | check_line(tail)]
   def check_line([]), do: []
 
+  # convert to private functions?
   def convert_to_columns([a, b, c, d, e, f, g, h, i]), do: [[a, d, g], [b, e, h], [c, f, i]]
   def convert_to_diagonals([a, _b, c, _d, e, _f, g, _h, i]), do: [[a, e, i], [g, e, c]]
   def convert_to_rows(board), do: Enum.chunk(board, 3)
