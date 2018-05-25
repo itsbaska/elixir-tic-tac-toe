@@ -27,6 +27,12 @@ defmodule GameTest do
                               3, "X", 5,
                               6, 7, 8]) == false
     end
+
+    test "no winners" do
+      assert Game.get_winner(["X", 1, "O",
+                              3, "X", 5,
+                              6, 7, 8]) == nil
+    end
   end
 
   describe "when game is over" do
@@ -88,4 +94,28 @@ defmodule GameTest do
     end
   end
 
+  test "get X winner in diagonals " do
+    assert Game.get_winner(["O", "X", "X",
+                            "O", "X", "X",
+                            "X", "O", "O"]) == "X"
+  end
+
+  test "get O winner in rows" do
+    assert Game.get_winner(["O", "O", "O",
+                            "O", "X", "X",
+                            "X", "O", "O"]) == "O"
+  end  
+  
+  test "get X winner" do
+    assert Game.get_winner(["O", "X", "O",
+                            "O", "X", "X",
+                            "X", "X", "O"]) == "X"
+  end
+
+
+  test "no winner" do
+    assert Game.get_winner(["O", "X", "O",
+                            "O", "O", "X",
+                            "X", "O", "X"]) == nil
+  end
 end
