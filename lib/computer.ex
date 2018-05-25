@@ -24,6 +24,10 @@ defmodule Computer do
     best_score |> Enum.min_by(fn(x) -> elem(x, 1) end) |> elem(1)
   end
 
+  def best_move(best_score) do
+    best_score |> Enum.max_by(fn(x) -> elem(x, 1) end) |> elem(0)
+  end
+
 
 # iex(7)> list |> Enum.min_by(fn(x) -> elem(x, 1) end)    
 # {:e, -1}

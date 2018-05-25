@@ -37,7 +37,7 @@ defmodule ComputerTest do
 
   describe "when O is winning" do
     test "return the highest score" do
-      best_score = [{0, 1}, {1, -1}, {2, 0}, {0, 0}]
+      best_score = [{0, 1}, {1, -1}, {2, 0}, {3, 0}]
       
       assert Computer.minimax_score("O", best_score) == 1
     end
@@ -45,10 +45,16 @@ defmodule ComputerTest do
 
   describe "when X is winning" do
     test "return the lowest score" do
-      best_score = [{0, 1}, {1, -1}, {2, 0}, {0, 0}]
+      best_score = [{0, 1}, {1, -1}, {2, 0}, {3, 0}]
       assert Computer.minimax_score("X", best_score) == -1
     end
   end
+
+  test "return the best move" do 
+    best_score = [{0, 1}, {1, -1}, {2, 0}, {3, 0}]
+    assert Computer.best_move(best_score) == 0
+  end
+
   # describe "when game is not over" do
   #   test "return 0 if tie" do
   #     assert Computer.score(["X", "X", "O",
