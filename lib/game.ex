@@ -6,7 +6,7 @@ defmodule Game do
             board: %Board{}.spaces
             
   defp check_three([x, x, x]), do: x
-  defp check_three([_a, _b, _c]), do: false
+  defp check_three([_a, _b, _c]), do: nil
 
   defp check_line([head | tail]), do: [check_three(head) | check_line(tail)]
   defp check_line([]), do: []
