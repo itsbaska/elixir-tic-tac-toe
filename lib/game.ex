@@ -6,7 +6,7 @@ defmodule Game do
             board: %Board{}.spaces
             
   defp check_three([x, x, x]), do: x
-  defp check_three([a, b, c]), do: false
+  defp check_three([_a, _b, _c]), do: false
 
   defp check_line([head | tail]), do: [check_three(head) | check_line(tail)]
   defp check_line([]), do: []
@@ -37,4 +37,7 @@ defmodule Game do
   def change_turn(%Player{}), do: %{ %Game{} | current_player: %Computer{}}
   def change_turn(%Computer{}), do: %{ %Game{} | current_player: %Player{}}
 
+  def mark_spot(game, space) do
+    Board.make_mark(game.board, space, game.current_player)
+  end
 end
