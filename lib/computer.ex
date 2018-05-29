@@ -5,6 +5,44 @@ defmodule Computer do
     Board.make_mark(board, space, %Computer{}.mark)
   end
 
+  def get_best_move(game, depth \\ 0, best_score \\ []) do
+    cond do
+      Game.game_over?(game) -> 
+        score(game.board)
+      depth == length(Board.available_spaces(game.board)) ->
+        best_move(best_score)
+    end
+  end
+
+  def get_best_move(game, depth, best_score) do
+    Enum.map(Board.available_spaces(game.board), fn(space) ->
+      game.mark_spot(game, space)
+      Game.change_turn(game.current_player)
+      IO.best_score
+      best_score ++ get_best_move(game, depth + 1, [])
+      Board.reset_space(game.board, space)
+      Game.change_turn(game.current_player)
+    end)
+    minimax_score(game.current_player, best_score)
+  end
+
+  # Enum.map([1, 2, 3], fn(x) -> x * 2 end)
+  # [2, 4, 6]
+
+  # def get_best_move(game, depth = 0, best_score = {})
+  #   return score(game) if game.game_over?
+  #   game.board.available_spaces.each do |spot|
+  #     game.mark_spot(spot)
+  #     best_score[spot] = get_best_move(game, depth += 1, {})
+  #     game.board.reset_space(spot)
+  #     game.change_turns
+  #   end
+
+  #   return best_move(best_score) if depth == game.board.available_spaces.length
+  #   minimax_score(game, best_score)
+  # end
+
+
   def score(board) do
     cond do
       Game.get_winner(board) == "O" ->
@@ -27,26 +65,4 @@ defmodule Computer do
   def best_move(best_score) do
     best_score |> Enum.max_by(fn(x) -> elem(x, 1) end) |> elem(0)
   end
-
-
-# iex(7)> list |> Enum.min_by(fn(x) -> elem(x, 1) end)    
-# {:e, -1}
-# iex(8)> list |> Enum.max_by(fn(x) -> elem(x, 1) end)
-# {:d, 3}
-
-# returns the space
-# def best_move(best_score)
-#   best_score.max_by { |key, value| value }[0]
-# end
-
-# returns the score
-# def minimax_score(game, best_score)
-#   if game.current_player.marker == @marker
-#     best_score.max_by { |key, value| value }[1]
-#   else
-#     best_score.min_by { |key, value| value }[1]
-#   end
-# end
-
-
 end
