@@ -16,9 +16,9 @@ defmodule Game do
   defp convert_to_rows(board), do: Enum.chunk(board, 3)
 
   def get_winner(board) do
-    Enum.find(convert_to_rows(board) |> check_line, fn(x) -> x end) ||
-    Enum.find(convert_to_columns(board) |> check_line, fn(x) -> x end) ||
-    Enum.find(convert_to_diagonals(board) |> check_line, fn(x) -> x end)
+    Enum.find(convert_to_rows(board) |> check_line, &(&1)) ||
+    Enum.find(convert_to_columns(board) |> check_line, &(&1)) ||
+    Enum.find(convert_to_diagonals(board) |> check_line, &(&1))
   end
 
   def is_tie?(board), do: Board.available_spaces(board) |> length == 0
