@@ -19,17 +19,17 @@ defmodule Game do
   def get_winner(game) do
     winner =
     game.board
-    |> convert_to_diagonals
-    |> check_line
-    |> Enum.find(&(&1)) ||
+      |> convert_to_diagonals
+      |> check_line
+      |> Enum.find(&(&1)) ||
     game.board
-    |> convert_to_rows
-    |> check_line
-    |> Enum.find(&(&1)) ||
+      |> convert_to_rows
+      |> check_line
+      |> Enum.find(&(&1)) ||
     game.board
-    |> convert_to_columns
-    |> check_line
-    |> Enum.find(&(&1)) 
+      |> convert_to_columns
+      |> check_line
+      |> Enum.find(&(&1)) 
 
     %{game | winner: winner} 
   end

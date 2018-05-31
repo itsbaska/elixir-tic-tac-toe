@@ -145,8 +145,8 @@ defmodule GameTest do
 
   test "no winner" do
     game = %{%Game{} | board: ["O", "X", "O",
-                               "X", "O", "X"]}
                                "O", "O", "X",
+                               "X", "O", "X"]}
 
     assert Game.get_winner(game).winner() == nil
   end
