@@ -3,7 +3,8 @@ defmodule Game do
             player_2: %Computer{}, 
             current_player: %Player{}, 
             winner: nil, 
-            board: %Board{}.spaces
+            board: %Board{}.spaces,
+            over: false
             
   defp check_three([x, x, x]), do: x
   defp check_three([_a, _b, _c]), do: nil
@@ -34,10 +35,10 @@ defmodule Game do
     end
   end
 
-  def change_turn(%Player{}), do: %{ %Game{} | current_player: %Computer{}}
-  def change_turn(%Computer{}), do: %{ %Game{} | current_player: %Player{}}
+  def change_turn(game, %Player{}), do: %{ game | current_player: %Computer{}}
+  def change_turn(game, %Computer{}), do: %{ game | current_player: %Player{}}
 
   def mark_spot(game, space) do
-    Board.make_mark(game.board, space, game.current_player)
+    %{game | board: Board.make_mark(game.board, space, game.current_player)}
   end
 end

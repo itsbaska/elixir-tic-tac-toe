@@ -3,17 +3,39 @@ defmodule GameTest do
   doctest Game
 
   test "struct" do 
-    assert %Game{} == %Game{player_1: %Player{mark: "X"}, player_2: %Computer{mark: "O"}, current_player: %Player{mark: "X"}, winner: nil, board: [0, 1, 2, 3, 4, 5, 6, 7, 8]}
+    assert %Game{} == %Game{player_1: "X", player_2: "O", current_player: "X", winner: nil, board: [0, 1, 2, 3, 4, 5, 6, 7, 8]}
   end
 
   describe "when current user is the player" do
     test "change_turn to computer" do
-      assert Game.change_turn(%Player{}).current_player ==  %Computer{}
+      game = %Game{player_1: "X",
+                    player_2: "O",
+                    current_player: %Player{},
+                    winner: nil,
+                    over: false,
+                    board: [0, 1, 2, 3, 4, 5, 6, 7, 8]}
+      assert Game.change_turn(game, %Player{}) == %Game{player_1: "X",
+                                                        player_2: "O",
+                                                        current_player: %Computer{},
+                                                        winner: nil,
+                                                        over: false,
+                                                        board: [0, 1, 2, 3, 4, 5, 6, 7, 8]}
     end
 
     test "change_turn to player" do
-      %{ %Game{} | current_player: %Computer{}}
-      assert Game.change_turn(%Player{}).current_player ==  %Computer{}
+      game = %Game{player_1: "X",
+                  player_2: "O",
+                  current_player: %Computer{},
+                  winner: nil,
+                  over: false,
+                  board: [0, 1, 2, 3, 4, 5, 6, 7, 8]}
+      assert Game.change_turn(game, %Computer{}) == %Game{player_1: "X",
+                                                          player_2: "O",
+                                                          current_player: %Player{},
+                                                          winner: nil,
+                                                          over: false,
+                                                          board: [0, 1, 2, 3, 4, 5, 6, 7, 8]}
+
     end
   end
 
@@ -117,5 +139,24 @@ defmodule GameTest do
     assert Game.get_winner(["O", "X", "O",
                             "O", "O", "X",
                             "X", "O", "X"]) == nil
+  end
+
+
+  test "mark spot" do
+    game = %Game{player_1: "X",
+                 player_2: "O", 
+                 current_player: "X", 
+                 winner: nil,
+                 over: false, 
+                 board: ["O", "X", "O",
+                       "O", 4, "X",
+                       "X", "O", 8]}
+
+    assert Game.mark_spot(game, 4) == %Game{board: ["O", "X", "O", "O", "X", "X", "X", "O", 8],
+                                            current_player: "X",
+                                            over: false,
+                                            player_1: "X",
+                                            player_2: "O",
+                                            winner: nil}
   end
 end
