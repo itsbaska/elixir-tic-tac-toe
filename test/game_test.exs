@@ -3,19 +3,19 @@ defmodule GameTest do
   doctest Game
 
   test "struct" do 
-    assert %Game{} == %Game{player_1: "X", player_2: "O", current_player: "X", winner: nil, board: [0, 1, 2, 3, 4, 5, 6, 7, 8]}
+    assert %Game{} == %Game{player_1: %Player{}, player_2: %Computer{}, current_player: %Player{}, winner: nil, over: false, board: [0, 1, 2, 3, 4, 5, 6, 7, 8]}
   end
 
   describe "when current user is the player" do
     test "change_turn to computer" do
-      game = %Game{player_1: "X",
-                    player_2: "O",
+      game = %Game{player_1: %Player{},
+                    player_2: %Computer{},
                     current_player: %Player{},
                     winner: nil,
                     over: false,
                     board: [0, 1, 2, 3, 4, 5, 6, 7, 8]}
-      assert Game.change_turn(game, %Player{}) == %Game{player_1: "X",
-                                                        player_2: "O",
+      assert Game.change_turn(game, %Player{}) == %Game{player_1: %Player{},
+                                                        player_2: %Computer{},
                                                         current_player: %Computer{},
                                                         winner: nil,
                                                         over: false,
@@ -23,14 +23,14 @@ defmodule GameTest do
     end
 
     test "change_turn to player" do
-      game = %Game{player_1: "X",
-                  player_2: "O",
+      game = %Game{player_1: %Player{},
+                  player_2: %Computer{},
                   current_player: %Computer{},
                   winner: nil,
                   over: false,
                   board: [0, 1, 2, 3, 4, 5, 6, 7, 8]}
-      assert Game.change_turn(game, %Computer{}) == %Game{player_1: "X",
-                                                          player_2: "O",
+      assert Game.change_turn(game, %Computer{}) == %Game{player_1: %Player{},
+                                                          player_2: %Computer{},
                                                           current_player: %Player{},
                                                           winner: nil,
                                                           over: false,
