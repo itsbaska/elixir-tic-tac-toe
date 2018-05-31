@@ -16,19 +16,31 @@ defmodule Game do
   defp convert_to_diagonals([a, _b, c, _d, e, _f, g, _h, i]), do: [[a, e, i], [g, e, c]]
   defp convert_to_rows(board), do: Enum.chunk(board, 3)
 
-  def get_winner(board) do
-    Enum.find(convert_to_rows(board) |> check_line, &(&1)) ||
-    Enum.find(convert_to_columns(board) |> check_line, &(&1)) ||
-    Enum.find(convert_to_diagonals(board) |> check_line, &(&1))
+  def get_winner(game) do
+    winner =
+    game.board
+    |> convert_to_diagonals
+    |> check_line
+    |> Enum.find(&(&1)) ||
+    game.board
+    |> convert_to_rows
+    |> check_line
+    |> Enum.find(&(&1)) ||
+    game.board
+    |> convert_to_columns
+    |> check_line
+    |> Enum.find(&(&1)) 
+
+    %{game | winner: winner} 
   end
 
-  def is_tie?(board), do: Board.available_spaces(board) |> length == 0
+  def is_tie?(game), do: Board.available_spaces(game.board) |> length == 0
 
-  def game_over?(board) do  
+  def game_over?(game) do  
     cond do
-      get_winner(board) ->
+      get_winner(game).winner() ->
         true
-      is_tie?(board) ->
+      is_tie?(game) ->
         true
       true ->
         false
@@ -39,6 +51,6 @@ defmodule Game do
   def change_turn(game, %Computer{}), do: %{ game | current_player: %Player{}}
 
   def mark_spot(game, space) do
-    %{game | board: Board.make_mark(game.board, space, game.current_player)}
+    %{game | board: Board.make_mark(game.board, space, game.current_player.mark)}
   end
 end
