@@ -1,11 +1,14 @@
-defmodule RunnerTest do
+defmodule TictacToeTest do
   use ExUnit.Case
   import ExUnit.CaptureIO
+  doctest TicTacToe
   
 
-  doctest Runner
+  test "create a new game" do
+    assert TicTacToe.new == %Game{}
+  end
 
-  # test "start the game" do
+  # test "starts the game" do
   #   test_output = fn ->
   #     Runner.start
   #   end

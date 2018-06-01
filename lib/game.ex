@@ -45,7 +45,7 @@ defmodule Game do
         %{ game | current_player: value}
       :winner == key ->
         %{ game | winner: value}
-      :board == key -> 
+      :board == key ->
         %{ game | board: value}
       end
   end
