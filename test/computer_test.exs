@@ -11,7 +11,7 @@ defmodule ComputerTest do
     test "return 1 if Computer wins" do
       game = %Game{player_1: %Player{}, 
                     player_2: %Computer{}, 
-                    current_player: %Player{}, 
+                    current_player: %Computer{}, 
                     winner: nil, 
                     board: ["O", "O", "O",
                             "X", "O", "X",
@@ -57,7 +57,7 @@ defmodule ComputerTest do
                             "O", "O", 8],
                     over: false}
                     
-      assert Computer.get_best_move(game) == 1
+      assert Computer.get_best_move(game, game.player_2) == 1
     end
   end
 
@@ -105,7 +105,7 @@ defmodule ComputerTest do
                             "O", "O", 8],
                     over: false}
       
-      assert Computer.get_best_move(game, Board.available_spaces_number(game.board)) == 1
+      assert Computer.get_best_move(game, game.player_2) == 1
     end
   end
 
