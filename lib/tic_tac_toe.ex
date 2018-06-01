@@ -18,9 +18,18 @@ defmodule TicTacToe do
     else
       game = computer_turn(game)
     end
-    
+
     if Game.game_over?(game.board) do
       Console.print("Game Over!")
+      play_again = IO.gets "Would you ike to play again? Yes or No?\n" 
+      IO.inspect play_again = String.trim(play_again)
+      cond do
+        play_again == "no" ->
+          Console.print("Bye bye\n\n")
+        play_again == "yes" ->
+          Console.print("X, please make your move!")          
+          loop(new())
+      end
     else 
       loop(game) 
     end
