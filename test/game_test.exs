@@ -8,12 +8,12 @@ defmodule GameTest do
 
   describe "when current user is the player" do
     test "change_turn to computer" do
-      assert Game.change_turn(%Player{}).current_player ==  %Computer{}
+      assert Game.change_turn(%Game{}, %Player{}).current_player ==  %Computer{}
     end
 
     test "change_turn to player" do
       %{ %Game{} | current_player: %Computer{}}
-      assert Game.change_turn(%Player{}).current_player ==  %Computer{}
+      assert Game.change_turn(%Game{}, %Player{}).current_player ==  %Computer{}
     end
   end
 
@@ -88,4 +88,9 @@ defmodule GameTest do
     end
   end
 
+  test "updates game board" do
+    game = %{%Game{} | current_player: %Computer{}}
+    key = :current_player
+    assert Game.update(%Game{}, key, %Computer{}) == game
+  end
 end

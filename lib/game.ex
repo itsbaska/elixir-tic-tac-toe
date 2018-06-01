@@ -5,15 +5,12 @@ defmodule Game do
             winner: nil, 
             board: %Board{}.spaces
             
-  # convert to private functions?
   def check_three([x, x, x]), do: true
-  def check_three([a, b, c]), do: false
+  def check_three([_a, _b, _c]), do: false
 
-  # convert to private functions?
   def check_line([head | tail]), do: [check_three(head) | check_line(tail)]
   def check_line([]), do: []
 
-  # convert to private functions?
   def convert_to_columns([a, b, c, d, e, f, g, h, i]), do: [[a, d, g], [b, e, h], [c, f, i]]
   def convert_to_diagonals([a, _b, c, _d, e, _f, g, _h, i]), do: [[a, e, i], [g, e, c]]
   def convert_to_rows(board), do: Enum.chunk(board, 3)
@@ -33,7 +30,23 @@ defmodule Game do
     end
   end
 
-  def change_turn(%Player{}), do: %{ %Game{} | current_player: %Computer{}}
-  def change_turn(%Computer{}), do: %{ %Game{} | current_player: %Player{}}
+  def change_turn(game, %Player{}), do: update(game, :current_player, %Computer{})
+  def change_turn(game, %Computer{}), do: update(game, :current_player, %Player{})
 
+  def update(game, key, value) do
+    cond do
+      :current_player == key ->
+        %{ game | current_player: value}
+      :player_1 == key ->
+        %{ game | player_1: value}
+      :player_2 == key ->
+        %{ game | player_2: value}
+      :current_player == key ->
+        %{ game | current_player: value}
+      :winner == key ->
+        %{ game | winner: value}
+      :board == key -> 
+        %{ game | board: value}
+      end
+  end
 end
