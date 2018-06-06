@@ -19,4 +19,8 @@ defmodule Console do
     IO.write message
   end
 
+  def play_again do
+    play_again = IO.gets "Would you ike to play again? Yes or No?\n" 
+    String.trim(play_again)
+  end
 end
