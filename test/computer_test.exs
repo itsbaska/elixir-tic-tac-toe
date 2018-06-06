@@ -14,8 +14,8 @@ defmodule ComputerTest do
                     current_player: %Computer{}, 
                     winner: nil, 
                     board: ["O", "O", "O",
-                            "X", "O", "X",
-                            "O", "X", "O"],
+                            3, "O", 5,
+                            6, "X", 8],
                     over: false}
 
       assert Computer.score(game) == 1
@@ -27,8 +27,8 @@ defmodule ComputerTest do
                     current_player: %Player{}, 
                     winner: nil, 
                     board: ["X", "X", "X",
-                            "X", "O", "X",
-                            "O", "X", "O"],
+                            3, "O", 5,
+                            6, "O", 8],
                     over: false}
 
       assert Computer.score(game) == -1
@@ -46,25 +46,11 @@ defmodule ComputerTest do
 
       assert Computer.score(game) == 0
     end
-
-    test "get_best_move returns the minimax score" do
-      game = %Game{player_1: %Player{}, 
-                    player_2: %Computer{}, 
-                    current_player: %Player{}, 
-                    winner: nil, 
-                    board: ["X", "X", "X",
-                            3, "X", "O",
-                            "O", "O", 8],
-                    over: false}
-                    
-      assert Computer.get_best_move(game, game.player_2) == 1
-    end
   end
 
   describe "when O is winning" do
     test "return the highest score" do
       best_score = [{0, 1}, {1, -1}, {2, 0}, {3, 0}]
-      
       assert Computer.minimax_score("O", best_score) == 1
     end
   end
@@ -77,68 +63,87 @@ defmodule ComputerTest do
   end
 
   test "return the best move" do 
-    best_score = [{0, 1}, {1, -1}, {2, 0}, {3, 0}]
-    assert Computer.best_move(best_score) == 0
+    best_score = [{2, 0}, {3, 1}, {5, 1}, {6, 1}, {8, 1}]
+    assert Computer.best_move(best_score) == 2
   end
 
-
-  # describe "when computer makes first move" do
-  #   test "get best move" do
-  #     game = %Game{player_1: %Player{}, 
-  #     player_2: %Computer{}, 
-  #     current_player: %Player{}, 
-  #     winner: nil, 
-  #     board: [0, 1, 2, 3, 4, 5, 6, 7, 8]}
-      
-  #     assert Computer.get_best_move(game) == 0
-  #   end
-  # end
-
-  describe "when game is not over" do
-    test "get_best_move returns the minimax score" do
+  describe "when computer makes move" do
+    test "get_best_move returns the best space for computer to move to - Scenario 1" do
       game = %Game{player_1: %Player{}, 
                     player_2: %Computer{}, 
                     current_player: %Player{}, 
                     winner: nil, 
-                    board: ["X", 1, "X",
-                            3, "X", "O",
-                            "O", "O", 8],
+                    board: [0, "O", "O",
+                            3, "X", 5,
+                            6, "X", 8],
                     over: false}
-      
-      assert Computer.get_best_move(game, game.player_2) == 1
+                    
+      assert Computer.get_best_move(game, game.player_2) == 0
     end
-  end
 
-  # describe "when depth is equal to the available spaces" do
-  #   test "get best move" do
-  #     game = %Game{player_1: %Player{}, 
-  #     player_2: %Computer{}, 
-  #     current_player: %Player{}, 
-  #     winner: nil, 
-  #     board: [0, "X", "X",
-  #             3, "X", "O",
-  #             "O", "O", 8],
-  #     over: false}
-      
-  #     assert Computer.get_best_move(game, [{0, 1}, {1, -1}, {2, 0}, {3, 0}]) == 0
-  #   end
-  # end
-  
-
-  describe "computer has chosen its spot" do
-    test "mark_spot" do
+    test "get_best_move returns the best space for computer to move to - Scenario 2" do
       game = %Game{player_1: %Player{}, 
                     player_2: %Computer{}, 
-                    current_player: %Computer{}, 
+                    current_player: %Player{}, 
                     winner: nil, 
-                    board: [0, "X", "X",
-                            3, "X", "O",
-                            "O", "O", 8],
+                    board: ["O", 1, "O",
+                            3, "X", 5,
+                            6, "X", 8],
                     over: false}
-      
-      assert Computer.move(game) == [0, "X", "X",
-                                     3, "X", "O",
-                                     "O", "O", "O"]
+                    
+      assert Computer.get_best_move(game, game.player_2) == 1
+    end
+
+    test "get_best_move returns the best space for computer to move to - Scenario 3" do
+      game = %Game{player_1: %Player{}, 
+                    player_2: %Computer{}, 
+                    current_player: %Player{}, 
+                    winner: nil, 
+                    board: ["O", "O", 2,
+                            3, "X", 5,
+                            6, "X", 8],
+                    over: false}
+                    
+      assert Computer.get_best_move(game, game.player_2) == 2
+    end
+
+    test "get_best_move returns the best space for computer to move to - Scenario 4" do
+      game = %Game{player_1: %Player{}, 
+                    player_2: %Computer{}, 
+                    current_player: %Player{}, 
+                    winner: nil, 
+                    board: ["O", 1, 2,
+                            3, "X", "X",
+                            "O", 7, 8],
+                    over: false}
+                    
+      assert Computer.get_best_move(game, game.player_2) == 3
+    end
+
+    test "get_best_move returns the best space for computer to move to - Scenario 5" do
+      game = %Game{player_1: %Player{}, 
+                    player_2: %Computer{}, 
+                    current_player: %Player{}, 
+                    winner: nil, 
+                    board: [0, 1, "O",
+                            "X", "X", 5,
+                            6, 7, "O"],
+                    over: false}
+                    
+      assert Computer.get_best_move(game, game.player_2) == 5
+    end
+  
+    test "get_best_move returns the best space for computer to move to - Scenario 6" do
+      game = %Game{player_1: %Player{}, 
+                    player_2: %Computer{}, 
+                    current_player: %Player{}, 
+                    winner: nil, 
+                    board: ["X", 1, 2,
+                            3, "O", 5,
+                            6, 7, "X"],
+                    over: false}
+                    
+      assert Computer.get_best_move(game, game.player_2) == 1
     end
   end
 end
