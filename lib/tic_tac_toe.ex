@@ -13,26 +13,40 @@ defmodule TicTacToe do
   end
 
   def loop(game) do
-    if game.current_player == %Player{} do
-      game = human_turn(game)
-    else
-      game = computer_turn(game)
-    end
+    game = 
+      case game.current_player == %Player{} do
+        true -> human_turn(game)
+        false -> computer_turn(game)
+      end
 
     if Game.game_over?(game.board) do
-      Console.print("Game Over!")
-      play_again = IO.gets "Would you ike to play again? Yes or No?\n" 
-      IO.inspect play_again = String.trim(play_again)
-      cond do
-        play_again == "no" ->
-          Console.print("Bye bye\n\n")
-        play_again == "yes" ->
-          Console.print("X, please make your move!")          
-          loop(new())
-      end
+      Console.print("Game Over!\n")
+      Console.play_again |> restart_game
     else 
       loop(game) 
     end
+  end
+
+  def restart_game("no"), do: Console.print("Bye bye\n\n")
+
+  def restart_game("n"), do: Console.print("Bye bye\n\n")
+
+  def restart_game("yes") do
+    Console.print_board(Board.create)
+    Console.print("Rematch!")          
+    loop(new())
+  end
+
+  def restart_game("y") do
+    Console.print_board(Board.create)
+    Console.print("Rematch!")          
+    loop(new())
+  end
+
+  def restart_game(_) do
+    Console.print("I didn't quite get that...\n")        
+    play_again = Console.play_again
+    restart_game(play_again)
   end
 
   def human_turn(game) do
