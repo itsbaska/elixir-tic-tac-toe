@@ -15,22 +15,19 @@ defmodule Computer do
 
   def minimax_score("O", scores) do
     scores
-    |> Enum.max_by(fn(x) -> elem(x, 1) end) 
+    |> Enum.max_by(fn({_space, score}) -> score end) 
     |> elem(1)
   end
 
   def minimax_score("X", scores) do
     scores
-    |> Enum.min_by(fn(x) -> elem(x, 1) end) 
+    |> Enum.min_by(fn({_space, score}) -> score end) 
     |> elem(1)
   end
 
   def best_move(scores) do
-    # IO.inspect scores 
-    # IO.puts "----"
-    # IO.inspect Enum.max_by(scores, fn(score) -> elem(score, 1) end)
     scores 
-    |> Enum.max_by(fn(score) -> elem(score, 1) end)
+    |> Enum.max_by(fn({_space, score}) -> score end)
     |> elem(0)
   end
 
