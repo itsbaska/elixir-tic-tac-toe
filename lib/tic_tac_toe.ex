@@ -1,5 +1,4 @@
 defmodule TicTacToe do
-  # import ExUnit.CaptureIO
   
   def new do
     %Game{}
@@ -19,7 +18,7 @@ defmodule TicTacToe do
         false -> computer_turn(game)
       end
 
-    if Game.game_over?(game.board) do
+    if Game.game_over?(game) do
       Console.print("Game Over!\n")
       Console.play_again |> restart_game
     else 
@@ -58,8 +57,7 @@ defmodule TicTacToe do
 
   def computer_turn(game) do
     Console.print("\nComputers turn")
-    com_move = Computer.move(game.board, 1)
-    game = Game.update(game, :board, com_move)
+    game = Computer.move(game)
     Console.print_board(game.board)
     Game.change_turn(game, game.current_player)
   end
