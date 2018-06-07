@@ -11,14 +11,6 @@ defmodule BoardTest do
     assert Board.create == [0, 1, 2, 3, 4, 5, 6, 7, 8]
   end
 
-  test "returns true if 'O' three in a row" do
-    assert Board.three_in_a_row?(["X", 1, "O", "X", "O", 5, "O", "X", 8]) == true
-  end
-  
-  test "returns false if no three in a row" do
-    assert Board.three_in_a_row?(["X", 1, "X", "X", "O", 5, "O", "X", 8]) == false
-  end
-
   test "returns true if board space is available" do
     assert Board.is_available?(["X", 1, "X", "X", "O", 5, "O", "X", 8], 5) == true
   end
