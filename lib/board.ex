@@ -27,4 +27,11 @@ defmodule Board do
     Enum.filter(board, fn(space) -> space != "X" and space != "O" end)
   end
 
+  def available_spaces_number(board) do
+    length(available_spaces(board))
+  end
+
+  def reset_space(board, space) do
+    List.replace_at(board, space, space)
+  end
 end

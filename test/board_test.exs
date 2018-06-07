@@ -5,7 +5,6 @@ defmodule BoardTest do
 
   test "player struct" do
     assert %Board{} === %Board{spaces: [0, 1, 2, 3, 4, 5, 6, 7, 8]}
-
   end
 
   test "returns the board" do
@@ -34,5 +33,13 @@ defmodule BoardTest do
 
   test "returns all available spaces" do
     assert Board.available_spaces(["X", 1, "X", "X", "O", 5, 6, "X", 8]) == [1, 5, 6, 8]
+  end
+
+  test "reset space" do
+    assert Board.reset_space(["X", 1, "X", "X", "O", 5, 6, "X", 8], 7) == ["X", 1, "X", "X", "O", 5, 6, 7, 8]
+  end
+
+  test "returns the number of available spaces" do
+    assert Board.available_spaces_number(["X", 1, "X", "X", "O", 5, 6, "X", 8]) == 4
   end
 end
