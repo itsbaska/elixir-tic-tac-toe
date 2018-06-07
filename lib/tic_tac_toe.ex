@@ -1,14 +1,13 @@
 defmodule TicTacToe do
   
-  def new do
+  def new_game do
     %Game{}
   end
 
   def start do
-    Console.print(%Message{}.welcome)
-    Console.print_board([0, 1, 2, 3, 4, 5, 6, 7, 8])
-    game = new() 
-    loop(game)
+    %Message{}.welcome |> Console.print
+    Board.create |> Console.print_board
+    new_game() |> loop
   end
 
   def loop(game) do
@@ -19,64 +18,70 @@ defmodule TicTacToe do
       end
 
     if Game.game_over?(game) do
-      Console.print(%Message{}.game_over)
+      %Message{}.game_over |> Console.print
       Console.play_again |> restart_game
     else 
       loop(game) 
     end
   end
 
-  def restart_game("no"), do: Console.print(%Message{}.good_bye)
+  def restart_game("no"), do: %Message{}.good_bye |> Console.print
 
-  def restart_game("n"), do: Console.print(%Message{}.good_bye)
+  def restart_game("n"), do: %Message{}.good_bye |> Console.print
 
   def restart_game("yes") do
-    Console.print_board(Board.create)
-    Console.print(%Message{}.rematch)          
-    loop(new())
+    Board.create
+    |> Console.print_board
+    %Message{}.rematch
+    |> Console.print
+    new_game() |> loop
   end
 
   def restart_game("y") do
-    Console.print_board(Board.create)
-    Console.print(%Message{}.rematch)          
-    loop(new())
+    Board.create
+    |> Console.print_board
+    %Message{}.rematch
+    |> Console.print
+    new_game() |> loop
   end
 
   def restart_game(_) do
-    Console.print(%Message{}.invalid)        
-    play_again = Console.play_again
-    restart_game(play_again)
+    %Message{}.invalid
+    |> Console.print
+    Console.play_again
+    |> restart_game
   end
 
   def human_turn(game) do
-    user_move = get_user_move(game)
+    user_move = game |> get_user_move
     game = Game.update(game, :board, user_move)
-    Console.print_board(game.board)
-    Game.change_turn(game, game.current_player)
+    game.board |> Console.print_board
+    game |> Game.change_turn(game.current_player)
   end
 
   def computer_turn(game) do
-    Console.print(%Message{}.computer_turn)
+    %Message{}.computer_turn |> Console.print
     game = Computer.move(game)
-    Console.print_board(game.board)
-    Game.change_turn(game, game.current_player)
+    game.board |> Console.print_board
+    game |> Game.change_turn(game.current_player)
   end
 
   def get_user_move(game) do
-    move = IO.gets %Message{}.enter_move
-    move_int = move |> String.trim()
-    case Validator.is_valid_input?(move_int) do
+    move = 
+      IO.gets %Message{}.enter_move
+      |> String.trim()
+    case Validator.is_valid_input?(move) do
       true ->
-        space = move_int |> Integer.parse |> elem(0)
+        space = move |> Integer.parse |> elem(0)
         if Board.is_available?(game.board, space) do
           Player.move(game.board, space)
         else
-          Console.print(%Message{}.spot_taken)
-          get_user_move(game)
+          %Message{}.spot_taken |> Console.print
+          game |> get_user_move
         end
       false ->
-        Console.print(%Message{}.invalid_number)
-        get_user_move(game)
+        %Message{}.invalid_number |> Console.print
+        game |> get_user_move
     end
   end
 end
