@@ -17,20 +17,22 @@ defmodule Game do
   defp convert_to_rows(board), do: Enum.chunk(board, 3)
 
   def get_winner(game) do
-    winner =
-    game.board
-      |> convert_to_diagonals
-      |> check_line
-      |> Enum.find(&(&1)) ||
-    game.board
-      |> convert_to_rows
-      |> check_line
-      |> Enum.find(&(&1)) ||
-    game.board
-      |> convert_to_columns
-      |> check_line
-      |> Enum.find(&(&1)) 
-
+    diagonals = 
+      game.board
+        |> convert_to_diagonals
+        |> check_line
+        |> Enum.find(&(&1))
+    rows = 
+      game.board
+        |> convert_to_rows
+        |> check_line
+        |> Enum.find(&(&1))
+    columns =
+      game.board
+        |> convert_to_columns
+        |> check_line
+        |> Enum.find(&(&1)) 
+    winner = diagonals || rows || columns
     %{game | winner: winner} 
   end
 
@@ -38,12 +40,9 @@ defmodule Game do
 
   def game_over?(game) do  
     cond do
-      get_winner(game).winner() ->
-        true
-      is_tie?(game) ->
-        true
-      true ->
-        false
+      get_winner(game).winner() -> true
+      is_tie?(game) -> true
+      true -> false
     end
   end
 
