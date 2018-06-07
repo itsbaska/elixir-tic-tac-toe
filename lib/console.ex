@@ -20,7 +20,10 @@ defmodule Console do
   end
 
   def play_again do
-    play_again = IO.gets "Would you ike to play again? Yes or No?\n" 
-    String.trim(play_again)
+    String.trim(IO.gets %Message{}.play_again)
+  end
+
+  def get_move do
+    String.trim(IO.gets %Message{}.enter_move)    
   end
 end

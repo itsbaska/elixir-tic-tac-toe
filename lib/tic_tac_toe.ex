@@ -45,7 +45,8 @@ defmodule TicTacToe do
     new_game() |> loop
   end
 
-  def restart_game(_) do
+  def restart_game(input) do
+    IO.inspect input
     %Message{}.invalid
     |> Console.print
     Console.play_again
@@ -67,9 +68,7 @@ defmodule TicTacToe do
   end
 
   def get_user_move(game) do
-    move = 
-      IO.gets %Message{}.enter_move
-      |> String.trim()
+    move = Console.get_move
     case Validator.is_valid_input?(move) do
       true ->
         space = move |> Integer.parse |> elem(0)
