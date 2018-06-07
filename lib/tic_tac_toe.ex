@@ -19,31 +19,31 @@ defmodule TicTacToe do
       end
 
     if Game.game_over?(game) do
-      Console.print("Game Over!\n")
+      Console.print(%Message{}.game_over)
       Console.play_again |> restart_game
     else 
       loop(game) 
     end
   end
 
-  def restart_game("no"), do: Console.print("Bye bye\n\n")
+  def restart_game("no"), do: Console.print(%Message{}.good_bye)
 
-  def restart_game("n"), do: Console.print("Bye bye\n\n")
+  def restart_game("n"), do: Console.print(%Message{}.good_bye)
 
   def restart_game("yes") do
     Console.print_board(Board.create)
-    Console.print("Rematch!")          
+    Console.print(%Message{}.rematch)          
     loop(new())
   end
 
   def restart_game("y") do
     Console.print_board(Board.create)
-    Console.print("Rematch!")          
+    Console.print(%Message{}.rematch)          
     loop(new())
   end
 
   def restart_game(_) do
-    Console.print("I didn't quite get that...\n")        
+    Console.print(%Message{}.invalid)        
     play_again = Console.play_again
     restart_game(play_again)
   end
@@ -56,14 +56,14 @@ defmodule TicTacToe do
   end
 
   def computer_turn(game) do
-    Console.print("\nComputers turn")
+    Console.print(%Message{}.computer_turn)
     game = Computer.move(game)
     Console.print_board(game.board)
     Game.change_turn(game, game.current_player)
   end
 
   def get_user_move(game) do
-    move = IO.gets "Please enter your move > "
+    move = IO.gets %Message{}.enter_move
     move_int = move |> String.trim()
     case Validator.is_valid_input?(move_int) do
       true ->
@@ -75,7 +75,7 @@ defmodule TicTacToe do
           get_user_move(game)
         end
       false ->
-        Console.print(%Message{}.invalid)
+        Console.print(%Message{}.invalid_number)
         get_user_move(game)
     end
   end
