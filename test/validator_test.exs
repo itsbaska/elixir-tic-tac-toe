@@ -13,7 +13,7 @@ defmodule ValidatorTest do
     end
 
     test "return false if input is out of bounds" do
-      assert Validator.is_valid_input?("9") == false
+      assert Validator.is_valid_input?("9\n") == false
     end
   end
   

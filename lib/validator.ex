@@ -1,5 +1,4 @@
 defmodule Validator do
-
   def is_valid_input?("9\n"), do: false
   def is_valid_input?(input), do: input |> is_a_digit? && input |> is_one_digit?
   def is_a_digit?(input), do: Regex.match?(~r/\d/, input)
