@@ -19,10 +19,19 @@ defmodule TicTacToe do
 
     if Game.game_over?(game) do
       %Message{}.game_over |> Console.print
+      Game.get_winner(game).winner |> win_message
       Console.play_again |> restart_game
     else 
       loop(game) 
     end
+  end
+
+  def win_message("O") do
+    %Message{}.win |> Console.print
+  end
+    
+  def win_message(nil) do
+    %Message{}.tie |> Console.print
   end
 
   def restart_game("no"), do: %Message{}.good_bye |> Console.print
