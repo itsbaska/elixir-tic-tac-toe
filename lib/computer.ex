@@ -5,10 +5,10 @@ defmodule Computer do
     Game.mark_spot(game, get_best_move(game, game.current_player))
   end
 
-  def score(game) do
+  def score(game, depth) do
     cond do
-      Game.get_winner(game).winner() == %Computer{}.mark() -> 1
-      Game.get_winner(game).winner() == %Player{}.mark() -> -1
+      Game.get_winner(game).winner() == %Computer{}.mark() -> 10 + depth
+      Game.get_winner(game).winner() == %Player{}.mark() -> -10 + depth
       Game.is_tie?(game) -> 0
     end
   end
@@ -26,14 +26,17 @@ defmodule Computer do
   end
 
   def best_move(scores) do
+    # IO.inspect scores 
+    IO.puts "----"
+    IO.inspect Enum.max_by(scores, fn(score) -> elem(score, 1) end)
     scores 
-    |> Enum.min_by(fn(score) -> elem(score, 1) end)
+    |> Enum.max_by(fn(score) -> elem(score, 1) end)
     |> elem(0)
   end
 
   def get_best_move(game, _player, scores \\ [], depth \\ 0) do
     if Game.game_over?(game) == true do
-      score(game)
+      score(game, depth)
     else
       available_spaces = game.board |> Board.available_spaces
       scores = Enum.map(available_spaces, fn(space) -> 
@@ -41,6 +44,8 @@ defmodule Computer do
         |> Game.change_turn(game.current_player)
         {space, get_best_move(game, game.current_player, [], depth + 1)}
       end)
+      IO.inspect scores
+      IO.inspect Board.available_spaces(game.board)
       if depth == 0, do: best_move(scores), else: minimax_score(game.current_player.mark, scores)
     end
   end
