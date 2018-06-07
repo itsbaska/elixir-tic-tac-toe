@@ -27,8 +27,8 @@ defmodule Computer do
 
   def best_move(scores) do
     # IO.inspect scores 
-    IO.puts "----"
-    IO.inspect Enum.max_by(scores, fn(score) -> elem(score, 1) end)
+    # IO.puts "----"
+    # IO.inspect Enum.max_by(scores, fn(score) -> elem(score, 1) end)
     scores 
     |> Enum.max_by(fn(score) -> elem(score, 1) end)
     |> elem(0)
@@ -44,8 +44,6 @@ defmodule Computer do
         |> Game.change_turn(game.current_player)
         {space, get_best_move(game, game.current_player, [], depth + 1)}
       end)
-      IO.inspect scores
-      IO.inspect Board.available_spaces(game.board)
       if depth == 0, do: best_move(scores), else: minimax_score(game.current_player.mark, scores)
     end
   end
