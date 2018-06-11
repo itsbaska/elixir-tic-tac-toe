@@ -16,13 +16,16 @@ defmodule TicTacToe do
         true -> human_turn(game)
         false -> computer_turn(game)
       end
-
+    perform_turn(game, &loop/1)
+  end
+  
+  def perform_turn(game, continue_game) do
     if Game.game_over?(game) do
       %Message{}.game_over |> Console.print
       Game.get_winner(game).winner |> win_message
       Console.play_again |> restart_game
     else 
-      loop(game) 
+      continue_game.(game) 
     end
   end
 
