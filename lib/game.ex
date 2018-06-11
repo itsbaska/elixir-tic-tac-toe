@@ -49,22 +49,12 @@ defmodule Game do
   def change_turn(game, %Player{}), do: update(game, :current_player, %Computer{})
   def change_turn(game, %Computer{}), do: update(game, :current_player, %Player{})
 
-  def update(game, key, value) do
-    cond do
-      :current_player == key ->
-        %{ game | current_player: value}
-      :player_1 == key ->
-        %{ game | player_1: value}
-      :player_2 == key ->
-        %{ game | player_2: value}
-      :current_player == key ->
-        %{ game | current_player: value}
-      :winner == key ->
-        %{ game | winner: value}
-      :board == key ->
-        %{ game | board: value}
-    end
-  end
+  def update(game, :current_player, value), do: %{ game | current_player: value}
+  def update(game, :player_1, value), do: %{ game | player_1: value}
+  def update(game, :player_2, value), do: %{ game | player_2: value}
+  def update(game, :winner, value), do: %{ game | winner: value}
+  def update(game, :board, value), do: %{ game | board: value}
+
   def mark_spot(game, space) do
     %{game | board: Board.make_mark(game.board, space, game.current_player.mark)}
   end
