@@ -3,18 +3,26 @@ defmodule Game do
             player_2: %Computer{}, 
             current_player: %Player{}, 
             winner: nil, 
-            board: %Board{}.spaces,
+            board: [],
             over: false
             
-  defp check_three([x, x, x]), do: x
-  defp check_three([_a, _b, _c]), do: nil
+  defp check_win([x, x, x]), do: x
+  defp check_win([_a, _b, _c]), do: nil
 
-  defp check_line([head | tail]), do: [check_three(head) | check_line(tail)]
+  defp check_win([x, x, x, x]), do: x
+  defp check_win([_a, _b, _c, _d]), do: nil
+
+  defp check_line([head | tail]), do: [check_win(head) | check_line(tail)]
   defp check_line([]), do: []
 
   defp convert_to_columns([a, b, c, d, e, f, g, h, i]), do: [[a, d, g], [b, e, h], [c, f, i]]
+  defp convert_to_columns([a, b, c, d, e, f, g, h, i ,j, k, l, m, n, o, p]), do: [[a, e, i, m], [b, f, j, n], [c, g, k, o], [d, h, l, p]]
+
+  defp convert_to_diagonals([a, _b, _c, d, _e, f, g, _h, _i, j, k, _l, m, _n, _o, p]), do: [[a, f, k, p], [d, g, j, m]]
   defp convert_to_diagonals([a, _b, c, _d, e, _f, g, _h, i]), do: [[a, e, i], [g, e, c]]
-  defp convert_to_rows(board), do: Enum.chunk(board, 3)
+
+  defp convert_to_rows(board = [_, _, _, _, _, _, _, _, _]), do: Enum.chunk(board, 3)
+  defp convert_to_rows(board = [_, _, _, _, _, _, _, _, _,_, _, _, _, _, _, _]), do: Enum.chunk(board, 4)
 
   def get_winner(game) do
     diagonals = 

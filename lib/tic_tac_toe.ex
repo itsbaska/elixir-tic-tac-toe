@@ -1,7 +1,7 @@
 defmodule TicTacToe do
   
-  def new_game do
-    %Game{}
+  def new_game(board) do
+    %{%Game{} | board: board}
   end
 
   def start do
@@ -9,15 +9,9 @@ defmodule TicTacToe do
     Console.get_board_size |> create_game
   end
   
-  def create_game("1") do
-    Board.create |> Console.print_board
-    new_game() |> loop
-  end
-
-  def create_game("2") do
-    IO.puts "four 44444444"
-    Board.create |> Console.print_board
-    new_game() |> loop
+  def create_game(board_size) do
+    Board.create(board_size) |> Console.print_board
+    new_game(Board.create(board_size)) |> loop
   end
 
   def loop(game) do
@@ -52,19 +46,14 @@ defmodule TicTacToe do
   def restart_game("n"), do: %Message{}.good_bye |> Console.print
 
   def restart_game("yes") do
-    Board.create
-    |> Console.print_board
     %Message{}.rematch
-    |> Console.print
-    new_game() |> loop
+    Console.get_board_size |> create_game
   end
 
   def restart_game("y") do
-    Board.create
-    |> Console.print_board
     %Message{}.rematch
-    |> Console.print
-    new_game() |> loop
+    Console.get_board_size |> create_game
+
   end
 
   def restart_game(input) do
@@ -77,7 +66,10 @@ defmodule TicTacToe do
 
   def human_turn(game) do
     user_move = game |> get_user_move
+    IO.puts "her"
     game = Game.update(game, :board, user_move)
+    IO.inspect game
+    IO.inspect user_move
     game.board |> Console.print_board
     game |> Game.change_turn(game.current_player)
   end

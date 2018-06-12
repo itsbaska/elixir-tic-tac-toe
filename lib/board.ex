@@ -1,7 +1,11 @@
 defmodule Board do
   defstruct spaces: [0, 1, 2, 3, 4, 5, 6, 7, 8]
-  def create do
+  def create("1") do
     [0, 1, 2, 3, 4, 5, 6, 7, 8]
+  end
+
+  def create("2") do
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
   end
 
   def is_available?(board, space) do
