@@ -6,6 +6,16 @@ defmodule TicTacToe do
 
   def start do
     %Message{}.welcome |> Console.print
+    Console.get_board_size |> create_game
+  end
+  
+  def create_game("1") do
+    Board.create |> Console.print_board
+    new_game() |> loop
+  end
+
+  def create_game("2") do
+    IO.puts "four 44444444"
     Board.create |> Console.print_board
     new_game() |> loop
   end

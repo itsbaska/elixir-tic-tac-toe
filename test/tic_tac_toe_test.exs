@@ -3,7 +3,7 @@ defmodule TictacToeTest do
   doctest TicTacToe
 
   test "create a new game" do
-    assert TicTacToe.new == %Game{}
+    assert TicTacToe.new_game == %Game{}
   end
 
 end
