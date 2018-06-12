@@ -3,7 +3,8 @@ defmodule TictacToeTest do
   doctest TicTacToe
 
   test "create a new game" do
-    assert TicTacToe.new_game == %Game{}
+    board = [1, 2, 3, 4, 5, 6, 7, 8]
+    assert TicTacToe.new_game(board).board == board
   end
 
 end

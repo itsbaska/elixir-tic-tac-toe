@@ -3,7 +3,7 @@ defmodule GameTest do
   doctest Game
 
   test "struct" do 
-    assert %Game{} == %Game{player_1: %Player{}, player_2: %Computer{}, current_player: %Player{}, winner: nil, over: false, board: [0, 1, 2, 3, 4, 5, 6, 7, 8]}
+    assert %Game{} == %Game{player_1: %Player{}, player_2: %Computer{}, current_player: %Player{}, winner: nil, over: false, board: []}
   end
 
   describe "when current user is the player" do
@@ -19,7 +19,7 @@ defmodule GameTest do
 
   describe "when game is not over" do
     test "board is empty" do
-      assert Game.game_over?(%Game{}) == false
+      assert Game.game_over?(%Game{board: [0, 1, 2, 3, 4, 5, 6, 7, 8]}) == false
     end
 
     test "some spaces are filled" do

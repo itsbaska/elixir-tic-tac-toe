@@ -32,7 +32,6 @@ defmodule Computer do
   end
 
   def get_best_move(game, _player, scores \\ [], depth \\ 0) do
-    IO.puts "here"
     if Game.game_over?(game) == true do
       score(game, depth)
     else
