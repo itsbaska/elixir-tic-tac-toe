@@ -26,4 +26,8 @@ defmodule Console do
   def get_move do
     String.trim(IO.gets %Message{}.enter_move)    
   end
+
+  def get_board_size do
+    String.trim(IO.gets %Message{}.board_size)
+  end
 end
