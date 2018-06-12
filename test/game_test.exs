@@ -8,26 +8,12 @@ defmodule GameTest do
 
   describe "when current user is the player" do
     test "change_turn to computer" do
-      game = %Game{}
-
-      assert Game.change_turn(game, %Player{}) == %Game{player_1: %Player{},
-                                                        player_2: %Computer{},
-                                                        current_player: %Computer{},
-                                                        winner: nil,
-                                                        over: false,
-                                                        board: [0, 1, 2, 3, 4, 5, 6, 7, 8]}
+      assert Game.change_turn(%Game{}, %Player{}).current_player ==  %Computer{}
     end
 
     test "change_turn to player" do
-      game = %{ %Game{} | current_player: %Computer{}}
-    
-      assert Game.change_turn(game, %Computer{}) == %Game{player_1: %Player{},
-                                                          player_2: %Computer{},
-                                                          current_player: %Player{},
-                                                          winner: nil,
-                                                          over: false,
-                                                          board: [0, 1, 2, 3, 4, 5, 6, 7, 8]}
-
+      %{ %Game{} | current_player: %Computer{}}
+      assert Game.change_turn(%Game{}, %Player{}).current_player ==  %Computer{}
     end
   end
 
@@ -117,6 +103,12 @@ defmodule GameTest do
                                  "X", "O", "X"]}
       assert Game.game_over?(game) == true
     end
+  end
+
+  test "updates game board" do
+    game = %{%Game{} | current_player: %Computer{}}
+    key = :current_player
+    assert Game.update(%Game{}, key, %Computer{}) == game
   end
 
   test "get X winner in diagonals " do

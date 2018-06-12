@@ -5,35 +5,35 @@ defmodule Computer do
     Game.mark_spot(game, get_best_move(game, game.current_player))
   end
 
-  def score(game) do
+  def score(game, depth) do
     cond do
-      Game.get_winner(game).winner() == %Computer{}.mark() -> 1
-      Game.get_winner(game).winner() == %Player{}.mark() -> -1
+      Game.get_winner(game).winner() == %Computer{}.mark() -> 10 + depth
+      Game.get_winner(game).winner() == %Player{}.mark() -> -10 + depth
       Game.is_tie?(game) -> 0
     end
   end
 
   def minimax_score("O", scores) do
     scores
-    |> Enum.max_by(fn(x) -> elem(x, 1) end) 
+    |> Enum.max_by(fn({_space, score}) -> score end) 
     |> elem(1)
   end
 
   def minimax_score("X", scores) do
     scores
-    |> Enum.min_by(fn(x) -> elem(x, 1) end) 
+    |> Enum.min_by(fn({_space, score}) -> score end) 
     |> elem(1)
   end
 
   def best_move(scores) do
     scores 
-    |> Enum.min_by(fn(score) -> elem(score, 1) end)
+    |> Enum.max_by(fn({_space, score}) -> score end)
     |> elem(0)
   end
 
   def get_best_move(game, _player, scores \\ [], depth \\ 0) do
     if Game.game_over?(game) == true do
-      score(game)
+      score(game, depth)
     else
       available_spaces = game.board |> Board.available_spaces
       scores = Enum.map(available_spaces, fn(space) -> 

@@ -17,20 +17,22 @@ defmodule Game do
   defp convert_to_rows(board), do: Enum.chunk(board, 3)
 
   def get_winner(game) do
-    winner =
-    game.board
-      |> convert_to_diagonals
-      |> check_line
-      |> Enum.find(&(&1)) ||
-    game.board
-      |> convert_to_rows
-      |> check_line
-      |> Enum.find(&(&1)) ||
-    game.board
-      |> convert_to_columns
-      |> check_line
-      |> Enum.find(&(&1)) 
-
+    diagonals = 
+      game.board
+        |> convert_to_diagonals
+        |> check_line
+        |> Enum.find(&(&1))
+    rows = 
+      game.board
+        |> convert_to_rows
+        |> check_line
+        |> Enum.find(&(&1))
+    columns =
+      game.board
+        |> convert_to_columns
+        |> check_line
+        |> Enum.find(&(&1)) 
+    winner = diagonals || rows || columns
     %{game | winner: winner} 
   end
 
@@ -38,17 +40,20 @@ defmodule Game do
 
   def game_over?(game) do  
     cond do
-      get_winner(game).winner() ->
-        true
-      is_tie?(game) ->
-        true
-      true ->
-        false
+      get_winner(game).winner() -> true
+      is_tie?(game) -> true
+      true -> false
     end
   end
 
-  def change_turn(game, %Player{}), do: %{ game | current_player: %Computer{}}
-  def change_turn(game, %Computer{}), do: %{ game | current_player: %Player{}}
+  def change_turn(game, %Player{}), do: update(game, :current_player, %Computer{})
+  def change_turn(game, %Computer{}), do: update(game, :current_player, %Player{})
+
+  def update(game, :current_player, value), do: %{ game | current_player: value}
+  def update(game, :player_1, value), do: %{ game | player_1: value}
+  def update(game, :player_2, value), do: %{ game | player_2: value}
+  def update(game, :winner, value), do: %{ game | winner: value}
+  def update(game, :board, value), do: %{ game | board: value}
 
   def mark_spot(game, space) do
     %{game | board: Board.make_mark(game.board, space, game.current_player.mark)}

@@ -9,8 +9,11 @@ defmodule Message do
                 You are player "X", please start the game.
                 """,
 
-            invalid: """
+            invalid_number: """
                 Please enter a number between 0-8.
+                """,
+            invalid: """
+                I didn't quite get that...
                 """,
 
             spot_taken: """
@@ -24,6 +27,30 @@ defmodule Message do
 
             tie: """
                 It's a Tie!!!
+                """,
+
+            game_over: """
+                -----  GAME OVER  -----
+
+                """,
+
+            good_bye: """
+                Bye bye ~
+                """,
+
+            rematch: """
+                Rematch!
+
+                """,
+            computer_turn: """
+                Computers turn...
+                """,
+            enter_move: """
+                Please enter your move >
+                """,
+            play_again: """
+                Would you ike to play again? Yes or No?
+                
                 """
 
 end

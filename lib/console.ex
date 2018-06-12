@@ -19,4 +19,11 @@ defmodule Console do
     IO.write message
   end
 
+  def play_again do
+    String.trim(IO.gets %Message{}.play_again)
+  end
+
+  def get_move do
+    String.trim(IO.gets %Message{}.enter_move)    
+  end
 end
