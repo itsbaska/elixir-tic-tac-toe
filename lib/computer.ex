@@ -47,42 +47,21 @@ defmodule Computer do
     |> elem(0)
   end
 
-  def get_best_move(game, _player, alpha \\ 1000, beta \\ -1000, over \\ false, scores \\ [], depth \\ 0)
+  def get_best_move(game, _player, over \\ false, scores \\ [], depth \\ 0)
   
-  def get_best_move(game, _player, alpha, beta, false, scores, depth) do
+  def get_best_move(game, _player, true, _scores, depth), do: hueristic_score(game, depth)    
+
+  def get_best_move(game, _player, false, _scores, depth) do
     available_spaces = game.board |> Board.available_spaces
     scores = Enum.map(available_spaces, fn(space) -> 
       game = Game.mark_spot(game, space) 
       |> Game.change_turn(game.current_player)
-      score = get_best_move(game, game.current_player, alpha, beta, Game.game_over?(game), [], depth + 1)
+      score =
+      if depth < 4 do
+        get_best_move(game, game.current_player, Game.game_over?(game), [], depth + 1)
+      end
       {space, score}
     end)
-    if depth == 0 do
-      best_move(scores)
-    else
-      minimax_score(game.current_player.mark, scores)
-    end
-  end
-  
-  def get_best_move(game, _player, alpha, beta, true, _scores, depth) do
-    hueristic_score(game, depth)    
-  end
-
-  def alpha_beta(%Computer{}, val, alpha, beta) do
-      alpha = 
-        if val > alpha, do: val, else: alpha
-      case alpha >= beta do
-        false -> alpha
-        true -> beta
-      end 
-  end
-
-  def alpha_beta(%Player{}, val, alpha, beta) do
-    beta = 
-      if val < alpha, do: val, else: beta
-    case beta <= alpha do
-      false -> beta
-      true -> alpha
-    end 
+    if depth == 0, do: best_move(scores), else: minimax_score(game.current_player.mark, scores)
   end
 end
