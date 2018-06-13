@@ -41,7 +41,13 @@ defmodule Game do
         |> check_line
         |> Enum.find(&(&1)) 
     winner = diagonals || rows || columns
-    %{game | winner: winner} 
+    over =
+      case winner do 
+        nil -> false
+        "O" -> true
+        "X" -> true
+      end
+    %{game | winner: winner, over: over} 
   end
 
   def is_tie?(game), do: Board.available_spaces(game.board) |> length == 0

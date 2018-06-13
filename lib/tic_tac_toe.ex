@@ -56,8 +56,7 @@ defmodule TicTacToe do
 
   end
 
-  def restart_game(input) do
-    IO.inspect input
+  def restart_game(_) do
     %Message{}.invalid
     |> Console.print
     Console.play_again
@@ -66,10 +65,7 @@ defmodule TicTacToe do
 
   def human_turn(game) do
     user_move = game |> get_user_move
-    IO.puts "her"
     game = Game.update(game, :board, user_move)
-    IO.inspect game
-    IO.inspect user_move
     game.board |> Console.print_board
     game |> Game.change_turn(game.current_player)
   end
