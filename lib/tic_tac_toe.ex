@@ -79,8 +79,8 @@ defmodule TicTacToe do
 
   def get_user_move(game) do
     move = Console.get_move
-    case Validator.is_valid_input?(move) do
-      true ->
+    # case Validator.is_valid_input?(move) do
+    #   true ->
         space = move |> Integer.parse |> elem(0)
         if Board.is_available?(game.board, space) do
           Player.move(game.board, space)
@@ -88,9 +88,9 @@ defmodule TicTacToe do
           %Message{}.spot_taken |> Console.print
           game |> get_user_move
         end
-      false ->
-        %Message{}.invalid_number |> Console.print
-        game |> get_user_move
-    end
+    #   false ->
+    #     %Message{}.invalid_number |> Console.print
+    #     game |> get_user_move
+    # end
   end
 end
