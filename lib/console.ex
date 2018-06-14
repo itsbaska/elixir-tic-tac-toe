@@ -50,4 +50,8 @@ defmodule Console do
   def get_board_size do
     String.trim(IO.gets %Message{}.board_size)
   end
+
+  def get_game_type do
+    String.trim(IO.gets %Message{}.game_type)
+  end
 end
