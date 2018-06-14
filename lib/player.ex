@@ -1,7 +1,7 @@
 defmodule Player do
-  defstruct mark: "X"
+  defstruct mark: nil
 
-  def move(board, space) do
-    Board.make_mark(board, space, %Player{}.mark)
+  def move(game, space) do
+    Game.mark_spot(game, space)
   end
 end

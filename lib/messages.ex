@@ -8,6 +8,11 @@ defmodule Message do
                 1) 3x3
                 2) 4x4
                 """,
+            game_type: """
+                Select game type:
+                1) Human VS Human
+                2) Human VS Computer
+                """,
             instructions: """
                 Instructions:
                 Select the spot you want to mark by entering the corresponding number.
@@ -27,9 +32,9 @@ defmodule Message do
                 Spot is taken.
                 Please try again at a different spot.
                 """,
-
             win: """
-                Computer Wins!!!
+                , is winner!!!
+
                 """,
 
             tie: """

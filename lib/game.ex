@@ -1,7 +1,7 @@
 defmodule Game do
-  defstruct player_1: %Player{}, 
-            player_2: %Computer{}, 
-            current_player: %Player{}, 
+  defstruct player_1: nil, 
+            player_2: nil, 
+            current_player: nil, 
             winner: nil, 
             board: [],
             over: false,
@@ -61,8 +61,16 @@ defmodule Game do
     end
   end
 
-  def change_turn(game, %Player{}), do: update(game, :current_player, %Computer{})
-  def change_turn(game, %Computer{}), do: update(game, :current_player, %Player{})
+  def change_turn(game) do
+    game.current_player
+    player =
+    if game.current_player == game.player_2 do
+      game.player_1
+    else
+      game.player_2
+    end 
+    update(game, :current_player, player)
+  end
 
   def update(game, :current_player, value), do: %{ game | current_player: value}
   def update(game, :player_1, value), do: %{ game | player_1: value}
