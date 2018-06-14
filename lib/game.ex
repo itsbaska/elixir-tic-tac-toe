@@ -4,7 +4,8 @@ defmodule Game do
             current_player: %Player{}, 
             winner: nil, 
             board: [],
-            over: false
+            over: false,
+            type: nil
             
   defp check_win([x, x, x]), do: x
   defp check_win([_a, _b, _c]), do: nil

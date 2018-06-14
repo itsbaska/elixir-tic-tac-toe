@@ -1,7 +1,7 @@
 defmodule TicTacToe do
   
-  def new_game(board) do
-    %{%Game{} | board: board}
+  def new_game(board, board_size) do
+    %{%Game{} | board: board, type: board_size}
   end
 
   def start do
@@ -12,16 +12,17 @@ defmodule TicTacToe do
   def get_board_size do
     board_size_input = Console.get_board_size
     if Validator.is_valid_option?(board_size_input) do
-      board_size_input |> create_game
+      size = if board_size_input == "1", do: "3x3", else: "4x4"
+      size |> create_game
     else
       %Message{}.invalid |> Console.print
-      get_board_size
+      get_board_size()
     end
   end
   
   def create_game(board_size) do
     Board.create(board_size) |> Console.print_board
-    new_game(Board.create(board_size)) |> loop
+    new_game(Board.create(board_size), board_size) |> loop
   end
 
   def loop(game) do
@@ -74,7 +75,7 @@ defmodule TicTacToe do
   end
 
   def human_turn(game) do
-    user_move = game |> get_user_move
+    user_move = game |> get_user_move(game.type)
     game = Game.update(game, :board, user_move)
     game.board |> Console.print_board
     game |> Game.change_turn(game.current_player)
@@ -87,20 +88,37 @@ defmodule TicTacToe do
     game |> Game.change_turn(game.current_player)
   end
 
-  def get_user_move(game) do
+  def get_user_move(game, "3x3") do
     move = Console.get_move
-    # case Validator.is_valid_input?(move) do
-    #   true ->
+    case Validator.is_valid_input?(move, game.type) do
+      true ->
         space = move |> Integer.parse |> elem(0)
         if Board.is_available?(game.board, space) do
           Player.move(game.board, space)
         else
           %Message{}.spot_taken |> Console.print
-          game |> get_user_move
+          game |> get_user_move(game.type)
         end
-    #   false ->
-    #     %Message{}.invalid_number |> Console.print
-    #     game |> get_user_move
-    # end
+      false ->
+        %Message{}.invalid_number |> Console.print
+        game |> get_user_move(game.type)
+    end
+  end
+
+  def get_user_move(game, "4x4") do
+    move = Console.get_move
+    case Validator.is_valid_input?(move, game.type) do
+      true ->
+        space = move |> Integer.parse |> elem(0)
+        if Board.is_available?(game.board, space) do
+          Player.move(game.board, space)
+        else
+          %Message{}.spot_taken |> Console.print
+          game |> get_user_move(game.type)
+        end
+      false ->
+        %Message{}.invalid_number |> Console.print
+        game |> get_user_move(game.type)
+    end
   end
 end

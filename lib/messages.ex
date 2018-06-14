@@ -7,7 +7,7 @@ defmodule Message do
                 Select the game board size:
                 1) 3x3
                 2) 4x4
-            """,
+                """,
             instructions: """
                 Instructions:
                 Select the spot you want to mark by entering the corresponding number.
@@ -20,6 +20,7 @@ defmodule Message do
             invalid: """
                 I didn't quite get that...
                 Please try again.
+
                 """,
 
             spot_taken: """

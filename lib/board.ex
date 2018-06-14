@@ -1,10 +1,10 @@
 defmodule Board do
   defstruct spaces: [0, 1, 2, 3, 4, 5, 6, 7, 8]
-  def create("1") do
+  def create("3x3") do
     [0, 1, 2, 3, 4, 5, 6, 7, 8]
   end
 
-  def create("2") do
+  def create("4x4") do
     [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
   end
 

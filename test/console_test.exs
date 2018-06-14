@@ -109,6 +109,8 @@ defmodule ConsoleTest do
       test_output = fn -> Console.print(%Message{}.invalid) end
       assert capture_io(test_output) == """
                                         I didn't quite get that...
+                                        Please try again.
+
                                         """
     end
 
