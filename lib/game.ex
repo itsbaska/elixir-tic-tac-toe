@@ -53,7 +53,7 @@ defmodule Game do
 
   def is_tie?(game), do: Board.available_spaces(game.board) |> length == 0
 
-  def game_over?(game) do  
+  def over?(game) do  
     cond do
       get_winner(game).winner() -> true
       is_tie?(game) -> true

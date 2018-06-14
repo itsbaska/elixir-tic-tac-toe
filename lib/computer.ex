@@ -58,7 +58,7 @@ defmodule Computer do
       |> Game.change_turn(game.current_player)
       score =
       if depth < 4 do
-        get_best_move(game, game.current_player, Game.game_over?(game), [], depth + 1)
+        get_best_move(game, game.current_player, Game.over?(game), [], depth + 1)
       end
       {space, score}
     end)

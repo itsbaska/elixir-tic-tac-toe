@@ -11,7 +11,7 @@ defmodule Validator do
     end
   end
 
-
+  
   def is_a_digit?(input), do: Regex.match?(~r/\d/, input)
   def is_one_digit?(input), do: input |> String.trim |> String.length == 1
   def is_less_than_two_digit?(input), do: input |> String.trim |> String.length <= 2
