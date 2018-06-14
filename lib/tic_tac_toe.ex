@@ -6,7 +6,17 @@ defmodule TicTacToe do
 
   def start do
     %Message{}.welcome |> Console.print
-    Console.get_board_size |> create_game
+    get_board_size()
+  end
+
+  def get_board_size do
+    board_size_input = Console.get_board_size
+    if Validator.is_valid_option?(board_size_input) do
+      board_size_input |> create_game
+    else
+      %Message{}.invalid |> Console.print
+      get_board_size
+    end
   end
   
   def create_game(board_size) do

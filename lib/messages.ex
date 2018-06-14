@@ -19,6 +19,7 @@ defmodule Message do
                 """,
             invalid: """
                 I didn't quite get that...
+                Please try again.
                 """,
 
             spot_taken: """
@@ -54,7 +55,7 @@ defmodule Message do
                 Please enter your move >
                 """,
             play_again: """
-                Would you ike to play again? Yes or No?
+                Would you like to play again? Yes or No?
                 
                 """
 
