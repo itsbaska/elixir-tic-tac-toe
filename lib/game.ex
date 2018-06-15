@@ -20,7 +20,9 @@ defmodule Game do
   defp convert_to_diagonals([a, _b, _c, d, _e, f, g, _h, _i, j, k, _l, m, _n, _o, p]), do: [[a, f, k, p], [d, g, j, m]]
   defp convert_to_diagonals([a, _b, c, _d, e, _f, g, _h, i]), do: [[a, e, i], [g, e, c]]
 
-  defp convert_to_rows(board, size), do: Enum.chunk(board, size)
+  defp convert_to_rows(board, size) do
+    Enum.chunk(board, size)
+  end
 
   def get_winner(game) do
     diagonals = 

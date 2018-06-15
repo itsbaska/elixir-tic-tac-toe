@@ -16,7 +16,8 @@ defmodule ComputerTest do
                     board: ["O", "O", "O",
                             3, "O", 5,
                             6, "X", 8],
-                    over: false}
+                    over: false,
+                    size: 3}
       depth = 4
       assert Computer.hueristic_score(game, depth) == 14
     end
@@ -29,7 +30,8 @@ defmodule ComputerTest do
                     board: ["X", "X", "X",
                             3, "O", 5,
                             6, "O", 8],
-                    over: false}
+                    over: false,
+                    size: 3}
       depth = 4
       assert Computer.hueristic_score(game, depth) == -6
     end
@@ -42,7 +44,8 @@ defmodule ComputerTest do
                     board: ["X", "X", "O",
                             "O", "O", "X",
                             "X", "O", "X"],
-                    over: false}
+                    over: false,
+                    size: 3}
       depth = 0
       assert Computer.hueristic_score(game, depth) == 0
     end
@@ -76,7 +79,8 @@ defmodule ComputerTest do
                     board: [0, 1, "X",
                             3, "O", 5,
                             "X", 7, 8],
-                    over: false}
+                    over: false,
+                    size: 3}
                     
       assert Computer.get_best_move(game, game.player_2) == 1
     end
@@ -90,7 +94,8 @@ defmodule ComputerTest do
                     board: ["X", 1, 2,
                             3, "O", 5,
                             6, 7, "X"],
-                    over: false}
+                    over: false,
+                    size: 3}
                     
       assert Computer.get_best_move(game, game.player_2) == 1
     end
@@ -103,7 +108,8 @@ defmodule ComputerTest do
                     board: ["X", 1, 2,
                             3, "X", 5,
                             6, 7, "O"],
-                    over: false}
+                    over: false,
+                    size: 3}
                     
       assert Computer.get_best_move(game, game.player_2) == 2 || 6
     end

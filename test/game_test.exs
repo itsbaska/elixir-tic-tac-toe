@@ -28,20 +28,22 @@ defmodule GameTest do
 
   describe "when game is not over" do
     test "board is empty" do
-      assert Game.over?(%Game{board: [0, 1, 2, 3, 4, 5, 6, 7, 8]}) == false
+      assert Game.over?(%Game{board: [0, 1, 2, 3, 4, 5, 6, 7, 8], size: 3}) == false
     end
 
     test "some spaces are filled" do
       game = %{%Game{} | board: ["X", 1, "O",
                                   3, "X", 5,
-                                  6, 7, 8]}
+                                  6, 7, 8],
+                          size: 3}
       assert Game.over?(game) == false
     end
 
     test "no winners" do
       game = %{ %Game{} | board: ["X", 1, "O",
                                   3, "X", 5,
-                                  6, 7, 8]}
+                                  6, 7, 8],
+                          size: 3}
       assert Game.get_winner(game).winner() == nil
     end
   end
@@ -50,42 +52,60 @@ defmodule GameTest do
     test "first row win" do
       game = %{%Game{} | board: ["O", "O", "O",
                                  "O", "X", "X",
-                                 "X", "O", "O"]}
+                                 "X", "O", "O"], 
+                        player_1: %Player{mark: "X"},
+                        player_2: %Computer{mark: "O"},
+                        size: 3}
       assert Game.over?(game) == true
     end
 
     test "second row win" do
       game = %{%Game{} | board: ["O", "X", "O",
                                  "X", "X", "X",
-                                 "X", "O", "X"]}
+                                 "X", "O", "X"], 
+                                 player_1: %Player{mark: "X"},
+                                 player_2: %Computer{mark: "O"},
+                                 size: 3}
       assert Game.over?(game) == true
     end
     
     test "third row win" do
       game = %{%Game{} | board: ["X", "O", "O", 
                                  "O", "O", "X", 
-                                 "X", "X", "X"]}
+                                 "X", "X", "X"], 
+                                 player_1: %Player{mark: "X"},
+                                 player_2: %Computer{mark: "O"},
+                                 size: 3}
       assert Game.over?(game) == true
     end
 
     test "first column win" do
       game = %{%Game{} | board: ["X", "X", "O", 
                                  "X", "O", "X",
-                                 "X", "O", "X"]}
+                                 "X", "O", "X"], 
+                                 player_1: %Player{mark: "X"},
+                                 player_2: %Computer{mark: "O"},
+                                 size: 3}
       assert Game.over?(game) == true
     end
 
     test "second column win" do
       game = %{%Game{} | board: ["O", "X", "O", 
                                  "X", "X", "X",
-                                 "O", "X", "X"]}
+                                 "O", "X", "X"], 
+                                 player_1: %Player{mark: "X"},
+                                 player_2: %Computer{mark: "O"},
+                                 size: 3}
       assert Game.over?(game) == true
     end
     
     test "third column win" do
       game = %{%Game{} | board: ["O", "X", "X",
                                  "O", "O", "X",
-                                 "X", "O", "X"]}
+                                 "X", "O", "X"], 
+                                 player_1: %Player{mark: "X"},
+                                 player_2: %Computer{mark: "O"},
+                                 size: 3}
       assert Game.over?(game) == true
                               
     end
@@ -93,7 +113,10 @@ defmodule GameTest do
     test "diagonal win 1" do
       game = %{%Game{} | board: ["O", "X", "X",
                                  "O", "X", "X",
-                                 "X", "O", "O"]}
+                                 "X", "O", "O"], 
+                                 player_1: %Player{mark: "X"},
+                                 player_2: %Computer{mark: "O"},
+                                 size: 3}
       assert Game.over?(game) == true
                               
     end    
@@ -101,7 +124,10 @@ defmodule GameTest do
     test "diagonal win 2" do
       game = %{%Game{} | board: ["X", "O", "X",
                                  "O", "X", "O",
-                                 "X", "O", "X"]}
+                                 "X", "O", "X"], 
+                                 player_1: %Player{mark: "X"},
+                                 player_2: %Computer{mark: "O"},
+                                 size: 3}
       assert Game.over?(game) == true
                               
     end
@@ -109,7 +135,10 @@ defmodule GameTest do
     test "tie" do
       game = %{%Game{} | board: ["X", "X", "O",
                                  "O", "O", "X",
-                                 "X", "O", "X"]}
+                                 "X", "O", "X"], 
+                                 player_1: %Player{mark: "X"},
+                                 player_2: %Computer{mark: "O"},
+                                 size: 3}
       assert Game.over?(game) == true
     end
   end
@@ -123,7 +152,10 @@ defmodule GameTest do
   test "get X winner in diagonals " do
     game = %{%Game{} | board: ["O", "X", "X",
                                "O", "X", 5,
-                               "X", 7, "O"]}
+                               "X", 7, "O"], 
+                               player_1: %Player{mark: "X"},
+                               player_2: %Computer{mark: "O"},
+                               size: 3}
 
     assert Game.get_winner(game).winner() == "X"
   end
@@ -131,7 +163,10 @@ defmodule GameTest do
   test "get O winner in rows" do
     game = %{%Game{} | board: ["O", "O", "O",
                                "O", "X", "X",
-                               "X", "O", "O"]}
+                               "X", "O", "O"], 
+                               player_1: %Player{mark: "X"},
+                               player_2: %Computer{mark: "O"},
+                               size: 3}
 
     assert Game.get_winner(game).winner() == "O"
   end  
@@ -139,7 +174,10 @@ defmodule GameTest do
   test "get X winner" do
     game = %{%Game{} | board: ["O", "X", "X",
                                "O", "X", "O",
-                               "X", "O", "O"]}
+                               "X", "O", "O"], 
+                               player_1: %Player{mark: "X"},
+                               player_2: %Computer{mark: "O"},
+                               size: 3}
     assert Game.get_winner(game).winner() == "X"
   end
 
@@ -147,7 +185,10 @@ defmodule GameTest do
   test "no winner" do
     game = %{%Game{} | board: ["O", "X", "O",
                                "O", "O", "X",
-                               "X", "O", "X"]}
+                               "X", "O", "X"], 
+                               player_1: %Player{mark: "X"},
+                               player_2: %Computer{mark: "O"},
+                               size: 3}
 
     assert Game.get_winner(game).winner() == nil
   end

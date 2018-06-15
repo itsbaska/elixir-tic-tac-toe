@@ -30,7 +30,6 @@ defmodule TicTacToe do
         "1" -> 3
         "2" -> 4
       end
-      |> create_game
     else
       %Message{}.invalid |> Console.print
       get_board_size()

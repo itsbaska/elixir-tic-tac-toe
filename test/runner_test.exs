@@ -1,6 +1,6 @@
 defmodule RunnerTest do
   use ExUnit.Case
-  import ExUnit.CaptureIO
+  # import ExUnit.CaptureIO
   
 
   doctest Runner
