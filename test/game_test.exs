@@ -3,17 +3,26 @@ defmodule GameTest do
   doctest Game
 
   test "struct" do 
-    assert %Game{} == %Game{player_1: %Player{}, player_2: %Computer{}, current_player: %Player{}, winner: nil, over: false, board: []}
+    assert %Game{} == %Game{player_1: nil, player_2: nil, current_player: nil, winner: nil, over: false, board: []}
   end
 
   describe "when current user is the player" do
     test "change_turn to computer" do
-      assert Game.change_turn(%Game{}, %Player{}).current_player ==  %Computer{}
+      game = 
+        %{ %Game{} | 
+        current_player: %Player{mark: "X"},
+        player_1: %Player{mark: "X"},
+        player_2: %Computer{mark: "O"}}
+      assert Game.change_turn(game).current_player ==  %Computer{mark: "O"}
     end
 
     test "change_turn to player" do
-      %{ %Game{} | current_player: %Computer{}}
-      assert Game.change_turn(%Game{}, %Player{}).current_player ==  %Computer{}
+      game = 
+        %{ %Game{} | 
+        current_player: %Computer{mark: "O"},
+        player_1: %Player{mark: "X"},
+        player_2: %Computer{mark: "O"}}
+      assert Game.change_turn(game).current_player ==  %Player{mark: "X"}
     end
   end
 
@@ -145,15 +154,19 @@ defmodule GameTest do
 
 
   test "mark spot" do
-    game = %{%Game{} | board: ["O", "X", "O",
-                               "O", 4, "X",
-                               "X", "O", 8]}
+    game = %{%Game{} | 
+            board: ["O", "X", "O",
+                    "O", 4, "X",
+                    "X", "O", 8],
+            current_player: %Player{mark: "X"},
+            player_1: %Player{mark: "X"},
+            player_2: %Computer{mark: "O"}}
 
     assert Game.mark_spot(game, 4) == %Game{board: ["O", "X", "O", "O", "X", "X", "X", "O", 8],
-                                            current_player: %Player{},
+                                            current_player: %Player{mark: "X"},
                                             over: false,
-                                            player_1: %Player{},
-                                            player_2: %Computer{},
+                                            player_1: %Player{mark: "X"},
+                                            player_2: %Computer{mark: "O"},
                                             winner: nil}
-                                          end
   end
+end
