@@ -3,7 +3,7 @@ defmodule GameTest do
   doctest Game
 
   test "struct" do 
-    assert %Game{} == %Game{player_1: %Player{}, player_2: %Computer{}, current_player: %Player{}, winner: nil, over: false, board: [0, 1, 2, 3, 4, 5, 6, 7, 8]}
+    assert %Game{} == %Game{player_1: %Player{}, player_2: %Computer{}, current_player: %Player{}, winner: nil, over: false, board: []}
   end
 
   describe "when current user is the player" do
@@ -19,14 +19,14 @@ defmodule GameTest do
 
   describe "when game is not over" do
     test "board is empty" do
-      assert Game.game_over?(%Game{}) == false
+      assert Game.over?(%Game{board: [0, 1, 2, 3, 4, 5, 6, 7, 8]}) == false
     end
 
     test "some spaces are filled" do
       game = %{%Game{} | board: ["X", 1, "O",
                                   3, "X", 5,
                                   6, 7, 8]}
-      assert Game.game_over?(game) == false
+      assert Game.over?(game) == false
     end
 
     test "no winners" do
@@ -42,42 +42,42 @@ defmodule GameTest do
       game = %{%Game{} | board: ["O", "O", "O",
                                  "O", "X", "X",
                                  "X", "O", "O"]}
-      assert Game.game_over?(game) == true
+      assert Game.over?(game) == true
     end
 
     test "second row win" do
       game = %{%Game{} | board: ["O", "X", "O",
                                  "X", "X", "X",
                                  "X", "O", "X"]}
-      assert Game.game_over?(game) == true
+      assert Game.over?(game) == true
     end
     
     test "third row win" do
       game = %{%Game{} | board: ["X", "O", "O", 
                                  "O", "O", "X", 
                                  "X", "X", "X"]}
-      assert Game.game_over?(game) == true
+      assert Game.over?(game) == true
     end
 
     test "first column win" do
       game = %{%Game{} | board: ["X", "X", "O", 
                                  "X", "O", "X",
                                  "X", "O", "X"]}
-      assert Game.game_over?(game) == true
+      assert Game.over?(game) == true
     end
 
     test "second column win" do
       game = %{%Game{} | board: ["O", "X", "O", 
                                  "X", "X", "X",
                                  "O", "X", "X"]}
-      assert Game.game_over?(game) == true
+      assert Game.over?(game) == true
     end
     
     test "third column win" do
       game = %{%Game{} | board: ["O", "X", "X",
                                  "O", "O", "X",
                                  "X", "O", "X"]}
-      assert Game.game_over?(game) == true
+      assert Game.over?(game) == true
                               
     end
 
@@ -85,7 +85,7 @@ defmodule GameTest do
       game = %{%Game{} | board: ["O", "X", "X",
                                  "O", "X", "X",
                                  "X", "O", "O"]}
-      assert Game.game_over?(game) == true
+      assert Game.over?(game) == true
                               
     end    
     
@@ -93,7 +93,7 @@ defmodule GameTest do
       game = %{%Game{} | board: ["X", "O", "X",
                                  "O", "X", "O",
                                  "X", "O", "X"]}
-      assert Game.game_over?(game) == true
+      assert Game.over?(game) == true
                               
     end
 
@@ -101,7 +101,7 @@ defmodule GameTest do
       game = %{%Game{} | board: ["X", "X", "O",
                                  "O", "O", "X",
                                  "X", "O", "X"]}
-      assert Game.game_over?(game) == true
+      assert Game.over?(game) == true
     end
   end
 

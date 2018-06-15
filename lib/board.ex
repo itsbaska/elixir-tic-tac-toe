@@ -1,7 +1,7 @@
 defmodule Board do
-  defstruct spaces: [0, 1, 2, 3, 4, 5, 6, 7, 8]
-  def create do
-    [0, 1, 2, 3, 4, 5, 6, 7, 8]
+  def create(size) do
+    last_board_space = (size * size) - 1
+    0..last_board_space |> Enum.to_list
   end
 
   def is_available?(board, space) do

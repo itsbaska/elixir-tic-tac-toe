@@ -3,42 +3,51 @@ defmodule Game do
             player_2: %Computer{}, 
             current_player: %Player{}, 
             winner: nil, 
-            board: %Board{}.spaces,
-            over: false
+            board: [],
+            over: false,
+            size: nil
             
-  defp check_three([x, x, x]), do: x
-  defp check_three([_a, _b, _c]), do: nil
+  defp check_win(line) do
+    possible_winner = line |> Enum.dedup
+    if possible_winner |> length > 1, do: nil, else: possible_winner |> List.first
+  end
 
-  defp check_line([head | tail]), do: [check_three(head) | check_line(tail)]
+  defp check_line([line | rest_of_the_board]), do: [check_win(line) | check_line(rest_of_the_board)]
   defp check_line([]), do: []
 
-  defp convert_to_columns([a, b, c, d, e, f, g, h, i]), do: [[a, d, g], [b, e, h], [c, f, i]]
+  defp convert_to_columns(board, size), do: convert_to_rows(board, size) |> Enum.zip |> Enum.map(fn(col) -> col |> Tuple.to_list end)
+
+  defp convert_to_diagonals([a, _b, _c, d, _e, f, g, _h, _i, j, k, _l, m, _n, _o, p]), do: [[a, f, k, p], [d, g, j, m]]
   defp convert_to_diagonals([a, _b, c, _d, e, _f, g, _h, i]), do: [[a, e, i], [g, e, c]]
-  defp convert_to_rows(board), do: Enum.chunk(board, 3)
+
+  defp convert_to_rows(board, size), do: Enum.chunk(board, size)
 
   def get_winner(game) do
     diagonals = 
-      game.board
-        |> convert_to_diagonals
+      convert_to_diagonals(game.board)
         |> check_line
         |> Enum.find(&(&1))
     rows = 
-      game.board
-        |> convert_to_rows
+      convert_to_rows(game.board, game.size)
         |> check_line
         |> Enum.find(&(&1))
     columns =
-      game.board
-        |> convert_to_columns
+      convert_to_columns(game.board, game.size)
         |> check_line
         |> Enum.find(&(&1)) 
     winner = diagonals || rows || columns
-    %{game | winner: winner} 
+    over =
+      case winner do 
+        nil -> false
+        "O" -> true
+        "X" -> true
+      end
+    %{game | winner: winner, over: over} 
   end
 
   def is_tie?(game), do: Board.available_spaces(game.board) |> length == 0
 
-  def game_over?(game) do  
+  def over?(game) do  
     cond do
       get_winner(game).winner() -> true
       is_tie?(game) -> true

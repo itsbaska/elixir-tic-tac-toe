@@ -18,7 +18,7 @@ defmodule ComputerTest do
                             6, "X", 8],
                     over: false}
       depth = 4
-      assert Computer.score(game, depth) == 14
+      assert Computer.hueristic_score(game, depth) == 14
     end
   
     test "return -1 if Human wins" do
@@ -31,7 +31,7 @@ defmodule ComputerTest do
                             6, "O", 8],
                     over: false}
       depth = 4
-      assert Computer.score(game, depth) == -6
+      assert Computer.hueristic_score(game, depth) == -6
     end
   
     test "return 0 if tie" do
@@ -44,7 +44,7 @@ defmodule ComputerTest do
                             "X", "O", "X"],
                     over: false}
       depth = 0
-      assert Computer.score(game, depth) == 0
+      assert Computer.hueristic_score(game, depth) == 0
     end
   end
 
