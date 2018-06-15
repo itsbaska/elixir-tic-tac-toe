@@ -1,7 +1,7 @@
 defmodule TicTacToe do
   
   def new_game(board, board_size) do
-    %{%Game{} | board: board, type: board_size}
+    %{%Game{} | board: board, size: board_size}
   end
 
   def start do
@@ -12,8 +12,11 @@ defmodule TicTacToe do
   def get_board_size do
     board_size_input = Console.get_board_size
     if board_size_input |> Validator.is_valid_option? do
-      size = if board_size_input == "1", do: "3x3", else: "4x4"
-      size |> create_game
+      case board_size_input do
+        "1" -> 3
+        "2" -> 4
+      end
+      |> create_game
     else
       %Message{}.invalid |> Console.print
       get_board_size()
@@ -73,9 +76,9 @@ defmodule TicTacToe do
   end
 
   def human_turn(game) do
-    user_move = game |> get_user_move(game.type)
+    user_move = game |> get_user_move(game.size)
+    user_move |> Console.print_board
     game = Game.update(game, :board, user_move)
-    game.board |> Console.print_board
     game |> Game.change_turn(game.current_player)
   end
 
