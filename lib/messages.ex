@@ -13,6 +13,9 @@ defmodule Message do
                 1) Human VS Human
                 2) Human VS Computer
                 """,
+            get_player_marks: """
+                Please select a single letter, number, or symbol to be your mark.
+                """,
             instructions: """
                 Instructions:
                 Select the spot you want to mark by entering the corresponding number.

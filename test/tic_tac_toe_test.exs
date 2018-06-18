@@ -24,14 +24,16 @@ defmodule TictacToeTest do
     test "when the user picks option 1" do
       defmodule PicksOptionOne_2 do
         def get_game_type, do: "1"
+        def get_player_marks, do: "X"
         def print(_message), do: nil
       end
-      assert TicTacToe.get_players(PicksOptionOne_2) == {%Player{mark: "X"}, %Player{mark: "O"}}
+      assert TicTacToe.get_players(PicksOptionOne_2) == {%Player{mark: "X"}, %Player{mark: "X"}}
     end
 
     test "when the user picks option 2" do
       defmodule PicksOptionTwo_2 do
         def get_game_type, do: "2"
+        def get_player_marks, do: "X"
         def print(_message), do: nil
       end
       assert TicTacToe.get_players(PicksOptionTwo_2) == {%Player{mark: "X"}, %Computer{mark: "O"}}

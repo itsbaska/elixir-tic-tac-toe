@@ -16,7 +16,11 @@ defmodule TicTacToe do
   def get_players(console \\ Console) do
     game_type_input = console.get_game_type
     if game_type_input |> Validator.is_valid_option? do
-      if game_type_input == "1", do: {%Player{mark: "X"}, %Player{mark: "O"}}, else: {%Player{mark: "X"}, %Computer{mark: "O"}}
+      if game_type_input == "1" do 
+        {%Player{mark: console.get_player_marks()}, %Player{mark: console.get_player_marks()}}
+      else 
+        {%Player{mark: console.get_player_marks()}, %Computer{mark: "O"}}
+      end
     else
       %Message{}.invalid |> console.print
       get_players()
@@ -113,7 +117,7 @@ defmodule TicTacToe do
     case Validator.is_valid_input?(move, game.size) do
       true ->
         space = move |> Integer.parse |> elem(0)
-        if Board.is_available?(game.board, space) do
+        if Board.is_available?(game, space) do
           Player.move(game, space)
         else
           %Message{}.spot_taken |> console.print
