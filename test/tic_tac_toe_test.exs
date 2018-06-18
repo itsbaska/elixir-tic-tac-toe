@@ -21,20 +21,20 @@ defmodule TictacToeTest do
   end
 
   describe ".get_game_type" do
-    test "when the user picks option 1, the game has is 3x3" do
+    test "when the user picks option 1" do
       defmodule PicksOptionOne_2 do
         def get_game_type, do: "1"
         def print(_message), do: nil
       end
-      assert TicTacToe.get_game_type(PicksOptionOne_2) == "human_vs_human"
+      assert TicTacToe.get_players(PicksOptionOne_2) == {%Player{mark: "X"}, %Player{mark: "O"}}
     end
 
-    test "when the user picks option 2, the game has is 3x3" do
+    test "when the user picks option 2" do
       defmodule PicksOptionTwo_2 do
         def get_game_type, do: "2"
         def print(_message), do: nil
       end
-      assert TicTacToe.get_game_type(PicksOptionTwo_2) == "human_vs_computer"
+      assert TicTacToe.get_players(PicksOptionTwo_2) == {%Player{mark: "X"}, %Computer{mark: "O"}}
     end
   end
 

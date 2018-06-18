@@ -8,18 +8,18 @@ defmodule TicTacToe do
   end
 
   def configure_game do
-    {player_1, player_2} = get_game_type() |> set_players
+    {player_1, player_2} = get_players()
     board_size = get_board_size()
     %{%Game{} | board: Board.create(board_size), size: board_size, player_1: player_1, player_2: player_2, current_player: player_1}
   end
 
-  def get_game_type(console \\ Console) do
+  def get_players(console \\ Console) do
     game_type_input = console.get_game_type
     if game_type_input |> Validator.is_valid_option? do
-      if game_type_input == "1", do: "human_vs_human", else: "human_vs_computer"
+      if game_type_input == "1", do: {%Player{mark: "X"}, %Player{mark: "O"}}, else: {%Player{mark: "X"}, %Computer{mark: "O"}}
     else
       %Message{}.invalid |> console.print
-      get_game_type()
+      get_players()
     end
   end
 
@@ -34,19 +34,6 @@ defmodule TicTacToe do
       %Message{}.invalid |> console.print
       get_board_size()
     end
-  end
-
-  def set_players("human_vs_human") do
-    {%Player{mark: "X"}, %Player{mark: "O"}}
-  end
-
-  def set_players("human_vs_computer") do
-    {%Player{mark: "X"}, %Computer{mark: "O"}}
-  end
-
-  def set_board(board_size) do
-    board_size |> Board.create |> Console.print_board
-    Board.create(board_size)
   end
   
   def loop(game) do
