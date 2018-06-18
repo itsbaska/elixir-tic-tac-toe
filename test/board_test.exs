@@ -8,19 +8,28 @@ defmodule BoardTest do
     end
 
     test "returns true if board space is available" do
-      assert Board.is_available?(["X", 1, "X", "X", "O", 5, "O", "X", 8], 5) == true
+      game = %Game{board: ["X", 1, "X", "X", "O", 5, "O", "X", 8],
+                    player_1: %Player{mark: "X"}, 
+                    player_2: %Player{mark: "O"}}
+      assert Board.is_available?(game, 5) == true
     end
 
     test "returns false if board space is not available" do
-      assert Board.is_available?(["X", 1, "X", "X", "O", 5, "O", "X", 8], 6) == false
+      game = %Game{board: ["X", 1, "X", "X", "O", 5, "O", "X", 8],
+                  player_1: %Player{mark: "X"},
+                  player_2: %Player{mark: "O"}}
+      assert Board.is_available?(game, 6) == false
     end
 
     test "mark board with player marker" do
-      assert Board.make_mark(["X", 1, "X", "X", "O", 5, 6, "X", 8], 6, "O") == ["X", 1, "X", "X", "O", 5, "O", "X", 8]
+      assert Board.make_mark(%Game{board: ["X", 1, "X", "X", "O", 5, 6, "X", 8], current_player: %Player{mark: "O"}}, 6) == ["X", 1, "X", "X", "O", 5, "O", "X", 8]
     end
 
     test "returns all available spaces" do
-      assert Board.available_spaces(["X", 1, "X", "X", "O", 5, 6, "X", 8]) == [1, 5, 6, 8]
+      game = %Game{board: ["X", 1, "X", "X", "O", 5, 6, "X", 8],
+                  player_1: %Player{mark: "X"},
+                  player_2: %Player{mark: "O"}}
+      assert Board.available_spaces(game) == [1, 5, 6, 8]
     end
 
     test "reset space" do
@@ -28,7 +37,10 @@ defmodule BoardTest do
     end
 
     test "returns the number of available spaces" do
-      assert Board.available_spaces_number(["X", 1, "X", "X", "O", 5, 6, "X", 8]) == 4
+      game = %Game{board: ["X", 1, "X", "X", "O", 5, 6, "X", 8],
+            player_1: %Player{mark: "X"},
+            player_2: %Player{mark: "O"}}
+      assert Board.available_spaces_number(game) == 4
     end
   end
 
@@ -38,19 +50,32 @@ defmodule BoardTest do
     end
 
     test "returns true if board space is available" do
-      assert Board.is_available?(["X", 1, "X", "X", "O", 5, "O", "X", 8, 9, 10, 11, 12, 13, 14, 15], 5) == true
+      game = %Game{board: ["X", 1, "X", "X", "O", 5, "O", "X", 8, 9, 10, 11, 12, 13, 14, 15],
+                    player_1: %Player{mark: "X"}, 
+                    player_2: %Player{mark: "O"}}
+      assert Board.is_available?(game, 5) == true
     end
 
     test "returns false if board space is not available" do
-      assert Board.is_available?(["X", 1, "X", "X", "O", 5, "O", "X", 8, 9, 10, 11, 12, 13, 14, 15], 6) == false
+      game = %Game{board: ["X", 1, "X", "X", "O", 5, "O", "X", 8, 9, 10, 11, 12, 13, 14, 15],
+                    player_1: %Player{mark: "X"}, 
+                    player_2: %Player{mark: "O"}}
+      assert Board.is_available?(game, 6) == false
     end
 
     test "mark board with player marker" do
-      assert Board.make_mark(["X", 1, "X", "X", "O", 5, 6, "X", 8, 9, 10, 11, 12, 13, 14, 15], 6, "O") == ["X", 1, "X", "X", "O", 5, "O", "X", 8, 9, 10, 11, 12, 13, 14, 15]
+      game = %Game{board: ["X", 1, "X", "X", "O", 5, 6, "X", 8, 9, 10, 11, 12, 13, 14, 15],
+                    player_1: %Player{mark: "X"}, 
+                    player_2: %Player{mark: "O"},
+                    current_player: %Player{mark: "O"}}
+      assert Board.make_mark(game, 6) == ["X", 1, "X", "X", "O", 5, "O", "X", 8, 9, 10, 11, 12, 13, 14, 15]
     end
 
     test "returns all available spaces" do
-      assert Board.available_spaces(["X", 1, "X", "X", "O", 5, 6, "X", 8, 9, 10, 11, 12, 13, 14, 15]) == [1, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15]
+      game = %Game{board: ["X", 1, "X", "X", "O", 5, 6, "X", 8, 9, 10, 11, 12, 13, 14, 15],
+                    player_1: %Player{mark: "X"}, 
+                    player_2: %Player{mark: "O"}}
+      assert Board.available_spaces(game) == [1, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15]
     end
 
     test "reset space" do
@@ -58,7 +83,10 @@ defmodule BoardTest do
     end
 
     test "returns the number of available spaces" do
-      assert Board.available_spaces_number(["X", 1, "X", "X", "O", 5, 6, "X", 8, 9, 10, 11, 12, 13, 14, 15]) == 11
+      game = %Game{board: ["X", 1, "X", "X", "O", 5, 6, "X", 8, 9, 10, 11, 12, 13, 14, 15],
+      player_1: %Player{mark: "X"}, 
+      player_2: %Player{mark: "O"}}
+      assert Board.available_spaces_number(game) == 11
     end
   end
 end
