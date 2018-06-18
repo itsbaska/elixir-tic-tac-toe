@@ -13,25 +13,25 @@ defmodule TicTacToe do
     %{%Game{} | board: Board.create(board_size), size: board_size, player_1: player_1, player_2: player_2, current_player: player_1}
   end
 
-  def get_game_type do
-    game_type_input = Console.get_game_type
+  def get_game_type(console \\ Console) do
+    game_type_input = console.get_game_type
     if game_type_input |> Validator.is_valid_option? do
       if game_type_input == "1", do: "human_vs_human", else: "human_vs_computer"
     else
-      %Message{}.invalid |> Console.print
+      %Message{}.invalid |> console.print
       get_game_type()
     end
   end
 
-  def get_board_size do
-    board_size_input = Console.get_board_size
+  def get_board_size(console \\ Console) do
+    board_size_input = console.get_board_size
     if board_size_input |> Validator.is_valid_option? do
       case board_size_input do
         "1" -> 3
         "2" -> 4
       end
     else
-      %Message{}.invalid |> Console.print
+      %Message{}.invalid |> console.print
       get_board_size()
     end
   end
@@ -91,20 +91,21 @@ defmodule TicTacToe do
     |> Console.print
   end
 
-  def restart_game(input) when input in ["n", "no"] do
-    %Message{}.good_bye |> Console.print
+  def restart_game(input, console \\ Console, tictactoe \\ TicTacToe)
+  def restart_game(input, console, _tictactoe) when input in ["n", "no"] do
+    %Message{}.good_bye |> console.print
   end
 
-  def restart_game(input) when input in ["y", "yes"] do
-    %Message{}.rematch
-    configure_game()
-    |> loop()
+  def restart_game(input, console, tictactoe) when input in ["y", "yes"] do
+    %Message{}.rematch |> console.print
+    tictactoe.configure_game()
+    |> tictactoe.loop()
   end
 
-  def restart_game(_) do
+  def restart_game(_, console, _tictactoe) do
     %Message{}.invalid
-    |> Console.print
-    Console.play_again
+    |> console.print
+    console.play_again
     |> restart_game
   end
 
@@ -115,23 +116,24 @@ defmodule TicTacToe do
   end
 
   def computer_turn(game) do
-    Computer.move(game)
+    game
+    |> Computer.move
     |> Game.change_turn
   end
 
-  def get_user_move(game) do
-    move = Console.get_move
+  def get_user_move(game, console \\ Console) do
+    move = console.get_move
     case Validator.is_valid_input?(move, game.size) do
       true ->
         space = move |> Integer.parse |> elem(0)
         if Board.is_available?(game.board, space) do
           Player.move(game, space)
         else
-          %Message{}.spot_taken |> Console.print
+          %Message{}.spot_taken |> console.print
           game |> get_user_move
         end
       false ->
-        %Message{}.invalid_number |> Console.print
+        %Message{}.invalid_number |> console.print
         game |> get_user_move
     end
   end
