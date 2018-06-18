@@ -53,14 +53,14 @@ defmodule ComputerTest do
   describe "when O is winning" do
     test "return the highest score" do
       best_score = [{0, 1}, {1, -1}, {2, 0}, {3, 0}]
-      assert Computer.minimax_score("O", best_score) == 1
+      assert Computer.minimax_score(Computer, best_score) == 1
     end
   end
 
   describe "when X is winning" do
     test "return the lowest score" do
       best_score = [{0, 1}, {1, -1}, {2, 0}, {3, 0}]
-      assert Computer.minimax_score("X", best_score) == -1
+      assert Computer.minimax_score(Player, best_score) == -1
     end
   end
 
