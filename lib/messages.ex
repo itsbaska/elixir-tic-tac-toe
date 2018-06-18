@@ -57,6 +57,12 @@ defmodule Message do
             computer_turn: """
                 Computers turn...
                 """,
+            player_1_turn: """
+                Player 1 turn...
+                """,
+            player_2_turn: """
+                Player 2 turn...
+                """,
             enter_move: """
                 Please enter your move >
                 """,
@@ -64,5 +70,5 @@ defmodule Message do
                 Would you like to play again? Yes or No?
                 
                 """
-
+    
 end

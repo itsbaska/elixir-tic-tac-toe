@@ -10,7 +10,7 @@ defmodule TicTacToe do
   def configure_game do
     {player_1, player_2} = get_game_type() |> set_players
     board_size = get_board_size()
-    %{%Game{} | board: Board.create(board_size), type: board_size, player_1: player_1, player_2: player_2, current_player: player_1}
+    %{%Game{} | board: Board.create(board_size), size: board_size, player_1: player_1, player_2: player_2, current_player: player_1}
   end
 
   def get_game_type do
@@ -50,42 +50,52 @@ defmodule TicTacToe do
   end
   
   def loop(game) do
-    game.board |> Console.print_board
-    %player{} = %Player{}
+    game |> Console.print_board
+    game |> turn_message
     %current_player{} = game.current_player
-    game = 
-      if current_player == player, do: human_turn(game), else: computer_turn(game)
-    perform_turn(game, &loop/1)
-  end
-  
+    case current_player do
+      Player ->
+        human_turn(game)
+      Computer ->
+        computer_turn(game)
+    end
+    |> perform_turn(&loop/1)
+    end
+    
   def perform_turn(game, continue_game) do
     if Game.over?(game) do
+      game |> Console.print_board
       %Message{}.game_over |> Console.print
-      Game.get_winner(game).winner |> win_message
+      game |> win_message |> Console.print
       Console.play_again |> restart_game
     else 
       continue_game.(game) 
     end
   end
 
-  def win_message(nil) do
-    %Message{}.tie |> Console.print
+  def win_message(game) do
+    winner = Game.get_winner(game).winner
+    if winner == nil, do: %Message{}.tie, else: winner <> %Message{}.win
   end
 
-  def win_message(winner) do
-    winner <> %Message{}.win |> Console.print
+  def turn_message(game) do
+    %current_player{} = game.current_player
+    cond do
+      current_player == Computer -> 
+        %Message{}.computer_turn
+      game.current_player == game.player_1 ->
+        %Message{}.player_1_turn
+      game.current_player == game.player_2 ->
+        %Message{}.player_2_turn
+    end
+    |> Console.print
   end
 
-  def restart_game("no"), do: %Message{}.good_bye |> Console.print
-  def restart_game("n"), do: %Message{}.good_bye |> Console.print
-
-  def restart_game("yes") do
-    %Message{}.rematch
-    configure_game()
-    |> loop()
+  def restart_game(input) when input in ["n", "no"] do
+    %Message{}.good_bye |> Console.print
   end
 
-  def restart_game("y") do
+  def restart_game(input) when input in ["y", "yes"] do
     %Message{}.rematch
     configure_game()
     |> loop()
@@ -99,32 +109,30 @@ defmodule TicTacToe do
   end
 
   def human_turn(game) do
-    game = game |> get_user_move(game.type)
-    game.board |> Console.print_board
-    game |> Game.change_turn
+    game 
+    |> get_user_move
+    |> Game.change_turn
   end
 
   def computer_turn(game) do
-    %Message{}.computer_turn |> Console.print
-    game = Computer.move(game)
-    game.board |> Console.print_board
-    game |> Game.change_turn
+    Computer.move(game)
+    |> Game.change_turn
   end
 
-  def get_user_move(game, board_size) do
+  def get_user_move(game) do
     move = Console.get_move
-    case Validator.is_valid_input?(move, board_size) do
+    case Validator.is_valid_input?(move, game.size) do
       true ->
         space = move |> Integer.parse |> elem(0)
         if Board.is_available?(game.board, space) do
           Player.move(game, space)
         else
           %Message{}.spot_taken |> Console.print
-          game |> get_user_move(board_size)
+          game |> get_user_move
         end
       false ->
         %Message{}.invalid_number |> Console.print
-        game |> get_user_move(board_size)
+        game |> get_user_move
     end
   end
 end

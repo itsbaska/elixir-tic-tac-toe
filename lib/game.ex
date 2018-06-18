@@ -60,11 +60,7 @@ defmodule Game do
   def change_turn(game) do
     game.current_player
     player =
-    if game.current_player == game.player_2 do
-      game.player_1
-    else
-      game.player_2
-    end 
+      if game.current_player == game.player_2, do: game.player_1, else: game.player_2
     update(game, :current_player, player)
   end
 
