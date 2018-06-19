@@ -10,7 +10,6 @@ defmodule Validator do
       false
     end
   end
-
   
   def is_a_digit?(input), do: Regex.match?(~r/\d/, input)
   def is_one_digit?(input), do: input |> String.trim |> String.length == 1
@@ -21,17 +20,12 @@ defmodule Validator do
   def is_valid_option?(_), do: false
 
   def is_already_used?(mark_1, mark_2) do
-    if mark_1 == mark_2 do
-      true
-    else
-      false
-    end
+    if mark_1 == mark_2, do: true, else: false
   end
 
   def is_blank?(""), do: true
   def is_blank?(_), do: false
 
   def is_valid_length?(mark), do: mark |> String.length == 1
-
 
 end

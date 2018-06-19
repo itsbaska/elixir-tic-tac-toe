@@ -64,7 +64,12 @@ defmodule Configuration do
       %Message{}.cannot_be_blank |> console.print
       get_player_marks()
     else
-      mark
+      if Validator.is_valid_length?(mark) do
+        mark
+      else
+        %Message{}.mark_length |> console.print
+        get_player_marks(console)
+      end
     end
   end
 

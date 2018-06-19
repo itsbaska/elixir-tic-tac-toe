@@ -47,6 +47,10 @@ defmodule Message do
                 Please try again.
 
                 """,
+            mark_length: """
+                Mark cannot be more than 1 character long.
+                Please try again.
+                """,
 
             spot_taken: """
                 Spot is taken.

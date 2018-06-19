@@ -82,7 +82,6 @@ defmodule GameFlow do
   def get_user_move(game, console \\ Console) do
     move = console.get_move
     case Validator.is_valid_input?(move, game.size) do
-
       true ->
         space = move |> Integer.parse |> elem(0)
         if Board.is_available?(game, space) do
