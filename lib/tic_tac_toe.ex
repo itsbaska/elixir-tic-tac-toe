@@ -29,23 +29,30 @@ defmodule TicTacToe do
 
   def get_marks_for_human_vs_computer_game(console \\ Console) do
     player = get_player_marks(console)
-    if player == "X" || player == "x" do
-      {%Player{mark: player}, %Computer{mark: "O"}}
-    else
-      computer = get_random_letter()
-      if computer == player do
-        {%Player{mark: player}, %Computer{mark: get_random_letter()}}
-      else
-        {%Player{mark: player}, %Computer{mark: computer}}
-      end
+    case player do
+      "X" -> 
+        {%Player{mark: player}, %Computer{mark: "O"}}
+      "x" ->
+        {%Player{mark: player}, %Computer{mark: "o"}}
+      "O" -> 
+        {%Player{mark: player}, %Computer{mark: "X"}}
+      "o" ->
+        {%Player{mark: player}, %Computer{mark: "x"}}
+      _ ->
+        computer = get_random_letter()
+        if computer == player do
+          {%Player{mark: player}, %Computer{mark: get_random_letter()}}
+        else
+          {%Player{mark: player}, %Computer{mark: computer}}
+        end
     end
   end
 
   def get_marks_for_human_vs_human_game(console \\Console, console_2 \\ Console) do
     player_1 = %Player{mark: get_player_marks(console)}
-    player_2 = %Player{mark: get_player_marks(console_2)}
+    player_2 = %Player{mark: get_player_marks(console)}
     if Validator.is_already_used?(player_1.mark, player_2.mark) do
-      %Message{}.cannot_match |> Console.print
+      %Message{}.cannot_match |> console.print
       {player_1, %Player{mark: get_player_marks(console_2)}}
     else
       {player_1, player_2}          

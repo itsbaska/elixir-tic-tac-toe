@@ -107,12 +107,12 @@ defmodule TictacToeTest do
         def get_player_marks, do: "x"
         def print(_message), do: nil
       end
-      assert TicTacToe.get_marks_for_human_vs_computer_game(ComputerPickO_2) == {%Player{mark: "x"}, %Computer{mark: "O"}}
+      assert TicTacToe.get_marks_for_human_vs_computer_game(ComputerPickO_2) == {%Player{mark: "x"}, %Computer{mark: "o"}}
     end
   end
 
   describe ".get_marks_for_human_vs_human_game" do
-    test "when user enters 'X' as mark" do
+    test "when user enters the same marks" do
       defmodule HumanPick do
         def get_player_marks, do: "X"
         def print(_message), do: nil
@@ -123,17 +123,6 @@ defmodule TictacToeTest do
       end
 
       assert TicTacToe.get_marks_for_human_vs_human_game(HumanPick, Human2_Pick) == {%Player{mark: "X"}, %Player{mark: "W"}}
-    end
-    test "when user enters 'x' as mark" do
-      defmodule HumanPick_2 do
-        def get_player_marks, do: "x"
-        def print(_message), do: nil
-      end
-      defmodule Human2_Pick_2 do
-        def get_player_marks, do: "S"
-        def print(_message), do: nil
-      end
-      assert TicTacToe.get_marks_for_human_vs_human_game(HumanPick_2, Human2_Pick_2) == {%Player{mark: "x"}, %Player{mark: "S"}}
     end
   end
 end
