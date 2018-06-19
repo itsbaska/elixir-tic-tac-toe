@@ -37,9 +37,6 @@ defmodule Console do
     end
   end
 
-  # def print_board(board) do
-  # end
-
   def print(message) do
     IO.write message
   end
