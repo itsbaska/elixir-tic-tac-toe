@@ -3,24 +3,43 @@ defmodule Configuration do
   def configure_game do
     {player_1, player_2} = get_players()
     board_size = get_board_size()
-    %{%Game{} | board: Board.create(board_size), size: board_size, player_1: player_1, player_2: player_2, current_player: player_1}
+    %Game{board: Board.create(board_size), 
+          size: board_size,
+          player_1: player_1,
+          player_2: player_2,
+          current_player: player_1}
   end
 
   def get_players(console \\ Console) do
     game_type_input = console.get_game_type
     if game_type_input |> Validator.is_valid_option? do
-      if game_type_input == "1" do
-        get_marks_for_human_vs_human_game()
-      else
-        get_marks_for_human_vs_computer_game()
-      end
+      game_type_input 
+      |> Integer.parse 
+      |> elem(0) 
+      |> get_marks()
     else
       %Message{}.invalid |> console.print
       get_players()
     end
   end
+  
+  def get_marks(game_type, console \\ Console, console_2 \\ Console)
 
-  def get_marks_for_human_vs_computer_game(console \\ Console) do
+  def get_marks(1, console, console_2) do
+    %Message{}.player_1 |> console.print
+    player_1 = %Player{mark: get_player_marks(console)}
+    %Message{}.player_2 |> console.print
+    player_2 = %Player{mark: get_player_marks(console)}
+
+    if Validator.is_already_used?(player_1.mark, player_2.mark) do
+      %Message{}.cannot_match |> console.print
+      {player_1, %Player{mark: get_player_marks(console_2)}}
+    else
+      {player_1, player_2}          
+    end
+  end
+
+  def get_marks(2, console, _console) do
     player = get_player_marks(console)
     case player do
       "X" -> 
@@ -38,19 +57,6 @@ defmodule Configuration do
         else
           {%Player{mark: player}, %Computer{mark: computer}}
         end
-    end
-  end
-
-  def get_marks_for_human_vs_human_game(console \\Console, console_2 \\ Console) do
-    %Message{}.player_1 |> console.print
-    player_1 = %Player{mark: get_player_marks(console)}
-    %Message{}.player_2 |> console.print
-    player_2 = %Player{mark: get_player_marks(console)}
-    if Validator.is_already_used?(player_1.mark, player_2.mark) do
-      %Message{}.cannot_match |> console.print
-      {player_1, %Player{mark: get_player_marks(console_2)}}
-    else
-      {player_1, player_2}          
     end
   end
 

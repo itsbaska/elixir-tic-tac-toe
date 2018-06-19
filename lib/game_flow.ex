@@ -23,8 +23,7 @@ defmodule GameFlow do
   def perform_turn(game, continue_game) do
     if Game.over?(game) do
       game |> Console.print_board
-      %Message{}.game_over |> Console.print
-      game |> win_message |> Console.print
+      %Message{}.game_over <> win_message(game) |> Console.print
       Console.play_again |> restart_game
     else 
       continue_game.(game) 

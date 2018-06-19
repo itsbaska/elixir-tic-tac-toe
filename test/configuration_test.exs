@@ -44,14 +44,14 @@ defmodule ConfigurationTest do
         def get_player_marks, do: "X"
         def print(_message), do: nil
       end
-      assert Configuration.get_marks_for_human_vs_computer_game(ComputerPickO) == {%Player{mark: "X"}, %Computer{mark: "O"}}
+      assert Configuration.get_marks(2, ComputerPickO) == {%Player{mark: "X"}, %Computer{mark: "O"}}
     end
     test "when user enters 'x' as mark" do
       defmodule ComputerPickO_2 do
         def get_player_marks, do: "x"
         def print(_message), do: nil
       end
-      assert Configuration.get_marks_for_human_vs_computer_game(ComputerPickO_2) == {%Player{mark: "x"}, %Computer{mark: "o"}}
+      assert Configuration.get_marks(2, ComputerPickO_2) == {%Player{mark: "x"}, %Computer{mark: "o"}}
     end
   end
 
@@ -66,7 +66,7 @@ defmodule ConfigurationTest do
         def print(_message), do: nil
       end
 
-      assert Configuration.get_marks_for_human_vs_human_game(HumanPick, Human2_Pick) == {%Player{mark: "X"}, %Player{mark: "W"}}
+      assert Configuration.get_marks(1, HumanPick, Human2_Pick) == {%Player{mark: "X"}, %Player{mark: "W"}}
     end
   end
 end
