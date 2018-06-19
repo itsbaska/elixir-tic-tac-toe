@@ -21,9 +21,4 @@ defmodule Board do
     |> available_spaces
     |> length
   end
-
-  def reset_space(board, space) do
-
-    List.replace_at(board, space, space)
-  end
 end
