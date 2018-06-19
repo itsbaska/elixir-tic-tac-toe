@@ -3,12 +3,11 @@ defmodule Computer do
 
   def move(game) do
     available_spaces_number = game |> Board.available_spaces_number
+    move = if game.size == 3, do: Enum.random(0..8), else:  Enum.random(0..15)
     cond do
-      available_spaces_number >= 8 and game.size == 3 ->
-        move = Enum.random(0..8)
+      available_spaces_number >= 8 ->
         if Board.is_available?(game, move), do: Game.mark_spot(game, move), else: move(game) 
-      available_spaces_number >= 13 and game.size == 4 ->
-        move = Enum.random(0..15)
+      available_spaces_number >= 13 ->
         if Board.is_available?(game, move), do: Game.mark_spot(game, move), else: move(game)
       true ->
         Game.mark_spot(game, get_best_move(game))

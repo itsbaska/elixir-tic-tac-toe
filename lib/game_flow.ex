@@ -49,18 +49,18 @@ defmodule GameFlow do
     |> Console.print
   end
 
-  def restart_game(input, console \\ Console, tictactoe \\ TicTacToe)
-  def restart_game(input, console, _tictactoe) when input in ["n", "no"] do
+  def restart_game(input, console \\ Console, configuration \\ Configuration, game_flow \\ GameFlow)
+  def restart_game(input, console, _configuration, _game_flow) when input in ["n", "no"] do
     %Message{}.good_bye |> console.print
   end
 
-  def restart_game(input, console, tictactoe) when input in ["y", "yes"] do
+  def restart_game(input, console, configuration, game_flow) when input in ["y", "yes"] do
     %Message{}.rematch |> console.print
-    tictactoe.configure_game()
-    |> tictactoe.loop()
+    configuration.configure_game()
+    |> game_flow.loop()
   end
 
-  def restart_game(_, console, _tictactoe) do
+  def restart_game(_, console, _configuration, _game_flow) do
     %Message{}.invalid
     |> console.print
     console.play_again
