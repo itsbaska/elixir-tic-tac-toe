@@ -42,7 +42,9 @@ defmodule Configuration do
   end
 
   def get_marks_for_human_vs_human_game(console \\Console, console_2 \\ Console) do
+    %Message{}.player_1 |> console.print
     player_1 = %Player{mark: get_player_marks(console)}
+    %Message{}.player_2 |> console.print
     player_2 = %Player{mark: get_player_marks(console)}
     if Validator.is_already_used?(player_1.mark, player_2.mark) do
       %Message{}.cannot_match |> console.print
