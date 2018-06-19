@@ -8,6 +8,20 @@ defmodule Message do
                 1) 3x3
                 2) 4x4
                 """,
+            player_1: """
+                Player 1 ~
+                """,
+            player_2: """
+                Player 2 ~
+                """,
+            cannot_match: """
+                Marks cannot be the same. Player 2, please choose a different mark.
+
+                """,
+            cannot_be_blank: """
+                Marks cannot be blank. Please enter a mark.
+                
+                """,
             game_type: """
                 Select game type:
                 1) Human VS Human
@@ -24,6 +38,9 @@ defmodule Message do
                 """,
             invalid_number: """
                 Please enter a number between 0-8.
+                """,
+            invalid_number_2: """
+                Please enter a number between 0-15.
                 """,
             invalid: """
                 I didn't quite get that...
