@@ -2,10 +2,6 @@ defmodule Computer do
   defstruct mark: nil
 
   def move(game) do
-    pick_move(game)
-  end
-
-  def pick_move(game) do
     available_spaces_number = game |> Board.available_spaces_number
     cond do
       available_spaces_number >= 8 and game.size == 3 ->
