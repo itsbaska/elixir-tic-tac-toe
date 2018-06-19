@@ -4,25 +4,26 @@ defmodule Board do
     0..last_board_space |> Enum.to_list
   end
 
-  def is_available?(board, space) do
-    Enum.at(board, space) != "X" and Enum.at(board, space) != "O"
+  def is_available?(game, space) do
+    Enum.at(game.board, space) != game.player_1.mark and Enum.at(game.board, space) != game.player_2.mark
   end
 
-  def make_mark(board, space, player) do
-    List.replace_at(board, space, player)
+  def make_mark(game, space) do
+    List.replace_at(game.board, space, game.current_player.mark)
   end
 
-  def available_spaces(board) do
-    Enum.filter(board, fn(space) -> space != "X" and space != "O" end)
+  def available_spaces(game) do
+    Enum.filter(game.board, fn(space) -> space != game.player_1.mark and space != game.player_2.mark end)
   end
 
-  def available_spaces_number(board) do
-    board
+  def available_spaces_number(game) do
+    game
     |> available_spaces
     |> length
   end
 
   def reset_space(board, space) do
+
     List.replace_at(board, space, space)
   end
 end

@@ -16,10 +16,60 @@ defmodule TicTacToe do
   def get_players(console \\ Console) do
     game_type_input = console.get_game_type
     if game_type_input |> Validator.is_valid_option? do
-      if game_type_input == "1", do: {%Player{mark: "X"}, %Player{mark: "O"}}, else: {%Player{mark: "X"}, %Computer{mark: "O"}}
+      if game_type_input == "1" do
+        get_marks_for_human_vs_human_game()
+      else
+        get_marks_for_human_vs_computer_game()
+      end
     else
       %Message{}.invalid |> console.print
       get_players()
+    end
+  end
+
+  def get_marks_for_human_vs_computer_game(console \\ Console) do
+    player = get_player_marks(console)
+    case player do
+      "X" -> 
+        {%Player{mark: player}, %Computer{mark: "O"}}
+      "x" ->
+        {%Player{mark: player}, %Computer{mark: "o"}}
+      "O" -> 
+        {%Player{mark: player}, %Computer{mark: "X"}}
+      "o" ->
+        {%Player{mark: player}, %Computer{mark: "x"}}
+      _ ->
+        computer = get_random_letter()
+        if computer == player do
+          {%Player{mark: player}, %Computer{mark: get_random_letter()}}
+        else
+          {%Player{mark: player}, %Computer{mark: computer}}
+        end
+    end
+  end
+
+  def get_marks_for_human_vs_human_game(console \\Console, console_2 \\ Console) do
+    player_1 = %Player{mark: get_player_marks(console)}
+    player_2 = %Player{mark: get_player_marks(console)}
+    if Validator.is_already_used?(player_1.mark, player_2.mark) do
+      %Message{}.cannot_match |> console.print
+      {player_1, %Player{mark: get_player_marks(console_2)}}
+    else
+      {player_1, player_2}          
+    end
+  end
+
+  def get_random_letter do
+    Enum.random for n <- ?a..?z, do: << n :: utf8 >> |> String.upcase
+  end
+
+  def get_player_marks(console \\ Console) do
+    mark = console.get_player_marks()
+    if Validator.is_blank?(mark) do
+      %Message{}.cannot_be_blank |> console.print
+      get_player_marks()
+    else
+      mark
     end
   end
 
@@ -111,16 +161,21 @@ defmodule TicTacToe do
   def get_user_move(game, console \\ Console) do
     move = console.get_move
     case Validator.is_valid_input?(move, game.size) do
+
       true ->
         space = move |> Integer.parse |> elem(0)
-        if Board.is_available?(game.board, space) do
+        if Board.is_available?(game, space) do
           Player.move(game, space)
         else
           %Message{}.spot_taken |> console.print
           game |> get_user_move
         end
       false ->
-        %Message{}.invalid_number |> console.print
+        if game.size == 3 do
+          %Message{}.invalid_number |> console.print
+        else
+          %Message{}.invalid_number_2 |> console.print
+        end
         game |> get_user_move
     end
   end

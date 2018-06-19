@@ -41,4 +41,14 @@ defmodule ValidatorTest do
     end
   end
   
+  describe "when a user inputs a user mark" do
+    test "return false if 2 marks are same" do
+      assert Validator.is_already_used?("3", "3") == true
+    end
+
+    test "return true if 2 marks are different" do
+      assert Validator.is_already_used?("2", "X") == false
+    end
+  end
+  
 end
