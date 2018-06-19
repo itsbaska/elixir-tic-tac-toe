@@ -50,4 +50,15 @@ defmodule ValidatorTest do
       assert Validator.is_already_used?("2", "X") == false
     end
   end
+
+  describe ".is_valid_length?" do
+    test "when user enters a mark with 1 length" do
+      assert Validator.is_valid_length?("X") == true
+    end
+
+    test "when user enters a mark with length longer than 1" do
+      assert Validator.is_valid_length?("XXX") == false
+    end
+  end
+
 end

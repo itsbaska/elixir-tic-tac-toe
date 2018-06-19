@@ -31,6 +31,7 @@ defmodule Validator do
   def is_blank?(""), do: true
   def is_blank?(_), do: false
 
+  def is_valid_length?(mark), do: mark |> String.length == 1
 
 
 end
