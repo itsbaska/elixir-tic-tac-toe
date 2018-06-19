@@ -3,12 +3,8 @@ defmodule BoardTest do
 
   doctest Board
   describe "When the game board is 3x3" do
-    test "board struct" do
-      assert %Board{} === %Board{spaces: [0, 1, 2, 3, 4, 5, 6, 7, 8]}
-    end
-
     test "returns the board" do
-      assert Board.create("1") == [0, 1, 2, 3, 4, 5, 6, 7, 8]
+      assert Board.create(3) == [0, 1, 2, 3, 4, 5, 6, 7, 8]
     end
 
     test "returns true if board space is available" do
@@ -38,7 +34,7 @@ defmodule BoardTest do
 
   describe "When the game board is 4x4" do
     test "returns the board" do
-      assert Board.create("2") == [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+      assert Board.create(4) == [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
     end
 
     test "returns true if board space is available" do

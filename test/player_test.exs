@@ -4,13 +4,21 @@ defmodule PlayerTest do
   doctest Player
 
   test "player struct" do
-    assert %Player{} === %Player{mark: "X"}
+    assert %Player{} === %Player{mark: nil}
 
   end
   
   
   test "make move" do
-    assert Player.move(["X", 1, "X", "X", "O", 5, 6, "X", 8], 6) == ["X", 1, "X", "X", "O", 5, "X", "X", 8]
+    game_1 = 
+      %{ %Game{} | 
+        current_player: %Player{mark: "X"}, 
+        board: ["X", 1, "X", "X", "O", 5, 6, "X", 8] }
+    game_2 = 
+      %{ %Game{} | 
+        current_player: %Player{mark: "X"},
+        board: ["X", 1, "X", "X", "O", 5, "X", "X", 8] }
+    assert Player.move(game_1, 6) == game_2
   end
 
 end
