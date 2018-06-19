@@ -19,4 +19,18 @@ defmodule Validator do
   def is_valid_option?("1"), do: true
   def is_valid_option?("2"), do: true
   def is_valid_option?(_), do: false
+
+  def is_already_used?(mark_1, mark_2) do
+    if mark_1 == mark_2 do
+      true
+    else
+      false
+    end
+  end
+
+  def is_blank?(""), do: true
+  def is_blank?(_), do: false
+
+
+
 end
