@@ -1,6 +1,6 @@
 defmodule Runner do
-  def start(tictactoe \\ TicTacToe) do
-    tictactoe.start()
+  def start(game_flow \\ GameFlow) do
+    game_flow.start()
   end
 end
 
