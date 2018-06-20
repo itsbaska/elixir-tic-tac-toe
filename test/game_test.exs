@@ -159,13 +159,6 @@ defmodule GameTest do
     end
   end
 
-  test "updates game board" do
-    game = 
-      %Game{current_player: %Computer{}}
-    key = :current_player
-    assert Game.update(%Game{}, key, %Computer{}) == game
-  end
-
   test "get X winner in diagonals " do
     game = 
       %Game{board: ["O", "X", "X",

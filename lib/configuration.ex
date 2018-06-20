@@ -1,7 +1,7 @@
 defmodule Configuration do
 
   def configure_game do
-    {player_1, player_2} = get_players()
+    {player_1, player_2} = set_players()
     board_size = get_board_size()
     %Game{board: Board.create(board_size), 
           size: board_size,
@@ -10,7 +10,7 @@ defmodule Configuration do
           current_player: player_1}
   end
 
-  def get_players(console \\ Console) do
+  def set_players(console \\ Console) do
     game_type_input = console.get_game_type
     if game_type_input |> Validator.is_valid_option? do
       game_type_input 
@@ -19,64 +19,59 @@ defmodule Configuration do
       |> get_marks()
     else
       %Message{}.invalid |> console.print
-      get_players()
+      set_players()
     end
   end
   
-  def get_marks(game_type, console \\ Console, console_2 \\ Console)
-
-  def get_marks(1, console, console_2) do
-    %Message{}.player_1 |> console.print
-    player_1 = %Player{mark: get_player_marks(console)}
-    %Message{}.player_2 |> console.print
-    player_2 = %Player{mark: get_player_marks(console)}
-
-    if Validator.is_already_used?(player_1.mark, player_2.mark) do
-      %Message{}.cannot_match |> console.print
-      {player_1, %Player{mark: get_player_marks(console_2)}}
+  def get_player_marks(player, console \\ Console) do
+    mark = player |> console.get_player_marks
+    if mark |> Validator.is_blank? do
+      %Message{}.cannot_be_blank
+      |> console.print
+      player
+      |> get_player_marks
     else
-      {player_1, player_2}          
+      if mark |> Validator.is_valid_length? do
+        mark
+      else
+        %Message{}.mark_length |> console.print
+        get_player_marks(player, console)
+      end
     end
   end
 
-  def get_marks(2, console, _console) do
-    player = get_player_marks(console)
-    case player do
-      "X" -> 
-        {%Player{mark: player}, %Computer{mark: "O"}}
-      "x" ->
-        {%Player{mark: player}, %Computer{mark: "o"}}
-      "O" -> 
-        {%Player{mark: player}, %Computer{mark: "X"}}
-      "o" ->
-        {%Player{mark: player}, %Computer{mark: "x"}}
-      _ ->
-        computer = get_random_letter()
-        if computer == player do
-          {%Player{mark: player}, %Computer{mark: get_random_letter()}}
-        else
-          {%Player{mark: player}, %Computer{mark: computer}}
-        end
+  def get_marks(game_type, console \\ Console, console_2 \\ Console)
+
+  def get_marks(_human_vs_human = 1, console, console_2) do
+    player_1 = %Player{mark: get_player_marks(%Message{}.player_1, console)}
+    player_2 = %Player{mark: get_player_marks(%Message{}.player_2, console_2)}
+
+    if Validator.is_already_used?(player_1.mark, player_2.mark) do
+      %Message{}.cannot_match |> console.print
+      get_marks(1, console, console_2)
+    else
+      {player_1, player_2}
     end
+  end
+
+
+  def get_marks(_humav_vs_computer = 2, console, _console) do
+    player = get_player_marks(%Message{}.player_1, console)
+    computer = 
+      case player do
+        "X" -> "O"
+        "x" -> "o"
+        "O" -> "X"
+        "o" -> "x"
+        _ ->
+          potential_mark = get_random_letter()
+          if potential_mark == player, do: get_random_letter(), else: potential_mark
+      end
+      {%Player{mark: player}, %Computer{mark: computer}}
   end
 
   def get_random_letter do
     Enum.random for n <- ?a..?z, do: << n :: utf8 >> |> String.upcase
-  end
-
-  def get_player_marks(console \\ Console) do
-    mark = console.get_player_marks()
-    if Validator.is_blank?(mark) do
-      %Message{}.cannot_be_blank |> console.print
-      get_player_marks()
-    else
-      if Validator.is_valid_length?(mark) do
-        mark
-      else
-        %Message{}.mark_length |> console.print
-        get_player_marks(console)
-      end
-    end
   end
 
   def get_board_size(console \\ Console) do

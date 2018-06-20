@@ -70,17 +70,10 @@ defmodule Game do
   end
 
   def change_turn(game) do
-    game.current_player
     player =
       if game.current_player == game.player_2, do: game.player_1, else: game.player_2
-    update(game, :current_player, player)
+    %{ game | current_player: player}
   end
-
-  def update(game, :current_player, value), do: %{ game | current_player: value}
-  def update(game, :player_1, value), do: %{ game | player_1: value}
-  def update(game, :player_2, value), do: %{ game | player_2: value}
-  def update(game, :winner, value), do: %{ game | winner: value}
-  def update(game, :board, value), do: %{ game | board: value}
 
   def mark_spot(game, space) do
     %{game | board: Board.make_mark(game, space)}

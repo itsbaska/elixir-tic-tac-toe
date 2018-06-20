@@ -57,7 +57,7 @@ defmodule Console do
     String.trim(IO.gets %Message{}.game_type)
   end
 
-  def get_player_marks do
-    String.trim(IO.gets %Message{}.get_player_marks)
+  def get_player_marks(player) do
+    String.trim(IO.gets player <> %Message{}.get_player_marks)
   end
 end

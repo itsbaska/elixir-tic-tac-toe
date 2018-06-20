@@ -5,11 +5,23 @@ defmodule Computer do
     Game.mark_spot(game, get_best_move(game))
   end
 
+  def get_best_move(game, over \\ false, scores \\ [], depth \\ 0)
+  def get_best_move(game, true, _scores, depth), do: hueristic_score(game, depth)    
+  def get_best_move(game, false, _scores, depth) do
+    scores = 
+      Enum.map(game |> Board.available_spaces, fn(space) ->
+        game = Game.mark_spot(game, space) 
+        score = if depth < 4, do: get_best_move(game, Game.over?(game), [], depth + 1)
+        {space, score}
+      end)
+    %player{} = game.current_player
+    if depth == 0, do: best_move(scores), else: minimax_score(player, scores)
+  end
+
   def hueristic_score(game, depth) do
     %player_1{} = game.player_1
     com_player = 
       if player_1 == Computer, do: game.player_1, else: game.player_2
-
     hum_player =
       if player_1 == Player, do: game.player_1, else: game.player_2
     cond do
@@ -35,23 +47,5 @@ defmodule Computer do
     scores 
     |> Enum.max_by(fn({_space, score}) -> score end)
     |> elem(0)
-  end
-
-  def get_best_move(game, over \\ false, scores \\ [], depth \\ 0)
-  
-  def get_best_move(game, true, _scores, depth), do: hueristic_score(game, depth)    
-
-  def get_best_move(game, false, _scores, depth) do
-    available_spaces = game |> Board.available_spaces
-    scores = Enum.map(available_spaces, fn(space) ->
-      game = Game.mark_spot(game, space) 
-      score =
-      if depth < 4 do
-        get_best_move(game, Game.over?(game), [], depth + 1)
-      end
-      {space, score}
-    end)
-    %player{} = game.current_player
-    if depth == 0, do: best_move(scores), else: minimax_score(player, scores)
   end
 end

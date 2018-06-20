@@ -13,9 +13,9 @@ defmodule GameFlow do
     %current_player{} = game.current_player
     case current_player do
       Player ->
-        human_turn(game)
+        game |> get_user_move()
       Computer ->
-        computer_turn(game)
+        game |> Computer.move()
     end
     |> perform_turn(&loop/1)
     end
@@ -54,7 +54,8 @@ defmodule GameFlow do
   end
 
   def restart_game(input, console, configuration, game_flow) when input in ["y", "yes"] do
-    %Message{}.rematch |> console.print
+    %Message{}.rematch
+    |> console.print
     configuration.configure_game()
     |> game_flow.loop()
   end
@@ -64,16 +65,6 @@ defmodule GameFlow do
     |> console.print
     console.play_again
     |> restart_game
-  end
-
-  def human_turn(game) do
-    game 
-    |> get_user_move
-  end
-
-  def computer_turn(game) do
-    game
-    |> Computer.move
   end
 
   def get_user_move(game, console \\ Console) do
@@ -88,11 +79,8 @@ defmodule GameFlow do
           game |> get_user_move
         end
       false ->
-        if game.size == 3 do
-          %Message{}.invalid_number |> console.print
-        else
-          %Message{}.invalid_number_2 |> console.print
-        end
+        if game.size == 3, do: %Message{}.invalid_number_3x3, else: %Message{}.invalid_number_4x4
+        |> console.print
         game |> get_user_move
     end
   end

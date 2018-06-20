@@ -153,7 +153,6 @@ defmodule ComputerTest do
                             "X", 13, 14, 15],
                     over: false,
                     size: 4}
-                    
       assert Computer.get_best_move(game) == 4
     end
   end

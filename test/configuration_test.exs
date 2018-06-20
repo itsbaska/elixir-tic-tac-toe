@@ -23,32 +23,33 @@ defmodule ConfigurationTest do
   describe ".get_player_marks" do
     test "when user enters 'W' as mark" do
       defmodule PickMarkW do
-        def get_player_marks, do: "W"
+        def get_player_marks(_), do: "W"
         def print(_message), do: nil
       end
-      assert Configuration.get_player_marks(PickMarkW) == "W"
+      assert Configuration.get_player_marks("", PickMarkW) == "W"
     end
 
     test "when user enters 'X' as mark" do
       defmodule PickMarkX do
-        def get_player_marks, do: "X"
+        def get_player_marks(_), do: "X"
         def print(_message), do: nil
       end
-      assert Configuration.get_player_marks(PickMarkX) == "X"
+      assert Configuration.get_player_marks("", PickMarkX) == "X"
     end
   end
 
   describe ".get_marks_for_human_vs_computer_game" do
     test "when user enters 'X' as mark" do
       defmodule ComputerPickO do
-        def get_player_marks, do: "X"
+        def get_player_marks(_), do: "X"
         def print(_message), do: nil
       end
       assert Configuration.get_marks(2, ComputerPickO) == {%Player{mark: "X"}, %Computer{mark: "O"}}
     end
+
     test "when user enters 'x' as mark" do
       defmodule ComputerPickO_2 do
-        def get_player_marks, do: "x"
+        def get_player_marks(_), do: "x"
         def print(_message), do: nil
       end
       assert Configuration.get_marks(2, ComputerPickO_2) == {%Player{mark: "x"}, %Computer{mark: "o"}}
@@ -58,11 +59,12 @@ defmodule ConfigurationTest do
   describe ".get_marks_for_human_vs_human_game" do
     test "when user enters the same marks" do
       defmodule HumanPick do
-        def get_player_marks, do: "X"
+        def get_player_marks(_), do: "X"
         def print(_message), do: nil
       end
+      
       defmodule Human2_Pick do
-        def get_player_marks, do: "W"
+        def get_player_marks(_), do: "W"
         def print(_message), do: nil
       end
 
