@@ -225,7 +225,7 @@ defmodule GameTest do
             player_2: %Computer{mark: "O"}}
 
     assert Game.mark_spot(game, 4) == %Game{board: ["O", "X", "O", "O", "X", "X", "X", "O", 8],
-                                            current_player: %Player{mark: "X"},
+                                            current_player: %Computer{mark: "O"},
                                             over: false,
                                             player_1: %Player{mark: "X"},
                                             player_2: %Computer{mark: "O"},

@@ -84,5 +84,6 @@ defmodule Game do
 
   def mark_spot(game, space) do
     %{game | board: Board.make_mark(game, space)}
+    |> change_turn
   end
 end

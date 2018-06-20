@@ -69,13 +69,11 @@ defmodule GameFlow do
   def human_turn(game) do
     game 
     |> get_user_move
-    |> Game.change_turn
   end
 
   def computer_turn(game) do
     game
     |> Computer.move
-    |> Game.change_turn
   end
 
   def get_user_move(game, console \\ Console) do

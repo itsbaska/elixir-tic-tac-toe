@@ -54,7 +54,6 @@ defmodule Computer do
     available_spaces = game |> Board.available_spaces
     scores = Enum.map(available_spaces, fn(space) ->
       game = Game.mark_spot(game, space) 
-      |> Game.change_turn
       score =
       if depth < 4 do
         get_best_move(game, Game.over?(game), [], depth + 1)
