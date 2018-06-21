@@ -27,7 +27,7 @@ defmodule GameFlow do
   end
 
   def win_message(game) do
-    winner = Game.get_winner(game).winner
+    winner = Game.get_winner(game)
     if winner == nil, do: %Message{}.tie, else: winner <> %Message{}.win
   end
 

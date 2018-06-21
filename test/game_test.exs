@@ -6,7 +6,7 @@ defmodule GameTest do
   doctest Game
 
   test "struct" do 
-    assert %Game{} == %Game{player_1: nil, player_2: nil, current_player: nil, winner: nil, over: false, board: []}
+    assert %Game{} == %Game{player_1: nil, player_2: nil, current_player: nil, winner: nil, board: []}
   end
 
   describe "when current user is the player" do
@@ -57,7 +57,7 @@ defmodule GameTest do
               player_1: %Human{mark: "X"},
               player_2: %Human{mark: "O"},
                size: 3}
-      assert Game.get_winner(game).winner() == nil
+      assert Game.get_winner(game) == nil
     end
   end
 
@@ -171,7 +171,7 @@ defmodule GameTest do
             player_2: %Computer{mark: "O"},
             size: 3}
 
-    assert Game.get_winner(game).winner() == "X"
+    assert Game.get_winner(game) == "X"
   end
 
   test "get O winner in rows" do
@@ -183,7 +183,7 @@ defmodule GameTest do
             player_2: %Computer{mark: "O"},
             size: 3}
 
-    assert Game.get_winner(game).winner() == "O"
+    assert Game.get_winner(game) == "O"
   end  
   
   test "get X winner" do
@@ -194,7 +194,7 @@ defmodule GameTest do
             player_1: %Human{mark: "X"},
             player_2: %Computer{mark: "O"},
             size: 3}
-    assert Game.get_winner(game).winner() == "X"
+    assert Game.get_winner(game) == "X"
   end
 
 
@@ -207,7 +207,7 @@ defmodule GameTest do
             player_2: %Computer{mark: "O"},
             size: 3}
 
-    assert Game.get_winner(game).winner() == nil
+    assert Game.get_winner(game) == nil
   end
 
 
@@ -222,7 +222,6 @@ defmodule GameTest do
 
     assert Game.mark_spot(game, 4) == %Game{board: ["O", "X", "O", "O", "X", "X", "X", "O", 8],
                                             current_player: %Computer{mark: "O"},
-                                            over: false,
                                             player_1: %Human{mark: "X"},
                                             player_2: %Computer{mark: "O"},
                                             winner: nil}

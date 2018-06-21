@@ -6,7 +6,6 @@ defmodule Game do
             current_player: nil, 
             winner: nil, 
             board: [],
-            over: false,
             size: nil
 
   defp check_win(line) do
@@ -54,18 +53,14 @@ defmodule Game do
       convert_to_columns(game)
         |> check_line
         |> Enum.find(&(&1)) 
-    winner = diagonals || rows || columns
-    over =
-      if winner == nil, do: false, else: true
-    
-    %{game | winner: winner, over: over} 
+    diagonals || rows || columns
   end
 
   def is_tie?(game), do: Board.available_spaces(game) |> length == 0
 
   def over?(game) do  
     cond do
-      get_winner(game).winner() -> true
+      get_winner(game) -> true
       is_tie?(game) -> true
       true -> false
     end

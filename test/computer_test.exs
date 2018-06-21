@@ -18,7 +18,6 @@ defmodule ComputerTest do
                     board: ["O", "O", "O",
                             3, "O", 5,
                             6, "X", 8],
-                    over: false,
                     size: 3}
       depth = 4
       assert Computer.hueristic_score(game, depth) == 14
@@ -32,7 +31,6 @@ defmodule ComputerTest do
                     board: ["X", "X", "X",
                             3, "O", 5,
                             6, "O", 8],
-                    over: false,
                     size: 3}
       depth = 4
       assert Computer.hueristic_score(game, depth) == -6
@@ -46,7 +44,6 @@ defmodule ComputerTest do
                     board: ["X", "X", "O",
                             "O", "O", "X",
                             "X", "O", "X"],
-                    over: false,
                     size: 3}
       depth = 0
       assert Computer.hueristic_score(game, depth) == 0
@@ -81,7 +78,6 @@ defmodule ComputerTest do
                     board: [0, 1, "X",
                             3, "O", 5,
                             "X", 7, 8],
-                    over: false,
                     size: 3}
                     
       assert Computer.get_best_move(game) == 1
@@ -95,7 +91,6 @@ defmodule ComputerTest do
                     board: ["X", 1, 2,
                             3, "O", 5,
                             6, 7, "X"],
-                    over: false,
                     size: 3}
                     
       assert Computer.get_best_move(game) == 1
@@ -109,7 +104,6 @@ defmodule ComputerTest do
                     board: ["X", 1, 2,
                             3, "X", 5,
                             6, 7, "O"],
-                    over: false,
                     size: 3}
                     
       assert Computer.get_best_move(game) == 2 || 6
@@ -124,7 +118,6 @@ defmodule ComputerTest do
                             4, "O", 6, 7,
                             8, 9, "O", 11,
                             12, 13, 14, 15],
-                    over: false,
                     size: 4}
                     
       assert Computer.get_best_move(game) == 3
@@ -139,7 +132,6 @@ defmodule ComputerTest do
                             "X", "X", "O", "O",
                             8, "O", 10, 11,
                             12, 13, "X", "X"],
-                    over: false,
                     size: 4}
                     
       assert Computer.get_best_move(game) == 12
@@ -154,7 +146,6 @@ defmodule ComputerTest do
                             4, 5, "O", 7,
                             "X", 9, "O", 11,
                             "X", 13, 14, 15],
-                    over: false,
                     size: 4}
       assert Computer.get_best_move(game) == 4
     end

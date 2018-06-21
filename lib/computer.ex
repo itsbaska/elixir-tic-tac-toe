@@ -31,8 +31,8 @@ defmodule Player.Computer do
     hum_player =
       if player_1 == Human, do: game.player_1, else: game.player_2
     cond do
-      Game.get_winner(game).winner() == com_player.mark -> 10 + depth
-      Game.get_winner(game).winner() == hum_player.mark -> -10 + depth
+      Game.get_winner(game) == com_player.mark -> 10 + depth
+      Game.get_winner(game) == hum_player.mark -> -10 + depth
       Game.is_tie?(game) -> 0
     end
   end
