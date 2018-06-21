@@ -1,6 +1,5 @@
 defmodule Console do
 
-
   def print_board(game) do
     board = game.board
     case game.size do 

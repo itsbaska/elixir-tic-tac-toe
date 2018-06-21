@@ -4,12 +4,9 @@ defmodule Player.Computer do
   alias Player.Human, as: Human
   alias Player.Computer, as: Computer
 
-
-  # defimpl GameFlow.Move, for: Player.Computer do
-    def move(game) do
-      Game.mark_spot(game, Player.Computer.get_best_move(game))
-    end
-  # end
+  def move(game) do
+    Game.mark_spot(game, Player.Computer.get_best_move(game))
+  end
 
   def get_best_move(game, over \\ false, scores \\ [], depth \\ 0)
   def get_best_move(game, true, _scores, depth), do: hueristic_score(game, depth)    
@@ -31,9 +28,9 @@ defmodule Player.Computer do
     hum_player =
       if player_1 == Human, do: game.player_1, else: game.player_2
     cond do
-      Game.get_winner(game) == com_player.mark -> 10 + depth
-      Game.get_winner(game) == hum_player.mark -> -10 + depth
-      Game.is_tie?(game) -> 0
+      game |> Game.get_winner == com_player.mark -> 10 + depth
+      game |> Game.get_winner == hum_player.mark -> -10 + depth
+      game |> Game.is_tie? -> 0
     end
   end
 
