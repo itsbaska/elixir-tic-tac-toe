@@ -2,17 +2,50 @@
 
 Unbeatable Tic-Tac-Toe game for the command line.
 
-## User Stories
-* Given that the user is running the application, they should see the game Game.Board.
-* When the user is playing against the computer, the game should result in a computer win or a tie.
-* The user should be able to choose what kind of game they would like to play:
-  - Human VS Human
-  - Human VS Computer
-  - Computer VS Computer
-* The user should be able to choose whether they start first or not.
-* The user should be able to choose to be either 'X' or  'O'.
-* The user should be informed of the game output after each game.
-* The user should be prompted to play the game again after each game.
+You can choose: 
+* Game type:
+  - Human vs Human
+  - Human vs Computer
+* Board size:
+  - 3x3
+  - 4x4
+
+Human vs Human game will require 2 players.
+
+This game utilizes the Minimax algorithm for its AI. Read more on the algorithm [here](https://en.wikipedia.org/wiki/Minimax).
+
+## Getting Started
+
+These instructions will get you a copy of the game up and running on your local machine.
+
+### Prerequisites
+
+```
+elixir: "~> 1.6"
+```
+You can find installation instructions for ELixir [here](https://elixir-lang.org/install.html).
+
+### Installing
+
+To install the game on your computer implement the following in the command line.
+
+```
+git clone git@github.com:itsbaska/elixir-tic-tac-toe.git
+cd elixir-tic-tac-toe
+mix deps.get
+```
+
+To run the game enter
+
+```mix```
+
+## Running the tests
+Elixir uses ExUnit for tests.
+[Documentation for ExUnit](https://hexdocs.pm/ex_unit/ExUnit.html)
+
+```mix test```
 
 
- 
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
