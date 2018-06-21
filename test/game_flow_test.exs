@@ -49,18 +49,18 @@ defmodule GameFlowTest do
     end
   end
 
-  describe ".get_user_move" do
-    test "when user move is 4" do
-      defmodule PickMove do
-        def get_move, do: "4"
-        def print(_message), do: nil
-      end
-      game = %Game{board: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-                  player_1: %Human{mark: "X"},
-                  player_2: %Human{mark: "O"},
-                  current_player: %Human{mark: "X"},
-                  size: 3}
-      assert GameFlow.get_user_move(game, PickMove).board() == [0, 1, 2, 3, "X", 5, 6, 7, 8]
-    end
-  end
+  # describe ".get_user_move" do
+  #   test "when user move is 4" do
+  #     defmodule PickMove do
+  #       def get_move, do: "4"
+  #       def print(_message), do: nil
+  #     end
+  #     game = %Game{board: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+  #                 player_1: %Human{mark: "X"},
+  #                 player_2: %Human{mark: "O"},
+  #                 current_player: %Human{mark: "X"},
+  #                 size: 3}
+  #     assert GameFlow.get_user_move(game, PickMove).board() == [0, 1, 2, 3, "X", 5, 6, 7, 8]
+  #   end
+  # end
 end

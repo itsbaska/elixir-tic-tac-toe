@@ -1,6 +1,4 @@
 defmodule GameFlow do
-  alias Game.Board, as: Board
-
   def start(console \\ Console) do
     %Message{}.welcome 
     |> console.print
@@ -14,13 +12,13 @@ defmodule GameFlow do
     %current_player{} = game.current_player
     case current_player do
       Human ->
-        game |> get_user_move()
+        game |> Player.Human.move()
       Computer ->
-        game |> Player.Computer.move(nil)
+        game |> Player.Computer.move()
     end
     |> perform_turn(&loop/1)
-    end
-    
+  end
+  
   def perform_turn(game, continue_game) do
     if Game.over?(game) do
       game |> Console.print_board
@@ -66,23 +64,5 @@ defmodule GameFlow do
     |> console.print
     console.play_again
     |> restart_game
-  end
-
-  def get_user_move(game, console \\ Console) do
-    move = console.get_move
-    case Validator.is_valid_input?(move, game.size) do
-      true ->
-        space = move |> Integer.parse |> elem(0)
-        if Board.is_available?(game, space) do
-          Player.Human.move(game, space)
-        else
-          %Message{}.spot_taken |> console.print
-          game |> get_user_move
-        end
-      false ->
-        if game.size == 3, do: %Message{}.invalid_number_3x3, else: %Message{}.invalid_number_4x4
-        |> console.print
-        game |> get_user_move
-    end
   end
 end
