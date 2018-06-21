@@ -150,4 +150,27 @@ defmodule ComputerTest do
       assert Computer.get_best_move(game) == 4
     end
   end
+
+  describe "move" do
+    test "move returns the best space for computer to move to along with game" do
+      game = %Game{player_1: %Human{mark: "X"}, 
+                    player_2: %Computer{mark: "O"}, 
+                    current_player: %Computer{mark: "O"}, 
+                    winner: nil, 
+                    board: ["X", 1, "O", 3,
+                            4, 5, "O", 7,
+                            "X", 9, "O", 11,
+                            "X", 13, 14, 15],
+                    size: 4}
+      assert Computer.move(game) ==  %Game{player_1: %Human{mark: "X"}, 
+                                            player_2: %Computer{mark: "O"}, 
+                                            current_player: %Human{mark: "X"}, 
+                                            winner: nil, 
+                                            board: ["X", 1, "O", 3,
+                                                    "O", 5, "O", 7,
+                                                    "X", 9, "O", 11,
+                                                    "X", 13, 14, 15],
+                                            size: 4}
+    end
+  end
 end

@@ -28,4 +28,20 @@ defmodule HumanTest do
             size: 3}
     assert Human.move(game_1, PickMove) == game_2
   end
+
+
+  describe ".get_user_move" do
+    test "when user move is 4" do
+      defmodule PickMove3 do
+        def get_move, do: "4"
+        def print(_message), do: nil
+      end
+      game = %Game{board: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                  player_1: %Human{mark: "X"},
+                  player_2: %Human{mark: "O"},
+                  current_player: %Human{mark: "X"},
+                  size: 3}
+      assert Human.get_user_move(game, PickMove3) == 4
+    end
+  end
 end
