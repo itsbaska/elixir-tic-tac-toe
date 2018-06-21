@@ -12,8 +12,8 @@ defmodule BoardTest do
       game = %Game{board: ["X", 1, "X",
                            "X", "O", 5,
                            "O", "X", 8],
-                    player_1: %Player{mark: "X"}, 
-                    player_2: %Player{mark: "O"}}
+                    player_1: %Human{mark: "X"}, 
+                    player_2: %Human{mark: "O"}}
       assert Board.is_available?(game, 5) == true
     end
 
@@ -21,8 +21,8 @@ defmodule BoardTest do
       game = %Game{board: ["X", 1, "X",
                            "X", "O", 5,
                            "O", "X", 8],
-                  player_1: %Player{mark: "X"},
-                  player_2: %Player{mark: "O"}}
+                  player_1: %Human{mark: "X"},
+                  player_2: %Human{mark: "O"}}
       assert Board.is_available?(game, 6) == false
     end
 
@@ -30,7 +30,7 @@ defmodule BoardTest do
       assert Board.make_mark(%Game{ board: ["X", 1, "X", 
                                             "X", "O", 5,
                                             6, "X", 8],
-                                    current_player: %Player{mark: "O"}}, 6) == ["X", 1, "X",
+                                    current_player: %Human{mark: "O"}}, 6) == ["X", 1, "X",
                                                                                 "X", "O", 5,
                                                                                 "O", "X", 8]
     end
@@ -39,8 +39,8 @@ defmodule BoardTest do
       game = %Game{board: ["X", 1, "X",
                            "X", "O", 5,
                            6, "X", 8],
-                  player_1: %Player{mark: "X"},
-                  player_2: %Player{mark: "O"}}
+                  player_1: %Human{mark: "X"},
+                  player_2: %Human{mark: "O"}}
       assert Board.available_spaces(game) == [1, 5, 6, 8]
     end
 
@@ -48,8 +48,8 @@ defmodule BoardTest do
       game = %Game{board: ["X", 1, "X",
                            "X", "O", 5,
                            6, "X", 8],
-            player_1: %Player{mark: "X"},
-            player_2: %Player{mark: "O"}}
+            player_1: %Human{mark: "X"},
+            player_2: %Human{mark: "O"}}
       assert Board.available_spaces_number(game) == 4
     end
   end
@@ -64,8 +64,8 @@ defmodule BoardTest do
                            "O", 5, "O", "X",
                            8, 9, 10, 11,
                            12, 13, 14, 15],
-                    player_1: %Player{mark: "X"}, 
-                    player_2: %Player{mark: "O"}}
+                    player_1: %Human{mark: "X"}, 
+                    player_2: %Human{mark: "O"}}
       assert Board.is_available?(game, 5) == true
     end
 
@@ -74,8 +74,8 @@ defmodule BoardTest do
                            "O", 5, "O", "X",
                            8, 9, 10, 11,
                            12, 13, 14, 15],
-                    player_1: %Player{mark: "X"}, 
-                    player_2: %Player{mark: "O"}}
+                    player_1: %Human{mark: "X"}, 
+                    player_2: %Human{mark: "O"}}
       assert Board.is_available?(game, 6) == false
     end
 
@@ -84,9 +84,9 @@ defmodule BoardTest do
                            "O", 5, 6, "X",
                            8, 9, 10, 11,
                            12, 13, 14, 15],
-                    player_1: %Player{mark: "X"}, 
-                    player_2: %Player{mark: "O"},
-                    current_player: %Player{mark: "O"}}
+                    player_1: %Human{mark: "X"}, 
+                    player_2: %Human{mark: "O"},
+                    current_player: %Human{mark: "O"}}
       assert Board.make_mark(game, 6) == ["X", 1, "X", "X",
                                           "O", 5, "O", "X",
                                           8, 9, 10, 11,
@@ -98,8 +98,8 @@ defmodule BoardTest do
                            "O", 5, 6, "X",
                            8, 9, 10, 11,
                            12, 13, 14, 15],
-                    player_1: %Player{mark: "X"}, 
-                    player_2: %Player{mark: "O"}}
+                    player_1: %Human{mark: "X"}, 
+                    player_2: %Human{mark: "O"}}
       assert Board.available_spaces(game) == [1, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15]
     end
 
@@ -108,8 +108,8 @@ defmodule BoardTest do
                            "O", 5, 6, "X",
                            8, 9, 10, 11,
                            12, 13, 14, 15],
-      player_1: %Player{mark: "X"}, 
-      player_2: %Player{mark: "O"}}
+      player_1: %Human{mark: "X"}, 
+      player_2: %Human{mark: "O"}}
       assert Board.available_spaces_number(game) == 11
     end
   end

@@ -13,10 +13,10 @@ defmodule GameFlow do
     game |> turn_message
     %current_player{} = game.current_player
     case current_player do
-      Player ->
+      Human ->
         game |> get_user_move()
       Computer ->
-        game |> Computer.move()
+        game |> Player.Computer.move(nil)
     end
     |> perform_turn(&loop/1)
     end
@@ -74,7 +74,7 @@ defmodule GameFlow do
       true ->
         space = move |> Integer.parse |> elem(0)
         if Board.is_available?(game, space) do
-          Player.move(game, space)
+          Player.Human.move(game, space)
         else
           %Message{}.spot_taken |> console.print
           game |> get_user_move

@@ -8,7 +8,7 @@ defmodule ComputerTest do
 
   describe "when game is over" do
     test "return 14 if Computer wins" do
-      game = %Game{player_1: %Player{mark: "X"}, 
+      game = %Game{player_1: %Human{mark: "X"}, 
                     player_2: %Computer{mark: "O"}, 
                     current_player: %Computer{mark: "O"}, 
                     winner: nil, 
@@ -22,9 +22,9 @@ defmodule ComputerTest do
     end
   
     test "return -1 if Human wins" do
-      game = %Game{player_1: %Player{mark: "X"}, 
+      game = %Game{player_1: %Human{mark: "X"}, 
                     player_2: %Computer{mark: "O"}, 
-                    current_player: %Player{mark: "X"}, 
+                    current_player: %Human{mark: "X"}, 
                     winner: nil, 
                     board: ["X", "X", "X",
                             3, "O", 5,
@@ -36,9 +36,9 @@ defmodule ComputerTest do
     end
   
     test "return 0 if tie" do
-      game = %Game{player_1: %Player{mark: "X"}, 
+      game = %Game{player_1: %Human{mark: "X"}, 
                     player_2: %Computer{mark: "O"}, 
-                    current_player: %Player{mark: "X"}, 
+                    current_player: %Human{mark: "X"}, 
                     winner: nil, 
                     board: ["X", "X", "O",
                             "O", "O", "X",
@@ -60,7 +60,7 @@ defmodule ComputerTest do
   describe "when X is winning" do
     test "return the lowest score" do
       best_score = [{0, 1}, {1, -1}, {2, 0}, {3, 0}]
-      assert Computer.minimax_score(Player, best_score) == -1
+      assert Computer.minimax_score(Human, best_score) == -1
     end
   end
 
@@ -71,9 +71,9 @@ defmodule ComputerTest do
 
   describe "when computer makes move" do
     test "get_best_move returns the best space for computer to move to - Scenario 1" do
-      game = %Game{player_1: %Player{mark: "X"}, 
+      game = %Game{player_1: %Human{mark: "X"}, 
                     player_2: %Computer{mark: "O"}, 
-                    current_player: %Player{mark: "X"}, 
+                    current_player: %Human{mark: "X"}, 
                     winner: nil, 
                     board: [0, 1, "X",
                             3, "O", 5,
@@ -85,9 +85,9 @@ defmodule ComputerTest do
     end
   
     test "get_best_move returns the best space for computer to move to - Scenario 2" do
-      game = %Game{player_1: %Player{mark: "X"}, 
+      game = %Game{player_1: %Human{mark: "X"}, 
                     player_2: %Computer{mark: "O"}, 
-                    current_player: %Player{mark: "X"}, 
+                    current_player: %Human{mark: "X"}, 
                     winner: nil, 
                     board: ["X", 1, 2,
                             3, "O", 5,
@@ -99,9 +99,9 @@ defmodule ComputerTest do
     end
   
     test "get_best_move returns the best space for computer to move to - Scenario 3" do
-      game = %Game{player_1: %Player{mark: "X"}, 
+      game = %Game{player_1: %Human{mark: "X"}, 
                     player_2: %Computer{mark: "O"}, 
-                    current_player: %Player{mark: "X"}, 
+                    current_player: %Human{mark: "X"}, 
                     winner: nil, 
                     board: ["X", 1, 2,
                             3, "X", 5,
@@ -113,7 +113,7 @@ defmodule ComputerTest do
     end
 
     test "get_best_move returns the best space for computer to move to - Scenario 4" do
-      game = %Game{player_1: %Player{mark: "X"}, 
+      game = %Game{player_1: %Human{mark: "X"}, 
                     player_2: %Computer{mark: "O"}, 
                     current_player: %Computer{mark: "O"}, 
                     winner: nil, 
@@ -128,7 +128,7 @@ defmodule ComputerTest do
     end
   
     test "get_best_move returns the best space for computer to move to - Scenario 5" do
-      game = %Game{player_1: %Player{mark: "X"}, 
+      game = %Game{player_1: %Human{mark: "X"}, 
                     player_2: %Computer{mark: "O"}, 
                     current_player: %Computer{mark: "O"}, 
                     winner: nil, 
@@ -143,7 +143,7 @@ defmodule ComputerTest do
     end
   
     test "get_best_move returns the best space for computer to move to - Scenario 6" do
-      game = %Game{player_1: %Player{mark: "X"}, 
+      game = %Game{player_1: %Human{mark: "X"}, 
                     player_2: %Computer{mark: "O"}, 
                     current_player: %Computer{mark: "O"}, 
                     winner: nil, 

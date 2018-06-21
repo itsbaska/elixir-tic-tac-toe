@@ -1,7 +1,6 @@
 defmodule Configuration do
   alias Game.Board, as: Board
 
-
   def configure_game do
     {player_1, player_2} = set_players()
     board_size = get_board_size()
@@ -45,8 +44,8 @@ defmodule Configuration do
   def get_marks(game_type, console \\ Console, console_2 \\ Console)
 
   def get_marks(_human_vs_human = 1, console, console_2) do
-    player_1 = %Player{mark: get_player_marks(%Message{}.player_1, console)}
-    player_2 = %Player{mark: get_player_marks(%Message{}.player_2, console_2)}
+    player_1 = %Human{mark: get_player_marks(%Message{}.player_1, console)}
+    player_2 = %Human{mark: get_player_marks(%Message{}.player_2, console_2)}
 
     if Validator.is_already_used?(player_1.mark, player_2.mark) do
       %Message{}.cannot_match |> console.print
@@ -69,7 +68,7 @@ defmodule Configuration do
           potential_mark = get_random_letter()
           if potential_mark == player, do: get_random_letter(), else: potential_mark
       end
-      {%Player{mark: player}, %Computer{mark: computer}}
+      {%Human{mark: player}, %Computer{mark: computer}}
   end
 
   def get_random_letter do

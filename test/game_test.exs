@@ -9,8 +9,8 @@ defmodule GameTest do
   describe "when current user is the player" do
     test "change_turn to computer" do
       game = 
-      %Game{ current_player: %Player{mark: "X"},
-              player_1: %Player{mark: "X"},
+      %Game{ current_player: %Human{mark: "X"},
+              player_1: %Human{mark: "X"},
               player_2: %Computer{mark: "O"}}
       assert Game.change_turn(game).current_player ==  %Computer{mark: "O"}
     end
@@ -18,9 +18,9 @@ defmodule GameTest do
     test "change_turn to player" do
       game = %Game{ 
         current_player: %Computer{mark: "O"},
-        player_1: %Player{mark: "X"},
+        player_1: %Human{mark: "X"},
         player_2: %Computer{mark: "O"}}
-      assert Game.change_turn(game).current_player ==  %Player{mark: "X"}
+      assert Game.change_turn(game).current_player ==  %Human{mark: "X"}
     end
   end
 
@@ -29,7 +29,7 @@ defmodule GameTest do
       game = %Game{
         board: [0, 1, 2, 3, 4, 5, 6, 7, 8],
         current_player: %Computer{mark: "O"},
-        player_1: %Player{mark: "X"},
+        player_1: %Human{mark: "X"},
         player_2: %Computer{mark: "O"},
         size: 3}
       assert Game.over?(game) == false
@@ -40,8 +40,8 @@ defmodule GameTest do
         %Game{board: ["X", 1, "O",
                       3, "X", 5,
                       6, 7, 8],
-              player_1: %Player{mark: "X"}, 
-              player_2: %Player{mark: "O"},
+              player_1: %Human{mark: "X"}, 
+              player_2: %Human{mark: "O"},
               size: 3}
       assert Game.over?(game) == false
     end
@@ -51,8 +51,8 @@ defmodule GameTest do
         %Game{ board: ["X", 1, "O",
                         3, "X", 5,
                         6, 7, 8],
-              player_1: %Player{mark: "X"},
-              player_2: %Player{mark: "O"},
+              player_1: %Human{mark: "X"},
+              player_2: %Human{mark: "O"},
                size: 3}
       assert Game.get_winner(game).winner() == nil
     end
@@ -64,7 +64,7 @@ defmodule GameTest do
         %Game{ board: ["O", "O", "O",
                           "O", "X", "X",
                           "X", "O", "O"], 
-                player_1: %Player{mark: "X"},
+                player_1: %Human{mark: "X"},
                 player_2: %Computer{mark: "O"},
                 size: 3}
       assert Game.over?(game) == true
@@ -74,7 +74,7 @@ defmodule GameTest do
       game = %Game{ board: ["O", "X", "O",
                             "X", "X", "X",
                             "X", "O", "X"], 
-                    player_1: %Player{mark: "X"},
+                    player_1: %Human{mark: "X"},
                     player_2: %Computer{mark: "O"},
                     size: 3}
       assert Game.over?(game) == true
@@ -84,7 +84,7 @@ defmodule GameTest do
       game = %Game{ board: ["X", "O", "O", 
                                  "O", "O", "X", 
                                  "X", "X", "X"], 
-                    player_1: %Player{mark: "X"},
+                    player_1: %Human{mark: "X"},
                     player_2: %Computer{mark: "O"},
                     size: 3}
       assert Game.over?(game) == true
@@ -94,7 +94,7 @@ defmodule GameTest do
       game = %Game{board: ["X", "X", "O", 
                           "X", "O", "X",
                           "X", "O", "X"], 
-                    player_1: %Player{mark: "X"},
+                    player_1: %Human{mark: "X"},
                     player_2: %Computer{mark: "O"},
                     size: 3}
       assert Game.over?(game) == true
@@ -105,7 +105,7 @@ defmodule GameTest do
         %Game{board: ["O", "X", "O", 
                       "X", "X", "X",
                       "O", "X", "X"], 
-              player_1: %Player{mark: "X"},
+              player_1: %Human{mark: "X"},
               player_2: %Computer{mark: "O"},
               size: 3}
       assert Game.over?(game) == true
@@ -116,7 +116,7 @@ defmodule GameTest do
         %Game{board: ["O", "X", "X",
                       "O", "O", "X",
                       "X", "O", "X"], 
-              player_1: %Player{mark: "X"},
+              player_1: %Human{mark: "X"},
               player_2: %Computer{mark: "O"},
               size: 3}
       assert Game.over?(game) == true
@@ -128,7 +128,7 @@ defmodule GameTest do
         %Game{board: ["O", "X", "X",
                       "O", "X", "X",
                       "X", "O", "O"], 
-              player_1: %Player{mark: "X"},
+              player_1: %Human{mark: "X"},
               player_2: %Computer{mark: "O"},
               size: 3}
       assert Game.over?(game) == true
@@ -140,7 +140,7 @@ defmodule GameTest do
         %Game{board: ["X", "O", "X",
                       "O", "X", "O",
                       "X", "O", "X"], 
-              player_1: %Player{mark: "X"},
+              player_1: %Human{mark: "X"},
               player_2: %Computer{mark: "O"},
               size: 3}
       assert Game.over?(game) == true
@@ -152,7 +152,7 @@ defmodule GameTest do
         %Game{board: ["X", "X", "O",
                       "O", "O", "X",
                       "X", "O", "X"], 
-              player_1: %Player{mark: "X"},
+              player_1: %Human{mark: "X"},
               player_2: %Computer{mark: "O"},
               size: 3}
       assert Game.over?(game) == true
@@ -164,7 +164,7 @@ defmodule GameTest do
       %Game{board: ["O", "X", "X",
                     "O", "X", 5,
                     "X", 7, "O"], 
-            player_1: %Player{mark: "X"},
+            player_1: %Human{mark: "X"},
             player_2: %Computer{mark: "O"},
             size: 3}
 
@@ -176,7 +176,7 @@ defmodule GameTest do
       %Game{board: ["O", "O", "O",
                     "O", "X", "X",
                     "X", "O", "O"], 
-            player_1: %Player{mark: "X"},
+            player_1: %Human{mark: "X"},
             player_2: %Computer{mark: "O"},
             size: 3}
 
@@ -188,7 +188,7 @@ defmodule GameTest do
       %Game{board: ["O", "X", "X",
                     "O", "X", "O",
                     "X", "O", "O"], 
-            player_1: %Player{mark: "X"},
+            player_1: %Human{mark: "X"},
             player_2: %Computer{mark: "O"},
             size: 3}
     assert Game.get_winner(game).winner() == "X"
@@ -200,7 +200,7 @@ defmodule GameTest do
       %Game{board: ["O", "X", "O",
                     "O", "O", "X",
                     "X", "O", "X"], 
-            player_1: %Player{mark: "X"},
+            player_1: %Human{mark: "X"},
             player_2: %Computer{mark: "O"},
             size: 3}
 
@@ -213,14 +213,14 @@ defmodule GameTest do
       %Game{ board: ["O", "X", "O",
                     "O", 4, "X",
                     "X", "O", 8],
-            current_player: %Player{mark: "X"},
-            player_1: %Player{mark: "X"},
+            current_player: %Human{mark: "X"},
+            player_1: %Human{mark: "X"},
             player_2: %Computer{mark: "O"}}
 
     assert Game.mark_spot(game, 4) == %Game{board: ["O", "X", "O", "O", "X", "X", "X", "O", 8],
                                             current_player: %Computer{mark: "O"},
                                             over: false,
-                                            player_1: %Player{mark: "X"},
+                                            player_1: %Human{mark: "X"},
                                             player_2: %Computer{mark: "O"},
                                             winner: nil}
   end

@@ -54,11 +54,11 @@ defmodule ConsoleTest do
     test "print 3x3 board" do
       game = 
       %{ %Game{} | 
-        current_player: %Player{mark: "X"}, 
+        current_player: %Human{mark: "X"}, 
         board: [0, 1, 2, 3, "X", 5, 6, 7, 8],
         size: 3 }
       test_output = fn -> 
-        Player.move(game, 4) |> Console.print_board
+        Player.Human.move(game, 4) |> Console.print_board
       end
       assert capture_io(test_output) == """
 
@@ -78,11 +78,11 @@ defmodule ConsoleTest do
     test "print 4x4 board" do
       game = 
         %{ %Game{} | 
-          current_player: %Player{mark: "X"}, 
+          current_player: %Human{mark: "X"}, 
           board: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
           size: 4}
       test_output = fn -> 
-        Player.move(game, 10) |> Console.print_board
+        Player.Human.move(game, 10) |> Console.print_board
       end
       assert capture_io(test_output) == """
      

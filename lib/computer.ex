@@ -2,8 +2,11 @@ defmodule Computer do
   defstruct mark: nil
   alias Game.Board, as: Board
 
-  def move(game) do
-    Game.mark_spot(game, get_best_move(game))
+  
+  defimpl Player, for: Computer do
+    def move(game, _) do
+      Game.mark_spot(game, Computer.get_best_move(game))
+    end
   end
 
   def get_best_move(game, over \\ false, scores \\ [], depth \\ 0)
@@ -24,7 +27,7 @@ defmodule Computer do
     com_player = 
       if player_1 == Computer, do: game.player_1, else: game.player_2
     hum_player =
-      if player_1 == Player, do: game.player_1, else: game.player_2
+      if player_1 == Human, do: game.player_1, else: game.player_2
     cond do
       Game.get_winner(game).winner() == com_player.mark -> 10 + depth
       Game.get_winner(game).winner() == hum_player.mark -> -10 + depth
@@ -38,7 +41,7 @@ defmodule Computer do
     |> elem(1)
   end
 
-  def minimax_score(Player, scores) do
+  def minimax_score(Human, scores) do
     scores
     |> Enum.min_by(fn({_space, score}) -> score end) 
     |> elem(1)
