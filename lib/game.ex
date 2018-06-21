@@ -1,4 +1,6 @@
 defmodule Game do
+  alias Game.Board, as: Board
+
   defstruct player_1: nil, 
             player_2: nil, 
             current_player: nil, 

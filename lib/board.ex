@@ -1,4 +1,4 @@
-defmodule Board do
+defmodule Game.Board do
   def create(size) do
     last_board_space = (size * size) - 1
     0..last_board_space |> Enum.to_list

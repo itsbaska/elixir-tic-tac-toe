@@ -1,5 +1,6 @@
 defmodule Computer do
   defstruct mark: nil
+  alias Game.Board, as: Board
 
   def move(game) do
     Game.mark_spot(game, get_best_move(game))

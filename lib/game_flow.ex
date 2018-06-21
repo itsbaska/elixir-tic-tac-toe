@@ -1,4 +1,5 @@
 defmodule GameFlow do
+  alias Game.Board, as: Board
 
   def start(console \\ Console) do
     %Message{}.welcome 

@@ -3,7 +3,7 @@
 Unbeatable Tic-Tac-Toe game for the command line.
 
 ## User Stories
-* Given that the user is running the application, they should see the game board.
+* Given that the user is running the application, they should see the game Game.Board.
 * When the user is playing against the computer, the game should result in a computer win or a tie.
 * The user should be able to choose what kind of game they would like to play:
   - Human VS Human
