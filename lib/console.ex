@@ -37,9 +37,6 @@ defmodule Console do
     end
   end
 
-  # def print_board(board) do
-  # end
-
   def print(message) do
     IO.write message
   end
@@ -58,5 +55,9 @@ defmodule Console do
 
   def get_game_type do
     String.trim(IO.gets %Message{}.game_type)
+  end
+
+  def get_player_marks(player) do
+    String.trim(IO.gets player <> %Message{}.get_player_marks)
   end
 end

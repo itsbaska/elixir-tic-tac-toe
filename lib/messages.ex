@@ -8,10 +8,23 @@ defmodule Message do
                 1) 3x3
                 2) 4x4
                 """,
+            player_1: "Player 1 ~ ",
+            player_2: "Player 2 ~ ",
+            cannot_match: """
+                Marks cannot be the same. Player 2, please choose a different mark.
+
+                """,
+            cannot_be_blank: """
+                Marks cannot be blank. Please enter a mark.
+                
+                """,
             game_type: """
                 Select game type:
                 1) Human VS Human
                 2) Human VS Computer
+                """,
+            get_player_marks: """
+                Please select a single letter, number, or symbol to be your mark.
                 """,
             instructions: """
                 Instructions:
@@ -19,13 +32,20 @@ defmodule Message do
                 The first to get three marks in a row will win the game.
                 
                 """,
-            invalid_number: """
+            invalid_number_3x3: """
                 Please enter a number between 0-8.
+                """,
+            invalid_number_4x4: """
+                Please enter a number between 0-15.
                 """,
             invalid: """
                 I didn't quite get that...
                 Please try again.
 
+                """,
+            mark_length: """
+                Mark cannot be more than 1 character long.
+                Please try again.
                 """,
 
             spot_taken: """

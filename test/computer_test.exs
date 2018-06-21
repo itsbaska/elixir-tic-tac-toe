@@ -81,7 +81,7 @@ defmodule ComputerTest do
                     over: false,
                     size: 3}
                     
-      assert Computer.get_best_move(game, game.player_2) == 1
+      assert Computer.get_best_move(game) == 1
     end
   
     test "get_best_move returns the best space for computer to move to - Scenario 2" do
@@ -95,7 +95,7 @@ defmodule ComputerTest do
                     over: false,
                     size: 3}
                     
-      assert Computer.get_best_move(game, game.player_2) == 1
+      assert Computer.get_best_move(game) == 1
     end
   
     test "get_best_move returns the best space for computer to move to - Scenario 3" do
@@ -109,7 +109,7 @@ defmodule ComputerTest do
                     over: false,
                     size: 3}
                     
-      assert Computer.get_best_move(game, game.player_2) == 2 || 6
+      assert Computer.get_best_move(game) == 2 || 6
     end
 
     test "get_best_move returns the best space for computer to move to - Scenario 4" do
@@ -124,7 +124,7 @@ defmodule ComputerTest do
                     over: false,
                     size: 4}
                     
-      assert Computer.get_best_move(game, game.player_2) == 3
+      assert Computer.get_best_move(game) == 3
     end
   
     test "get_best_move returns the best space for computer to move to - Scenario 5" do
@@ -139,7 +139,7 @@ defmodule ComputerTest do
                     over: false,
                     size: 4}
                     
-      assert Computer.get_best_move(game, game.player_2) == 12
+      assert Computer.get_best_move(game) == 12
     end
   
     test "get_best_move returns the best space for computer to move to - Scenario 6" do
@@ -153,8 +153,7 @@ defmodule ComputerTest do
                             "X", 13, 14, 15],
                     over: false,
                     size: 4}
-                    
-      assert Computer.get_best_move(game, game.player_2) == 4
+      assert Computer.get_best_move(game) == 4
     end
   end
 end

@@ -130,4 +130,11 @@ defmodule ConsoleTest do
                                         """
     end
   end
+
+  test "#get_player_mark" do
+    test_output = fn -> Console.print(%Message{}.get_player_marks)end
+    assert capture_io(test_output) == """
+                                      Please select a single letter, number, or symbol to be your mark.
+                                      """
+  end
 end
