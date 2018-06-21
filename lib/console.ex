@@ -35,6 +35,7 @@ defmodule Console do
         
         """
     end
+    game
   end
 
   def print(message) do

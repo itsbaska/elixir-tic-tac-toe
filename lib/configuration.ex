@@ -1,5 +1,7 @@
 defmodule Configuration do
   alias Game.Board, as: Board
+  alias Player.Human, as: Human
+  alias Player.Computer, as: Computer
 
   def configure_game do
     {player_1, player_2} = set_players()

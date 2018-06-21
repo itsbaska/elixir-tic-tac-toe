@@ -1,5 +1,8 @@
 defmodule GameTest do
   use ExUnit.Case
+  alias Player.Human, as: Human
+  alias Player.Computer, as: Computer
+
   doctest Game
 
   test "struct" do 

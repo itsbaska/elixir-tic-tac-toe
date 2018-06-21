@@ -1,11 +1,9 @@
-defmodule Human do
-  defstruct mark: nil
+defmodule Player.Human do
+  defstruct Player.fields
   alias Game.Board, as: Board
 
-  defimpl Player, for: Human do
-    def move(game, console \\ Console) do
-      Game.mark_spot(game, Human.get_user_move(game, console))
-    end
+  def move(game, console \\ Console) do
+    Game.mark_spot(game, Player.Human.get_user_move(game, console))
   end
 
   def get_user_move(game, console \\ Console) do

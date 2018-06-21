@@ -1,12 +1,15 @@
-defmodule Computer do
-  defstruct mark: nil
+defmodule Player.Computer do
+  defstruct Player.fields
   alias Game.Board, as: Board
+  alias Player.Human, as: Human
+  alias Player.Computer, as: Computer
 
-  defimpl Player, for: Computer do
+
+  # defimpl GameFlow.Move, for: Player.Computer do
     def move(game) do
-      Game.mark_spot(game, Computer.get_best_move(game))
+      Game.mark_spot(game, Player.Computer.get_best_move(game))
     end
-  end
+  # end
 
   def get_best_move(game, over \\ false, scores \\ [], depth \\ 0)
   def get_best_move(game, true, _scores, depth), do: hueristic_score(game, depth)    

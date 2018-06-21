@@ -1,4 +1,6 @@
 defmodule GameFlow do
+  alias Player.Computer, as: Computer
+
   def start(console \\ Console) do
     %Message{}.welcome 
     |> console.print
@@ -7,15 +9,10 @@ defmodule GameFlow do
   end
   
   def loop(game) do
-    game |> Console.print_board
-    game |> turn_message
-    %current_player{} = game.current_player
-    case current_player do
-      Human ->
-        game |> Player.Human.move()
-      Computer ->
-        game |> Player.Computer.move()
-    end
+    game 
+    |> Console.print_board
+    |> turn_message
+    |> GameFlow.Move.move()
     |> perform_turn(&loop/1)
   end
   
@@ -45,6 +42,7 @@ defmodule GameFlow do
         %Message{}.player_2_turn
     end
     |> Console.print
+    game
   end
 
   def restart_game(input, console \\ Console, configuration \\ Configuration, game_flow \\ GameFlow)
@@ -65,4 +63,8 @@ defmodule GameFlow do
     console.play_again
     |> restart_game
   end
+end
+
+defprotocol GameFlow.Move do
+  def move(game)
 end

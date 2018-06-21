@@ -1,6 +1,10 @@
 defmodule ConfigurationTest do
   use ExUnit.Case
+  alias Player.Human, as: Human
+  alias Player.Computer, as: Computer
+
   doctest Configuration
+
 
   describe ".get_board_size" do
     test "when the user picks option 1, the game board size is 3x3" do

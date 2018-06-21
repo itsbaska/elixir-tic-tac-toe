@@ -1,6 +1,7 @@
 defmodule ConsoleTest do
   use ExUnit.Case
   import ExUnit.CaptureIO
+  alias Player.Human, as: Human
 
   doctest Console
 
@@ -8,7 +9,7 @@ defmodule ConsoleTest do
     test "print 3x3 board" do
       game = %Game{board: [0, 1, 2, 3, 4, 5, 6, 7, 8], size: 3}
       test_output = fn -> 
-        Console.print_board(game)
+        game |> Console.print_board
       end
       assert capture_io(test_output) == """
      
@@ -28,7 +29,7 @@ defmodule ConsoleTest do
     test "print 4x4 board" do
       game = %Game{board: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], size: 4}
       test_output = fn -> 
-        Console.print_board(game)
+        game |> Console.print_board
       end
       assert capture_io(test_output) == """
      

@@ -8,7 +8,7 @@ defmodule Game do
             board: [],
             over: false,
             size: nil
-            
+
   defp check_win(line) do
     possible_winner = line |> Enum.dedup
     if possible_winner |> length > 1, do: nil, else: possible_winner |> List.first

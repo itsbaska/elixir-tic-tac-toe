@@ -1,6 +1,9 @@
 defmodule ComputerTest do
   use ExUnit.Case
-  doctest Computer
+  doctest Player.Computer
+  alias Player.Computer, as: Computer
+  alias Player.Human, as: Human
+
 
   test "player struct" do
     assert %Computer{} === %Computer{mark: nil}

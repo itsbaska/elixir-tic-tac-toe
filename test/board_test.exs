@@ -1,6 +1,7 @@
 defmodule BoardTest do
   use ExUnit.Case
   alias Game.Board, as: Board
+  alias Player.Human, as: Human
 
   doctest Board
   describe "When the game board is 3x3" do

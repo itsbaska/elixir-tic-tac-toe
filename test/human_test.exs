@@ -1,7 +1,8 @@
 defmodule HumanTest do
   use ExUnit.Case
+  alias Player.Human, as: Human
 
-  doctest Human
+  doctest Player.Human
 
   test "player struct" do
     assert %Human{} === %Human{mark: nil}
@@ -25,6 +26,6 @@ defmodule HumanTest do
             player_1: %Human{mark: "X"},
             player_2: %Human{mark: "O"},
             size: 3}
-    assert Player.Human.move(game_1, PickMove) == game_2
+    assert Human.move(game_1, PickMove) == game_2
   end
 end
