@@ -5,22 +5,57 @@ defmodule ConfigurationTest do
 
   doctest Configuration
 
+  describe "configure_game" do
+    test "configure_game" do
+      defmodule FakeSetup do
+        def set_players, do:  {%Player.Human{mark: "x"}, %Player.Human{mark: "o"}}
+        def get_board_size, do: 3
+      end
+      assert Configuration.configure_game(FakeSetup) == %Game{board: [0, 1, 2, 3, 4, 5, 6, 7, 8], 
+                                                      size: 3,
+                                                      player_1: %Player.Human{mark: "x"},
+                                                      player_2: %Player.Human{mark: "o"},
+                                                      current_player: %Player.Human{mark: "x"}}
+    end
+  end
 
-  describe ".get_board_size" do
-    test "when the user picks option 1, the game board size is 3x3" do
-      defmodule PicksOptionOne do
-        def get_board_size, do: "1"
+
+  describe ".set_players" do
+    test "when the user picks option 1, the game type is human_vs_human" do
+      defmodule PicksOptionOne_HumVSHum do
+        def get_player_marks(_), do: "x"
+        def get_game_type, do: "1"
         def print(_message), do: nil
       end
-      assert Configuration.get_board_size(PicksOptionOne) == 3
+
+      defmodule PicksOptionOne_HumVSHum2 do
+        def get_player_marks(_), do: "o"
+        def get_game_type, do: "1"
+        def print(_message), do: nil
+
+      end
+      assert Configuration.set_players(PicksOptionOne_HumVSHum, PicksOptionOne_HumVSHum2) == {%Player.Human{mark: "x"}, %Player.Human{mark: "o"}}
     end
 
-    test "when the user picks option 2, the game board size is 4x4" do
-      defmodule PicksOptionTwo do
-        def get_board_size, do: "2"
+    test "when the user picks option 2, the game type is human_vs_computer" do
+      defmodule PicksOptionTwo_HumVSCom do
+        def get_player_marks(_), do: "x"
+        def get_game_type, do: "2"
         def print(_message), do: nil
       end
-      assert Configuration.get_board_size(PicksOptionTwo) == 4
+      assert Configuration.set_players(PicksOptionTwo_HumVSCom, PicksOptionOne_HumVSHum2) == {%Player.Human{mark: "x"}, %Player.Computer{mark: "o"}}
+    end
+
+    test "when the user picks invalid option" do
+      defmodule PicksInvalidOption do
+        def get_game_type, do: "3"
+        def print(_message), do: nil
+      end
+
+      defmodule TestCall_3 do
+        def test_call(_, _), do: :was_called
+      end 
+      assert Configuration.set_players(PicksInvalidOption, PicksOptionOne_HumVSHum2, &TestCall_3.test_call/2) == :was_called
     end
   end
 
@@ -39,6 +74,18 @@ defmodule ConfigurationTest do
         def print(_message), do: nil
       end
       assert Configuration.get_player_marks("", PickMarkX) == "X"
+    end
+
+    test "when there is infinit loop" do
+      defmodule PickBlank do
+        def get_player_marks(_), do: ""
+        def print(_message), do: nil
+      end
+
+      defmodule TestCall_1 do
+        def test_call(_, _), do: :was_called
+      end 
+      assert Configuration.get_player_marks("", PickBlank, &TestCall_1.test_call/2) == :was_called
     end
   end
 
@@ -73,6 +120,42 @@ defmodule ConfigurationTest do
       end
 
       assert Configuration.get_marks(1, HumanPick, Human2_Pick) == {%Human{mark: "X"}, %Human{mark: "W"}}
+    end
+  end
+
+  describe ".get_random_letter" do
+    test "random letter with upcase" do
+      assert String.match?(Configuration.get_random_letter, ~r/[A-Z]/)
+    end
+  end
+
+  describe ".get_board_size" do
+    test "when the user picks option 1, the game board size is 3x3" do
+      defmodule PicksOptionOne do
+        def get_board_size, do: "1"
+        def print(_message), do: nil
+      end
+      assert Configuration.get_board_size(PicksOptionOne) == 3
+    end
+
+    test "when the user picks option 2, the game board size is 4x4" do
+      defmodule PicksOptionTwo do
+        def get_board_size, do: "2"
+        def print(_message), do: nil
+      end
+      assert Configuration.get_board_size(PicksOptionTwo) == 4
+    end
+
+    test "when the user picks invalid option" do
+      defmodule PicksInvalidGameTypeOption do
+        def get_board_size, do: "3"
+        def print(_message), do: nil
+      end
+
+      defmodule TestCall_2 do
+        def test_call(_), do: :was_called
+      end 
+      assert Configuration.get_board_size(PicksInvalidGameTypeOption, &TestCall_2.test_call/1) == :was_called
     end
   end
 end

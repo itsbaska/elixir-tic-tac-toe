@@ -3,9 +3,9 @@ defmodule Configuration do
   alias Player.Human, as: Human
   alias Player.Computer, as: Computer
 
-  def configure_game do
-    {player_1, player_2} = set_players()
-    board_size = get_board_size()
+  def configure_game(setup \\ Configuration) do
+    {player_1, player_2} = setup.set_players()
+    board_size = setup.get_board_size()
     %Game{board: Board.create(board_size), 
           size: board_size,
           player_1: player_1,
@@ -13,32 +13,32 @@ defmodule Configuration do
           current_player: player_1}
   end
 
-  def set_players(console \\ Console) do
+  def set_players(console \\ Console, console2 \\ Console, on_invalid_input \\ &set_players/3) do
     game_type_input = console.get_game_type
     if game_type_input |> Validator.is_valid_option? do
       game_type_input 
       |> Integer.parse 
       |> elem(0) 
-      |> get_marks()
+      |> get_marks(console, console2)
     else
       %Message{}.invalid |> console.print
-      set_players()
+      on_invalid_input.(console, console2)
     end
   end
   
-  def get_player_marks(player, console \\ Console) do
+  def get_player_marks(player, console \\ Console, on_invalid_input \\ &get_player_marks/3) do
     mark = player |> console.get_player_marks
     if mark |> Validator.is_blank? do
       %Message{}.cannot_be_blank
       |> console.print
       player
-      |> get_player_marks
+      |> on_invalid_input.(console)
     else
       if mark |> Validator.is_valid_length? do
         mark
       else
         %Message{}.mark_length |> console.print
-        get_player_marks(player, console)
+        on_invalid_input.(player, console)
       end
     end
   end
@@ -77,7 +77,7 @@ defmodule Configuration do
     Enum.random for n <- ?a..?z, do: << n :: utf8 >> |> String.upcase
   end
 
-  def get_board_size(console \\ Console) do
+  def get_board_size(console \\ Console, on_invalid_input \\ &get_board_size/1 ) do
     board_size_input = console.get_board_size
     if board_size_input |> Validator.is_valid_option? do
       case board_size_input do
@@ -86,7 +86,7 @@ defmodule Configuration do
       end
     else
       %Message{}.invalid |> console.print
-      get_board_size()
+      on_invalid_input.(console)
     end
   end
 end
