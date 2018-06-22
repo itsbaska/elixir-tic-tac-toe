@@ -136,4 +136,30 @@ defmodule ConsoleTest do
                                       Please select a single letter, number, or symbol to be your mark.
                                       """
   end
+
+  test "#play_again" do
+    test_output = fn -> Console.play_again() |> IO.write end
+    assert capture_io("yes", test_output) == "Would you like to play again? Yes or No?\n\nyes"
+  end
+
+  test "#get_move" do
+    test_output = fn -> Console.get_move() |> IO.write end
+    assert capture_io("yes", test_output) == "Please enter your move >\nyes"
+  end
+
+  test "#get_board_size" do
+    test_output = fn -> Console.get_board_size() |> IO.write end
+    assert capture_io("1", test_output) == "Select the game board size:\n1) 3x3\n2) 4x4\n1"
+  end
+
+  test "#get_game_type" do
+    test_output = fn -> Console.get_game_type() |> IO.write end
+    assert capture_io("1", test_output) == "Select game type:\n1) Human VS Human\n2) Human VS Computer\n1"
+  end
+
+  test "#get_player_marks" do
+    test_output = fn -> Console.get_player_marks("Player 1 ~") |> IO.write end
+    assert capture_io("x", test_output) == "Player 1 ~Please select a single letter, number, or symbol to be your mark.\nx"
+  end
+  
 end
