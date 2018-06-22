@@ -162,4 +162,73 @@ defmodule ConsoleTest do
     assert capture_io("x", test_output) == "Player 1 ~Please select a single letter, number, or symbol to be your mark.\nx"
   end
   
+  describe ".win_message" do
+    test "when game is a tie" do
+      game = %Game{board: ["x", "x", "o", "o", "o", "x", "x", "o", "x"], 
+                    size: 3,
+                    player_1: %Player.Human{mark: "x"},
+                    player_2: %Player.Human{mark: "o"},
+                    current_player: %Player.Human{mark: "x"}}
+      assert Console.win_message(game) == "It's a Tie!!!\n"
+    end
+
+    test "when x is winner" do
+      game = %Game{board: ["x", "x", "o", "o", "o", "x", "o", "o", "o"], 
+                    size: 3,
+                    player_1: %Player.Human{mark: "x"},
+                    player_2: %Player.Human{mark: "o"},
+                    current_player: %Player.Human{mark: "x"}}
+      assert Console.win_message(game) == "o, is winner!!!\n\n"
+    end
+  end
+
+  describe ".turn_message" do
+    test "when Computer is current player" do
+      game = %Game{board: ["x", "x", "o", "o", "o", "x", "o", "o", "o"], 
+                    size: 3,
+                    player_1: %Player.Human{mark: "x"},
+                    player_2: %Player.Computer{mark: "o"},
+                    current_player: %Player.Computer{mark: "x"}}
+
+      test_output = fn -> 
+        game |> Console.turn_message
+      end
+      assert capture_io(test_output) == """
+                                        Computers turn...
+                                        """
+     
+    end
+
+    test "when Human Player 1 is current player" do
+      game = %Game{board: ["x", "x", "o", "o", "o", "x", "o", "o", "o"], 
+                    size: 3,
+                    player_1: %Player.Human{mark: "x"},
+                    player_2: %Player.Human{mark: "o"},
+                    current_player: %Player.Human{mark: "x"}}
+
+      test_output = fn -> 
+        game |> Console.turn_message
+      end
+      assert capture_io(test_output) == """
+                                        Player 1 turn...
+                                        """
+     
+    end
+
+    test "when Human Player 2 is current player" do
+      game = %Game{board: ["x", "x", "o", "o", "o", "x", "o", "o", "o"], 
+                    size: 3,
+                    player_1: %Player.Human{mark: "x"},
+                    player_2: %Player.Human{mark: "o"},
+                    current_player: %Player.Human{mark: "o"}}
+
+      test_output = fn -> 
+        game |> Console.turn_message
+      end
+      assert capture_io(test_output) == """
+                                        Player 2 turn...
+                                        """
+     
+    end
+  end
 end

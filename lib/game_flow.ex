@@ -1,5 +1,4 @@
 defmodule GameFlow do
-  alias Player.Computer, as: Computer
 
   def start(console \\ Console) do
     %Message{}.welcome 
@@ -9,40 +8,20 @@ defmodule GameFlow do
   end
   
   def loop(game) do
-    game 
-    |> Console.print_board
-    |> turn_message
-    |> GameFlow.Move.move()
+    game |> Console.print_board
+    game |> Console.turn_message
+    game |> GameFlow.Move.move()
     |> perform_turn(&loop/1)
   end
   
   def perform_turn(game, continue_game) do
     if Game.over?(game) do
       game |> Console.print_board
-      %Message{}.game_over <> win_message(game) |> Console.print
+      %Message{}.game_over <> Console.win_message(game) |> Console.print
       Console.play_again |> restart_game
     else 
       continue_game.(game) 
     end
-  end
-
-  def win_message(game) do
-    winner = Game.get_winner(game)
-    if winner == nil, do: %Message{}.tie, else: winner <> %Message{}.win
-  end
-
-  def turn_message(game) do
-    %current_player{} = game.current_player
-    cond do
-      current_player == Computer -> 
-        %Message{}.computer_turn
-      game.current_player == game.player_1 ->
-        %Message{}.player_1_turn
-      game.current_player == game.player_2 ->
-        %Message{}.player_2_turn
-    end
-    |> Console.print
-    game
   end
 
   def restart_game(input, console \\ Console, configuration \\ Configuration, game_flow \\ GameFlow)

@@ -34,7 +34,6 @@ defmodule Console do
         
         """
     end
-    game
   end
 
   def print(message) do
@@ -59,5 +58,23 @@ defmodule Console do
 
   def get_player_marks(player) do
     String.trim(IO.gets player <> %Message{}.get_player_marks)
+  end
+
+  def win_message(game) do
+    winner = Game.get_winner(game)
+    if winner == nil, do: %Message{}.tie, else: winner <> %Message{}.win
+  end
+
+  def turn_message(game) do
+    %current_player{} = game.current_player
+    cond do
+      current_player == Player.Computer -> 
+        %Message{}.computer_turn
+      game.current_player == game.player_1 ->
+        %Message{}.player_1_turn
+      game.current_player == game.player_2 ->
+        %Message{}.player_2_turn
+    end
+    |> Console.print()
   end
 end
