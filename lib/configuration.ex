@@ -43,22 +43,22 @@ defmodule Configuration do
     end
   end
 
-  def get_marks(game_type, console \\ Console, console_2 \\ Console)
+  def get_marks(game_type, console \\ Console, console_2 \\ Console, on_invalid_input \\ &get_marks/3)
 
-  def get_marks(_human_vs_human = 1, console, console_2) do
+  def get_marks(_human_vs_human = 1, console, console_2, on_invalid_input) do
     player_1 = %Human{mark: get_player_marks(%Message{}.player_1, console)}
     player_2 = %Human{mark: get_player_marks(%Message{}.player_2, console_2)}
 
     if Validator.is_already_used?(player_1.mark, player_2.mark) do
       %Message{}.cannot_match |> console.print
-      get_marks(1, console, console_2)
+      on_invalid_input.(1, console, console_2)
     else
       {player_1, player_2}
     end
   end
 
 
-  def get_marks(_humav_vs_computer = 2, console, _console) do
+  def get_marks(_humav_vs_computer = 2, console, _console, _on_invalid_input) do
     player = get_player_marks(%Message{}.player_1, console)
     computer = 
       case player do
