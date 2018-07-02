@@ -4,7 +4,6 @@ defmodule Game do
   defstruct player_1: nil, 
             player_2: nil, 
             current_player: nil, 
-            winner: nil, 
             board: [],
             size: nil
 

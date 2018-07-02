@@ -6,7 +6,7 @@ defmodule GameTest do
   doctest Game
 
   test "struct" do 
-    assert %Game{} == %Game{player_1: nil, player_2: nil, current_player: nil, winner: nil, board: []}
+    assert %Game{} == %Game{player_1: nil, player_2: nil, current_player: nil, board: []}
   end
 
   describe "when current user is the player" do
@@ -223,7 +223,6 @@ defmodule GameTest do
     assert Game.mark_spot(4, game) == %Game{board: ["O", "X", "O", "O", "X", "X", "X", "O", 8],
                                             current_player: %Human{mark: "X"},
                                             player_1: %Human{mark: "X"},
-                                            player_2: %Computer{mark: "O"},
-                                            winner: nil}
+                                            player_2: %Computer{mark: "O"}}
   end
 end
