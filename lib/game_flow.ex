@@ -8,8 +8,11 @@ defmodule GameFlow do
   end
   
   def loop(game) do
-    game |> Console.print_board
-    game |> Message.turn |> Console.print()
+    game 
+    |> Console.print_board
+    game 
+    |> Message.turn 
+    |> Console.print()
     game.current_player 
     |> Player.Move.move(game) 
     |> Game.mark_spot(game)
@@ -20,7 +23,7 @@ defmodule GameFlow do
   def perform_turn(game, continue_game) do
     if Game.over?(game) do
       game |> Console.print_board
-      %Message{}.game_over <> Console.win_message(game) |> Console.print
+      Message.result(game) |> Console.print
       Console.play_again |> restart_game
     else 
       continue_game.(game) 

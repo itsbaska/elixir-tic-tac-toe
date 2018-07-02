@@ -161,24 +161,4 @@ defmodule ConsoleTest do
     test_output = fn -> Console.get_player_marks("Player 1 ~") |> IO.write end
     assert capture_io("x", test_output) == "Player 1 ~Please select a single letter, number, or symbol to be your mark.\nx"
   end
-  
-  describe ".win_message" do
-    test "when game is a tie" do
-      game = %Game{board: ["x", "x", "o", "o", "o", "x", "x", "o", "x"], 
-                    size: 3,
-                    player_1: %Player.Human{mark: "x"},
-                    player_2: %Player.Human{mark: "o"},
-                    current_player: %Player.Human{mark: "x"}}
-      assert Console.win_message(game) == "It's a Tie!!!\n"
-    end
-
-    test "when x is winner" do
-      game = %Game{board: ["x", "x", "o", "o", "o", "x", "o", "o", "o"], 
-                    size: 3,
-                    player_1: %Player.Human{mark: "x"},
-                    player_2: %Player.Human{mark: "o"},
-                    current_player: %Player.Human{mark: "x"}}
-      assert Console.win_message(game) == "o, is winner!!!\n\n"
-    end
-  end
 end

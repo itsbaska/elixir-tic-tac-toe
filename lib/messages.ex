@@ -60,17 +60,14 @@ defmodule Message do
               It's a Tie!!!
               """,
             game_over: """
-              -----  GAME OVER  -----
-
+              ----------
+              GAME OVER
               """,
-
             good_bye: """
               Bye bye ~
               """,
-
             rematch: """
               Rematch!
-
               """,
             computer_turn: """
               Computers turn...
@@ -91,12 +88,17 @@ defmodule Message do
   def turn(game) do
     %current_player{} = game.current_player
     cond do
-    current_player == Player.Computer -> 
-        %Message{}.computer_turn
-    game.current_player == game.player_1 ->
-        %Message{}.player_1_turn
-    game.current_player == game.player_2 ->
-        %Message{}.player_2_turn
+      current_player == Player.Computer -> 
+          %Message{}.computer_turn
+      game.current_player == game.player_1 ->
+          %Message{}.player_1_turn
+      game.current_player == game.player_2 ->
+          %Message{}.player_2_turn
     end
+  end
+
+  def result(game) do
+    winner = Game.get_winner(game)
+    if winner == nil, do: %Message{}.game_over <> %Message{}.tie, else: %Message{}.game_over <> winner <> %Message{}.win
   end
 end

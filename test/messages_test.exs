@@ -1,6 +1,5 @@
 defmodule MessageTest do
   use ExUnit.Case
-  alias Player.Human, as: Human
 
   doctest Message
 
@@ -35,6 +34,26 @@ defmodule MessageTest do
                     current_player: %Player.Human{mark: "o"}}
 
       assert game |> Message.turn == "Player 2 turn...\n"
+    end
+  end
+
+  describe ".win_message" do
+    test "when game is a tie" do
+      game = %Game{board: ["x", "x", "o", "o", "o", "x", "x", "o", "x"], 
+                    size: 3,
+                    player_1: %Player.Human{mark: "x"},
+                    player_2: %Player.Human{mark: "o"},
+                    current_player: %Player.Human{mark: "x"}}
+      assert Message.result(game) == "----------\nGAME OVER\nIt's a Tie!!!\n"
+    end
+
+    test "when x is winner" do
+      game = %Game{board: ["x", "x", "o", "o", "o", "x", "o", "o", "o"], 
+                    size: 3,
+                    player_1: %Player.Human{mark: "x"},
+                    player_2: %Player.Human{mark: "o"},
+                    current_player: %Player.Human{mark: "x"}}
+      assert Message.result(game) == "----------\nGAME OVER\no, is winner!!!\n\n"
     end
   end
 end

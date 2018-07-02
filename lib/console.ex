@@ -60,8 +60,4 @@ defmodule Console do
     String.trim(IO.gets player <> %Message{}.get_player_marks)
   end
 
-  def win_message(game) do
-    winner = Game.get_winner(game)
-    if winner == nil, do: %Message{}.tie, else: winner <> %Message{}.win
-  end
 end
