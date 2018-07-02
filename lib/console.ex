@@ -40,8 +40,8 @@ defmodule Console do
     IO.write message
   end
 
-  def play_again do
-    String.trim(IO.gets %Message{}.play_again) |> String.downcase()
+  def prompt_new_game do
+    String.trim(IO.gets %Message{}.prompt_new_game) |> String.downcase()
   end
 
   def get_move do

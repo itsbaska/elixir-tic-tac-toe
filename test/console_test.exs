@@ -137,8 +137,8 @@ defmodule ConsoleTest do
                                       """
   end
 
-  test "#play_again" do
-    test_output = fn -> Console.play_again() |> IO.write end
+  test "#prompt_new_game" do
+    test_output = fn -> Console.prompt_new_game() |> IO.write end
     assert capture_io("yes", test_output) == "Would you like to play again? Yes or No?\n\nyes"
   end
 

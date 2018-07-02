@@ -22,9 +22,13 @@ defmodule GameFlow do
   
   def perform_turn(game, continue_game) do
     if Game.over?(game) do
-      game |> Console.print_board
-      Message.result(game) |> Console.print
-      Console.play_again |> restart_game
+      game 
+      |> Console.print_board
+      game 
+      |> Message.result
+      |> Console.print
+      Console.prompt_new_game 
+      |> restart_game
     else 
       continue_game.(game) 
     end
@@ -45,7 +49,7 @@ defmodule GameFlow do
   def restart_game(_, console, _configuration, _game_flow) do
     %Message{}.invalid
     |> console.print
-    console.play_again
+    console.prompt_new_game
     |> restart_game
   end
 end

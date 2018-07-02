@@ -81,7 +81,7 @@ defmodule Message do
             enter_move: """
               Please enter your move >
               """,
-            play_again: """
+            prompt_new_game: """
               Would you like to play again? Yes or No?
               
               """
