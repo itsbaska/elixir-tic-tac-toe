@@ -13,7 +13,7 @@ defmodule Configuration do
           current_player: player_1}
   end
 
-  def set_players(console \\ Console, console2 \\ Console, on_invalid_input \\ &set_players/3) do
+  def set_players(console \\ Console, console2 \\ Console, on_invalid_input \\ &set_players/2) do
     game_type_input = console.get_game_type
     if game_type_input |> Validator.is_valid_option? do
       game_type_input 
