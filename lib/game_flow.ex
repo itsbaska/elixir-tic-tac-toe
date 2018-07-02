@@ -9,7 +9,7 @@ defmodule GameFlow do
   
   def loop(game) do
     game |> Console.print_board
-    game |> Console.turn_message
+    game |> Message.turn |> Console.print()
     game.current_player 
     |> Player.Move.move(game) 
     |> Game.mark_spot(game)
