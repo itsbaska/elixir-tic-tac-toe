@@ -162,15 +162,7 @@ defmodule ComputerTest do
                             "X", 9, "O", 11,
                             "X", 13, 14, 15],
                     size: 4}
-      assert Player.Move.move(game.current_player, game) ==  %Game{player_1: %Human{mark: "X"}, 
-                                            player_2: %Computer{mark: "O"}, 
-                                            current_player: %Human{mark: "X"}, 
-                                            winner: nil, 
-                                            board: ["X", 1, "O", 3,
-                                                    "O", 5, "O", 7,
-                                                    "X", 9, "O", 11,
-                                                    "X", 13, 14, 15],
-                                            size: 4}
+      assert Player.Move.move(game.current_player, game) == 4
     end
   end
 end

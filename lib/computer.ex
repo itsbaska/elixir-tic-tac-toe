@@ -9,7 +9,7 @@ defmodule Player.Computer do
   def get_best_move(game, false, _scores, depth) do
     scores = 
       Enum.map(game |> Board.available_spaces, fn(space) ->
-        game = Game.mark_spot(game, space) 
+        game = Game.mark_spot(space, game) |> Game.change_turn
         score = if depth < 4, do: get_best_move(game, Game.over?(game), [], depth + 1)
         {space, score}
       end)
@@ -51,6 +51,6 @@ end
 
 defimpl Player.Move, for: Player.Computer do
   def move(_current_player, game, _console) do
-    Game.mark_spot(game, Player.Computer.get_best_move(game))
+    Player.Computer.get_best_move(game)
   end
 end

@@ -23,6 +23,6 @@ end
 
 defimpl Player.Move, for: Player.Human do
   def move(_current_player, game, console \\ Console) do
-    Game.mark_spot(game, Player.Human.get_user_move(game, console))
+    Player.Human.get_user_move(game, console)
   end
 end
