@@ -26,7 +26,7 @@ defmodule HumanTest do
             player_1: %Human{mark: "X"},
             player_2: %Human{mark: "O"},
             size: 3}
-    assert Human.move(game_1, PickMove) == game_2
+    assert Player.Move.move(game_1.current_player, game_1, PickMove) == game_2
   end
 
 

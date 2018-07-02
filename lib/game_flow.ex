@@ -10,7 +10,7 @@ defmodule GameFlow do
   def loop(game) do
     game |> Console.print_board
     game |> Console.turn_message
-    game |> GameFlow.Move.move()
+    game.current_player |> Player.Move.move(game)
     |> perform_turn(&loop/1)
   end
   
@@ -42,8 +42,4 @@ defmodule GameFlow do
     console.play_again
     |> restart_game
   end
-end
-
-defprotocol GameFlow.Move do
-  def move(game)
 end

@@ -4,10 +4,6 @@ defmodule Player.Computer do
   alias Player.Human, as: Human
   alias Player.Computer, as: Computer
 
-  def move(game) do
-    Game.mark_spot(game, Player.Computer.get_best_move(game))
-  end
-
   def get_best_move(game, over \\ false, scores \\ [], depth \\ 0)
   def get_best_move(game, true, _scores, depth), do: hueristic_score(game, depth)    
   def get_best_move(game, false, _scores, depth) do
@@ -50,5 +46,11 @@ defmodule Player.Computer do
     scores 
     |> Enum.max_by(fn({_space, score}) -> score end)
     |> elem(0)
+  end
+end
+
+defimpl Player.Move, for: Player.Computer do
+  def move(_current_player, game, _console) do
+    Game.mark_spot(game, Player.Computer.get_best_move(game))
   end
 end

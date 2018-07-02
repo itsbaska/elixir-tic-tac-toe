@@ -2,10 +2,6 @@ defmodule Player.Human do
   defstruct Player.fields
   alias Game.Board, as: Board
 
-  def move(game, console \\ Console) do
-    Game.mark_spot(game, Player.Human.get_user_move(game, console))
-  end
-
   def get_user_move(game, console \\ Console) do
     move = console.get_move
     case Validator.is_valid_input?(move, game.size) do
@@ -22,5 +18,11 @@ defmodule Player.Human do
         |> console.print
         game |> get_user_move
     end
+  end
+end
+
+defimpl Player.Move, for: Player.Human do
+  def move(_current_player, game, console \\ Console) do
+    Game.mark_spot(game, Player.Human.get_user_move(game, console))
   end
 end
