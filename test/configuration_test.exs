@@ -59,13 +59,13 @@ defmodule ConfigurationTest do
     end
   end
 
-  describe ".get_player_marks" do
+  describe ".set_player_marks" do
     test "when user enters 'W' as mark" do
       defmodule PickMarkW do
         def get_player_marks(_), do: "W"
         def print(_message), do: nil
       end
-      assert Configuration.get_player_marks("", PickMarkW) == "W"
+      assert Configuration.set_player_marks(true, Player, "W", PickMarkW) == "W"
     end
 
     test "when user enters 'X' as mark" do
@@ -73,7 +73,7 @@ defmodule ConfigurationTest do
         def get_player_marks(_), do: "X"
         def print(_message), do: nil
       end
-      assert Configuration.get_player_marks("", PickMarkX) == "X"
+      assert Configuration.set_player_marks(true, Player, "X", PickMarkX) == "X"
     end
 
     test "when there is infinit loop" do
@@ -85,7 +85,29 @@ defmodule ConfigurationTest do
       defmodule TestCall_1 do
         def test_call(_, _), do: :was_called
       end 
-      assert Configuration.get_player_marks("", PickBlank, &TestCall_1.test_call/2) == :was_called
+      assert Configuration.set_player_marks(false, "", "xx", PickBlank, &TestCall_1.test_call/2) == :was_called
+    end
+  end
+
+  describe ".get_player_marks" do
+    test "when user enters 'X' as mark" do
+      defmodule PickMarkX_2 do
+        def get_player_marks(_), do: "X"
+        def print(_message), do: nil
+      end
+      assert Configuration.get_player_marks("", PickMarkX_2) == "X"
+    end
+
+    test "when the user enters a blank mark, and there is an infinit loop" do
+      defmodule PickBlank_3 do
+        def get_player_marks(_), do: ""
+        def print(_message), do: nil
+      end
+
+      defmodule BlankFakeMark do
+        def set_player_marks(_, _, _), do: :was_called
+      end 
+      assert Configuration.get_player_marks("", PickBlank_3, BlankFakeMark) == :was_called
     end
   end
 

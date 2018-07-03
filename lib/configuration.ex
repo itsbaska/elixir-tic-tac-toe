@@ -36,9 +36,9 @@ defmodule Configuration do
 
   def get_players(console) do
     game_type_input = console.get_game_type
-      game_type_input
-      |> Validator.is_valid_option? 
-      |> set_players(game_type_input)
+    game_type_input
+    |> Validator.is_valid_option? 
+    |> set_players(game_type_input)
   end
 
   def set_players(valid?, game_type_input, console \\ Console, console2 \\ Console, on_invalid_input \\ &get_players/1)
@@ -55,26 +55,14 @@ defmodule Configuration do
     on_invalid_input.(console)
   end
   
-  def get_player_marks(player, console \\ Console, on_invalid_input \\ &get_player_marks/3) do
-    mark = player |> console.get_player_marks
-    if mark |> Validator.is_blank? do
-      %Message{}.cannot_be_blank
-      |> console.print
-      player
-      |> on_invalid_input.(console)
-    else
-      if mark |> Validator.is_valid_length? do
-        mark
-      else
-        %Message{}.mark_length |> console.print
-        on_invalid_input.(player, console)
-      end
+  def get_marks(game_type, console \\ Console, console_2 \\ Console, on_invalid_input \\ &get_marks/3) do 
+    case game_type do
+      1 -> get_human_vs_human_marks(console, console_2, on_invalid_input)
+      2 -> get_human_vs_computer_marks(console)
     end
   end
 
-  def get_marks(game_type, console \\ Console, console_2 \\ Console, on_invalid_input \\ &get_marks/3)
-
-  def get_marks(_human_vs_human = 1, console, console_2, on_invalid_input) do
+  def get_human_vs_human_marks(console, console_2, on_invalid_input) do
     player_1 = %Human{mark: get_player_marks(%Message{}.player_1, console)}
     player_2 = %Human{mark: get_player_marks(%Message{}.player_2, console_2)}
 
@@ -86,8 +74,7 @@ defmodule Configuration do
     end
   end
 
-
-  def get_marks(_humav_vs_computer = 2, console, _console, _on_invalid_input) do
+  def get_human_vs_computer_marks(console) do
     player = get_player_marks(%Message{}.player_1, console)
     computer = 
       case player do
@@ -100,6 +87,28 @@ defmodule Configuration do
           if potential_mark == player, do: get_random_letter(), else: potential_mark
       end
       {%Human{mark: player}, %Computer{mark: computer}}
+  end
+
+  def get_player_marks(player, console \\ Console,  configuration \\ Configuration) do
+    mark = player |> console.get_player_marks
+    mark
+    |> Validator.is_not_blank?
+    |> configuration.set_player_marks(player, mark)
+  end
+
+  def set_player_marks(valid?, player, mark, console \\ Console, on_invalid_input \\ &get_player_marks/3)
+  def set_player_marks(true, player, mark, console, on_invalid_input) do
+    if mark |> Validator.is_valid_length? do
+      mark
+    else
+      %Message{}.mark_length |> console.print
+      on_invalid_input.(player, console)
+    end
+  end
+
+  def set_player_marks(false, player, _mark, console, on_invalid_input) do
+    %Message{}.cannot_be_blank |> console.print
+    player |> on_invalid_input.(console)
   end
 
   def get_random_letter do
