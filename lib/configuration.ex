@@ -3,9 +3,9 @@ defmodule Configuration do
   alias Player.Human, as: Human
   alias Player.Computer, as: Computer
 
-  def configure_game(setup \\ Configuration) do
-    {player_1, player_2} = setup.set_players()
-    board_size = setup.get_board_size()
+  def configure_game(configuration \\ Configuration, console \\ Console) do
+    {player_1, player_2} = configuration.get_players(console)
+    board_size = configuration.get_board_size()
     %Game{board: Board.create(board_size), 
           size: board_size,
           player_1: player_1,
@@ -13,17 +13,25 @@ defmodule Configuration do
           current_player: player_1}
   end
 
-  def set_players(console \\ Console, console2 \\ Console, on_invalid_input \\ &set_players/2) do
+  def get_players(console) do
     game_type_input = console.get_game_type
-    if game_type_input |> Validator.is_valid_option? do
-      game_type_input 
-      |> Integer.parse 
-      |> elem(0) 
-      |> get_marks(console, console2)
-    else
-      %Message{}.invalid |> console.print
-      on_invalid_input.(console, console2)
-    end
+      game_type_input
+      |> Validator.is_valid_option? 
+      |> set_players(game_type_input)
+  end
+
+  def set_players(valid?, game_type_input, console \\ Console, console2 \\ Console, on_invalid_input \\ &get_players/1)
+
+  def set_players(true, game_type_input, console, console2, _on_invalid_input) do
+    game_type_input
+    |> Integer.parse 
+    |> elem(0) 
+    |> get_marks(console, console2)
+  end
+
+  def set_players(false, _game_type_input, console, _console2, on_invalid_input) do
+    %Message{}.invalid |> console.print
+    on_invalid_input.()
   end
   
   def get_player_marks(player, console \\ Console, on_invalid_input \\ &get_player_marks/3) do

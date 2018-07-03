@@ -8,10 +8,14 @@ defmodule ConfigurationTest do
   describe "configure_game" do
     test "configure_game" do
       defmodule FakeSetup do
-        def set_players, do:  {%Player.Human{mark: "x"}, %Player.Human{mark: "o"}}
+        def get_players(_console), do:  {%Player.Human{mark: "x"}, %Player.Human{mark: "o"}}
         def get_board_size, do: 3
       end
-      assert Configuration.configure_game(FakeSetup) == %Game{board: [0, 1, 2, 3, 4, 5, 6, 7, 8], 
+
+      defmodule PicksHumVShum do
+        def get_game_type, do: "1"
+      end
+      assert Configuration.configure_game(FakeSetup, PicksHumVShum) == %Game{board: [0, 1, 2, 3, 4, 5, 6, 7, 8], 
                                                       size: 3,
                                                       player_1: %Player.Human{mark: "x"},
                                                       player_2: %Player.Human{mark: "o"},
@@ -24,38 +28,34 @@ defmodule ConfigurationTest do
     test "when the user picks option 1, the game type is human_vs_human" do
       defmodule PicksOptionOne_HumVSHum do
         def get_player_marks(_), do: "x"
-        def get_game_type, do: "1"
         def print(_message), do: nil
       end
 
       defmodule PicksOptionOne_HumVSHum2 do
         def get_player_marks(_), do: "o"
-        def get_game_type, do: "1"
         def print(_message), do: nil
 
       end
-      assert Configuration.set_players(PicksOptionOne_HumVSHum, PicksOptionOne_HumVSHum2) == {%Player.Human{mark: "x"}, %Player.Human{mark: "o"}}
+      assert Configuration.set_players(true, "1", PicksOptionOne_HumVSHum, PicksOptionOne_HumVSHum2) == {%Player.Human{mark: "x"}, %Player.Human{mark: "o"}}
     end
 
     test "when the user picks option 2, the game type is human_vs_computer" do
       defmodule PicksOptionTwo_HumVSCom do
         def get_player_marks(_), do: "x"
-        def get_game_type, do: "2"
         def print(_message), do: nil
       end
-      assert Configuration.set_players(PicksOptionTwo_HumVSCom, PicksOptionOne_HumVSHum2) == {%Player.Human{mark: "x"}, %Player.Computer{mark: "o"}}
+      assert Configuration.set_players(true, "2", PicksOptionTwo_HumVSCom, PicksOptionOne_HumVSHum2) == {%Player.Human{mark: "x"}, %Player.Computer{mark: "o"}}
     end
 
     test "when the user picks invalid option" do
       defmodule PicksInvalidOption do
-        def get_game_type, do: "3"
         def print(_message), do: nil
       end
 
       defmodule TestCall_3 do
-        def test_call(_, _), do: :was_called
+        def test_call(), do: :was_called
       end 
-      assert Configuration.set_players(PicksInvalidOption, PicksOptionOne_HumVSHum2, &TestCall_3.test_call/2) == :was_called
+      assert Configuration.set_players(false, "4", PicksInvalidOption, PicksOptionOne_HumVSHum2, &TestCall_3.test_call/0) == :was_called
     end
   end
 
