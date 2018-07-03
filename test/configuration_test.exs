@@ -8,8 +8,8 @@ defmodule ConfigurationTest do
   describe "configure_game" do
     test "configure_game" do
       defmodule FakeSetup do
-        def get_players(_console), do:  {%Player.Human{mark: "x"}, %Player.Human{mark: "o"}}
-        def get_board_size, do: 3
+        def get_players(_), do:  {%Player.Human{mark: "x"}, %Player.Human{mark: "o"}}
+        def get_board_size(_), do: 3
       end
 
       defmodule PicksHumVShum do
@@ -53,9 +53,9 @@ defmodule ConfigurationTest do
       end
 
       defmodule TestCall_3 do
-        def test_call(), do: :was_called
+        def test_call(_console), do: :was_called
       end 
-      assert Configuration.set_players(false, "4", PicksInvalidOption, PicksOptionOne_HumVSHum2, &TestCall_3.test_call/0) == :was_called
+      assert Configuration.set_players(false, "4", PicksInvalidOption, PicksOptionOne_HumVSHum2, &TestCall_3.test_call/1) == :was_called
     end
   end
 
@@ -132,30 +132,27 @@ defmodule ConfigurationTest do
   describe ".get_board_size" do
     test "when the user picks option 1, the game board size is 3x3" do
       defmodule PicksOptionOne do
-        def get_board_size, do: "1"
         def print(_message), do: nil
       end
-      assert Configuration.get_board_size(PicksOptionOne) == 3
+      assert Configuration.set_board_size(true, "1", PicksOptionOne) == 3
     end
 
     test "when the user picks option 2, the game board size is 4x4" do
       defmodule PicksOptionTwo do
-        def get_board_size, do: "2"
         def print(_message), do: nil
       end
-      assert Configuration.get_board_size(PicksOptionTwo) == 4
+      assert Configuration.set_board_size(true, "2", PicksOptionTwo) == 4
     end
 
     test "when the user picks invalid option" do
       defmodule PicksInvalidGameTypeOption do
-        def get_board_size, do: "3"
         def print(_message), do: nil
       end
 
       defmodule TestCall_2 do
         def test_call(_), do: :was_called
       end 
-      assert Configuration.get_board_size(PicksInvalidGameTypeOption, &TestCall_2.test_call/1) == :was_called
+      assert Configuration.set_board_size(false, "3", PicksInvalidGameTypeOption, &TestCall_2.test_call/1) == :was_called
     end
   end
 end

@@ -5,12 +5,33 @@ defmodule Configuration do
 
   def configure_game(configuration \\ Configuration, console \\ Console) do
     {player_1, player_2} = configuration.get_players(console)
-    board_size = configuration.get_board_size()
+    board_size = configuration.get_board_size(console)
     %Game{board: Board.create(board_size), 
           size: board_size,
           player_1: player_1,
           player_2: player_2,
           current_player: player_1}
+  end
+
+  def get_board_size(console \\ Console) do
+    board_size_input = console.get_board_size
+    board_size_input 
+    |> Validator.is_valid_option?
+    |> set_board_size(board_size_input, console)
+  end
+
+  def set_board_size(valid?, board_size_input, console \\ Console, on_invalid_input \\ &get_board_size/1)
+
+  def set_board_size(true, board_size_input, _console, _on_invalid_input) do
+    case board_size_input do
+      "1" -> 3
+      "2" -> 4
+    end
+  end
+
+  def set_board_size(false, _board_size_input, console, on_invalid_input) do
+    %Message{}.invalid |> console.print
+    on_invalid_input.(console)
   end
 
   def get_players(console) do
@@ -31,7 +52,7 @@ defmodule Configuration do
 
   def set_players(false, _game_type_input, console, _console2, on_invalid_input) do
     %Message{}.invalid |> console.print
-    on_invalid_input.()
+    on_invalid_input.(console)
   end
   
   def get_player_marks(player, console \\ Console, on_invalid_input \\ &get_player_marks/3) do
@@ -83,18 +104,5 @@ defmodule Configuration do
 
   def get_random_letter do
     Enum.random for n <- ?a..?z, do: << n :: utf8 >> |> String.upcase
-  end
-
-  def get_board_size(console \\ Console, on_invalid_input \\ &get_board_size/1 ) do
-    board_size_input = console.get_board_size
-    if board_size_input |> Validator.is_valid_option? do
-      case board_size_input do
-        "1" -> 3
-        "2" -> 4
-      end
-    else
-      %Message{}.invalid |> console.print
-      on_invalid_input.(console)
-    end
   end
 end
