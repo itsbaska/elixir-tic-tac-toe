@@ -90,25 +90,23 @@ defmodule Configuration do
   end
 
   def get_player_marks(player, console \\ Console,  configuration \\ Configuration) do
-    mark = player |> console.get_player_marks
-    mark
+    player |> console.get_player_marks
     |> Validator.is_not_blank?
-    |> configuration.set_player_marks(player, mark)
+    |> configuration.set_player_marks(player)
   end
 
-  def set_player_marks(valid?, player, mark, console \\ Console, on_invalid_input \\ &get_player_marks/3)
-  def set_player_marks(true, player, mark, console, on_invalid_input) do
+  def set_player_marks(valid?, player, console \\ Console, on_invalid_input \\ &get_player_marks/3)
+  def set_player_marks(valid?, player, console, on_invalid_input) when valid? == false do
+    %Message{}.cannot_be_blank |> console.print
+    player |> on_invalid_input.(console)
+  end
+  def set_player_marks(mark, player, console, on_invalid_input) do 
     if mark |> Validator.is_valid_length? do
       mark
     else
       %Message{}.mark_length |> console.print
       on_invalid_input.(player, console)
     end
-  end
-
-  def set_player_marks(false, player, _mark, console, on_invalid_input) do
-    %Message{}.cannot_be_blank |> console.print
-    player |> on_invalid_input.(console)
   end
 
   def get_random_letter do

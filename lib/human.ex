@@ -2,11 +2,11 @@ defmodule Player.Human do
   defstruct Player.fields
   alias Game.Board, as: Board
 
-  def get_user_move(game, console \\ Console, configuration \\ Player.Human) do
+  def get_user_move(game, console \\ Console, human_player \\ Player.Human) do
     move = console.get_move
     move
     |> Validator.is_valid_input?(game.size)
-    |> configuration.set_user_move(move, game, &get_user_move/2, console)
+    |> human_player.set_user_move(move, game, &get_user_move/2, console)
   end
 
   def set_user_move(valid?, move, game, on_invalid_input, console \\ Console)

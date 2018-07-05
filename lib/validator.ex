@@ -25,7 +25,7 @@ defmodule Validator do
   def is_already_used?(mark_1, mark_2), do: if mark_1 == mark_2, do: true, else: false
 
   def is_not_blank?(""), do: false
-  def is_not_blank?(_), do: true
+  def is_not_blank?(mark), do: mark
 
   def is_valid_length?(mark), do: mark |> String.length == 1
 end
