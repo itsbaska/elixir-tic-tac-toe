@@ -28,7 +28,9 @@ defmodule Validator do
 
 
 
-  def is_already_used?(mark_1, mark_2), do: if mark_1 == mark_2, do: true, else: false
+  def check_if_mark_is_available({mark_1, mark_2}) do
+    if mark_1 == mark_2, do: {:error, %Message{}.cannot_match}, else: {:ok, {mark_1, mark_2}}
+  end
 
   def is_not_blank?(""), do: false
   def is_not_blank?(mark), do: mark

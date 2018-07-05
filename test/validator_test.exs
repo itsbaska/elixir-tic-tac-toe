@@ -58,13 +58,13 @@ defmodule ValidatorTest do
     end
   end
   
-  describe ".is_already_used?" do
+  describe ".check_if_mark_is_available" do
     test "when both users enter the same marks" do
-      assert Validator.is_already_used?("3", "3") == true
+      assert Validator.check_if_mark_is_available({"3", "3"}) == {:error, %Message{}.cannot_match}
     end
 
     test "when user marks are different" do
-      assert Validator.is_already_used?("2", "X") == false
+      assert Validator.check_if_mark_is_available({"2", "X"}) == {:ok, {"2", "X"}}
     end
   end
 

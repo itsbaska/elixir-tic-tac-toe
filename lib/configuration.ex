@@ -52,23 +52,22 @@ defmodule Configuration do
   def get_marks(game_type, console \\ Console, console_2 \\ Console, on_invalid_input \\ &get_marks/3)
   
   def get_marks(game_type, console, console_2, on_invalid_input) when game_type == 1 do 
-    get_human_vs_human_marks(console, console_2, on_invalid_input)
+    {get_player_marks(%Message{}.player_1, console), get_player_marks(%Message{}.player_2, console_2)}
+    |> Validator.check_if_mark_is_available
+    |> get_human_vs_human_marks(console, console_2, on_invalid_input)
   end
   
   def get_marks(game_type, console, _console_2, _on_invalid_input) when game_type == 2 do 
     get_human_vs_computer_marks(console)
   end
 
-  def get_human_vs_human_marks(console, console_2, on_invalid_input) do
-    player_1 = %Human{mark: get_player_marks(%Message{}.player_1, console)}
-    player_2 = %Human{mark: get_player_marks(%Message{}.player_2, console_2)}
+  def get_human_vs_human_marks({:error, message}, console, console_2, on_invalid_input) do
+      message |> console.print
+      on_invalid_input.({:ok, 1}, console, console_2)
+  end
 
-    if Validator.is_already_used?(player_1.mark, player_2.mark) do
-      %Message{}.cannot_match |> console.print
-      on_invalid_input.(1, console, console_2)
-    else
-      {player_1, player_2}
-    end
+  def get_human_vs_human_marks({:ok, {mark_1, mark_2}}, _console, _console_2, _on_invalid_input) do
+    {%Human{mark: mark_1}, %Human{mark: mark_2}}
   end
 
   def get_human_vs_computer_marks(console) do
