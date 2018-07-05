@@ -7,12 +7,12 @@ defmodule Game do
             board: [],
             size: nil
 
-  defp check_win(line) do
+  defp winner(line) do
     possible_winner = line |> Enum.dedup
     if possible_winner |> length > 1, do: nil, else: possible_winner |> List.first
   end
 
-  defp check_line([line | rest_of_the_board]), do: [check_win(line) | check_line(rest_of_the_board)]
+  defp check_line([line | rest_of_the_board]), do: [winner(line) | check_line(rest_of_the_board)]
   defp check_line([]), do: []
 
   defp convert_to_columns(game) do
@@ -58,11 +58,7 @@ defmodule Game do
   def is_tie?(game), do: Board.available_spaces(game) |> length == 0
 
   def over?(game) do  
-    cond do
-      get_winner(game) -> true
-      is_tie?(game) -> true
-      true -> false
-    end
+    if get_winner(game) || is_tie?(game), do: true, else: false
   end
 
   def change_turn(game) do
