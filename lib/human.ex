@@ -6,10 +6,10 @@ defmodule Player.Human do
     move = console.get_move
     move
     |> Validator.is_valid_input?(game.size)
-    |> configuration.set_user_move(move, game, console)
+    |> configuration.set_user_move(move, game, &get_user_move/2, console)
   end
 
-  def set_user_move(valid?, move, game, on_invalid_input \\ &get_user_move/2, console \\ Console)
+  def set_user_move(valid?, move, game, on_invalid_input, console \\ Console)
 
   def set_user_move(true, move, game, on_invalid_input, console) do
     space = move |> Integer.parse |> elem(0)
@@ -19,15 +19,15 @@ defmodule Player.Human do
       %Message{}.spot_taken 
       |> console.print
       game 
-      |> on_invalid_input.(game, console)
+      |> on_invalid_input.(console)
     end
   end
-
+  
   def set_user_move(false, _move, game, on_invalid_input, console) do
     if game.size == 3, do: %Message{}.invalid_number_3x3, else: %Message{}.invalid_number_4x4
     |> console.print
     game 
-    |> on_invalid_input.(game, console)
+    |> on_invalid_input.(console)
   end
 end
 
