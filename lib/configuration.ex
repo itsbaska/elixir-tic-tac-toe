@@ -16,50 +16,47 @@ defmodule Configuration do
   def get_board_size(console \\ Console) do
     board_size_input = console.get_board_size
     board_size_input 
-    |> Validator.is_valid_option?
-    |> set_board_size(board_size_input, console)
+    |> Validator.check_board_size
+    |> set_board_size(console)
   end
 
-  def set_board_size(valid?, board_size_input, console \\ Console, on_invalid_input \\ &get_board_size/1)
+  def set_board_size(board_size, console \\ Console, on_invalid_input \\ &get_board_size/1)
 
-  def set_board_size(true, board_size_input, _console, _on_invalid_input) do
-    case board_size_input do
-      "1" -> 3
-      "2" -> 4
-    end
-  end
-
-  def set_board_size(false, _board_size_input, console, on_invalid_input) do
-    %Message{}.invalid |> console.print
+  def set_board_size({:error, message}, console, on_invalid_input) do
+    message |> console.print
     on_invalid_input.(console)
+  end
+
+  def set_board_size({_, board_size_input}, _console, _on_invalid_input) do
+    board_size_input
   end
 
   def get_players(console) do
-    game_type_input = console.get_game_type
-    game_type_input
-    |> Validator.is_valid_option? 
-    |> set_players(game_type_input)
+    console.get_game_type
+    |> Validator.check_game_type
+    |> set_players
   end
 
-  def set_players(valid?, game_type_input, console \\ Console, console2 \\ Console, on_invalid_input \\ &get_players/1)
+  def set_players(game_type, console \\ Console, console2 \\ Console, on_invalid_input \\ &get_players/1)
 
-  def set_players(true, game_type_input, console, console2, _on_invalid_input) do
-    game_type_input
-    |> Integer.parse 
-    |> elem(0) 
+  def set_players({:error, message}, console, _console2, on_invalid_input) do
+    message |> console.print
+    on_invalid_input.(console)
+  end
+
+  def set_players({_, game_type}, console, console2, _on_invalid_input) do
+    game_type
     |> get_marks(console, console2)
   end
 
-  def set_players(false, _game_type_input, console, _console2, on_invalid_input) do
-    %Message{}.invalid |> console.print
-    on_invalid_input.(console)
+  def get_marks(game_type, console \\ Console, console_2 \\ Console, on_invalid_input \\ &get_marks/3)
+  
+  def get_marks(game_type, console, console_2, on_invalid_input) when game_type == 1 do 
+    get_human_vs_human_marks(console, console_2, on_invalid_input)
   end
   
-  def get_marks(game_type, console \\ Console, console_2 \\ Console, on_invalid_input \\ &get_marks/3) do 
-    case game_type do
-      1 -> get_human_vs_human_marks(console, console_2, on_invalid_input)
-      2 -> get_human_vs_computer_marks(console)
-    end
+  def get_marks(game_type, console, _console_2, _on_invalid_input) when game_type == 2 do 
+    get_human_vs_computer_marks(console)
   end
 
   def get_human_vs_human_marks(console, console_2, on_invalid_input) do

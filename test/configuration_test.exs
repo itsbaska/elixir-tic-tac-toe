@@ -36,7 +36,7 @@ defmodule ConfigurationTest do
         def print(_message), do: nil
 
       end
-      assert Configuration.set_players(true, "1", PicksOptionOne_HumVSHum, PicksOptionOne_HumVSHum2) == {%Player.Human{mark: "x"}, %Player.Human{mark: "o"}}
+      assert Configuration.set_players({:ok, 1}, PicksOptionOne_HumVSHum, PicksOptionOne_HumVSHum2) == {%Player.Human{mark: "x"}, %Player.Human{mark: "o"}}
     end
 
     test "when the user picks option 2, the game type is human_vs_computer" do
@@ -44,7 +44,7 @@ defmodule ConfigurationTest do
         def get_player_marks(_), do: "x"
         def print(_message), do: nil
       end
-      assert Configuration.set_players(true, "2", PicksOptionTwo_HumVSCom, PicksOptionOne_HumVSHum2) == {%Player.Human{mark: "x"}, %Player.Computer{mark: "o"}}
+      assert Configuration.set_players({:ok, 2}, PicksOptionTwo_HumVSCom, PicksOptionOne_HumVSHum2) == {%Player.Human{mark: "x"}, %Player.Computer{mark: "o"}}
     end
 
     test "when the user picks invalid option" do
@@ -55,7 +55,7 @@ defmodule ConfigurationTest do
       defmodule TestCall_3 do
         def test_call(_console), do: :was_called
       end 
-      assert Configuration.set_players(false, "4", PicksInvalidOption, PicksOptionOne_HumVSHum2, &TestCall_3.test_call/1) == :was_called
+      assert Configuration.set_players({:error, ""}, PicksInvalidOption, PicksOptionOne_HumVSHum2, &TestCall_3.test_call/1) == :was_called
     end
   end
 
@@ -156,14 +156,14 @@ defmodule ConfigurationTest do
       defmodule PicksOptionOne do
         def print(_message), do: nil
       end
-      assert Configuration.set_board_size(true, "1", PicksOptionOne) == 3
+      assert Configuration.set_board_size({:ok, 3}, PicksOptionOne) == 3
     end
 
     test "when the user picks option 2, the game board size is 4x4" do
       defmodule PicksOptionTwo do
         def print(_message), do: nil
       end
-      assert Configuration.set_board_size(true, "2", PicksOptionTwo) == 4
+      assert Configuration.set_board_size({:ok, 4}, PicksOptionTwo) == 4
     end
 
     test "when the user picks invalid option" do
@@ -174,7 +174,7 @@ defmodule ConfigurationTest do
       defmodule TestCall_2 do
         def test_call(_), do: :was_called
       end 
-      assert Configuration.set_board_size(false, "3", PicksInvalidGameTypeOption, &TestCall_2.test_call/1) == :was_called
+      assert Configuration.set_board_size({:error, ""}, PicksInvalidGameTypeOption, &TestCall_2.test_call/1) == :was_called
     end
   end
 end

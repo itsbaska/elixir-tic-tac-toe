@@ -31,13 +31,30 @@ defmodule ValidatorTest do
     end
   end
   
-  describe ".is_valid_option?" do
+  describe ".check_board_size" do
     test "user inputs a non existing option" do
-      assert Validator.is_valid_option?("3") == false
+      assert Validator.check_board_size("3") == {:error, %Message{}.invalid}
     end
 
-    test "user inputs a valid existing option" do
-      assert Validator.is_valid_option?("2") == true
+    test "user chooses 3x3 board" do
+      assert Validator.check_board_size("1") == {:ok, 3}
+    end
+
+    test "user chooses 4x4 board" do
+      assert Validator.check_board_size("2") == {:ok, 4}
+    end
+  end
+  
+  describe ".check_game_type" do
+    test "user inputs a non existing option" do
+      assert Validator.check_game_type("3") == {:error, %Message{}.invalid}
+    end
+
+    test "user chooses human vs human game" do
+      assert Validator.check_game_type("1") ==  {:ok, 1}
+    end
+    test "user chooses human vs computer game" do
+      assert Validator.check_game_type("2") ==  {:ok, 2}
     end
   end
   
