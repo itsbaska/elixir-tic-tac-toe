@@ -22,18 +22,37 @@ defmodule Validator do
   def check_board_size("2"), do: {:ok, 4}
   def check_board_size(_), do: {:error, %Message{}.invalid}
 
-  def check_game_type("1"), do: {:ok, 1}
-  def check_game_type("2"), do:  {:ok, 2}
-  def check_game_type(_), do: {:error, %Message{}.invalid}
-
-
-
-  def check_if_mark_is_available({mark_1, mark_2}) do
-    if mark_1 == mark_2, do: {:error, %Message{}.cannot_match}, else: {:ok, {mark_1, mark_2}}
+  def check_game_type("1"), do: {:ok, :human_vs_human}
+  def check_game_type("2"), do: {:ok, :human_vs_computer}
+  def check_game_type(_) do 
+    {:error, %Message{}.invalid}
   end
 
-  def is_not_blank?(""), do: false
-  def is_not_blank?(mark), do: mark
+  def check_if_mark_is_available({mark_1, mark_2}) when mark_1 == mark_2 do
+    {:error, %Message{}.cannot_match}
+  end
 
-  def is_valid_length?(mark), do: mark |> String.length == 1
+  def check_if_mark_is_available({mark_1, mark_2}) do
+    {:ok, {mark_1, mark_2}}
+  end
+
+  def is_not_blank?("") do
+    {:error, %Message{}.cannot_be_blank}
+  end
+  
+  def is_not_blank?(mark, player, _console, _on_invalid_input) do
+    {:ok, mark}
+  end
+
+  def is_valid_length?(mark) do
+    mark |> String.length == 1
+  end
+
+  def is_valid_mark_length?(mark) do
+    if mark |> String.length == 1 do
+      {:ok, mark}
+    else
+      {:error, %Message{}.mark_length}
+    end
+  end
 end

@@ -130,8 +130,8 @@ defmodule ConsoleTest do
     end
   end
 
-  test "#get_player_mark" do
-    test_output = fn -> Console.print(%Message{}.get_player_marks)end
+  test "#get_human_mark" do
+    test_output = fn -> Console.print(%Message{}.get_human_mark)end
     assert capture_io(test_output) == """
                                       Please select a single letter, number, or symbol to be your mark.
                                       """
@@ -157,8 +157,8 @@ defmodule ConsoleTest do
     assert capture_io("1", test_output) == "Select game type:\n1) Human VS Human\n2) Human VS Computer\n1"
   end
 
-  test "#get_player_marks" do
-    test_output = fn -> Console.get_player_marks("Player 1 ~") |> IO.write end
+  test "#get_human_mark 2" do
+    test_output = fn -> Console.get_human_mark("Player 1 ~") |> IO.write end
     assert capture_io("x", test_output) == "Player 1 ~Please select a single letter, number, or symbol to be your mark.\nx"
   end
 end

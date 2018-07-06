@@ -23,125 +23,140 @@ defmodule ConfigurationTest do
     end
   end
 
-
-  describe ".set_players" do
-    test "when the user picks option 1, the game type is human_vs_human" do
-      defmodule PicksOptionOne_HumVSHum do
-        def get_player_marks(_), do: "x"
-        def print(_message), do: nil
-      end
-
-      defmodule PicksOptionOne_HumVSHum2 do
-        def get_player_marks(_), do: "o"
-        def print(_message), do: nil
-
-      end
-      assert Configuration.set_players({:ok, 1}, PicksOptionOne_HumVSHum, PicksOptionOne_HumVSHum2) == {%Player.Human{mark: "x"}, %Player.Human{mark: "o"}}
-    end
-
-    test "when the user picks option 2, the game type is human_vs_computer" do
-      defmodule PicksOptionTwo_HumVSCom do
-        def get_player_marks(_), do: "x"
-        def print(_message), do: nil
-      end
-      assert Configuration.set_players({:ok, 2}, PicksOptionTwo_HumVSCom, PicksOptionOne_HumVSHum2) == {%Player.Human{mark: "x"}, %Player.Computer{mark: "o"}}
-    end
-
-    test "when the user picks invalid option" do
-      defmodule PicksInvalidOption do
-        def print(_message), do: nil
-      end
-
-      defmodule TestCall_3 do
-        def test_call(_console), do: :was_called
-      end 
-      assert Configuration.set_players({:error, ""}, PicksInvalidOption, PicksOptionOne_HumVSHum2, &TestCall_3.test_call/1) == :was_called
-    end
-  end
-
-  describe ".set_player_marks" do
-    test "when user enters 'W' as mark" do
-      defmodule PickMarkW do
-        def get_player_marks(_), do: "W"
-        def print(_message), do: nil
-      end
-      assert Configuration.set_player_marks("W", Player, "W", PickMarkW) == "W"
-    end
-
-    test "when user enters 'X' as mark" do
-      defmodule PickMarkX do
-        def get_player_marks(_), do: "X"
-        def print(_message), do: nil
-      end
-      assert Configuration.set_player_marks("X", Player, "X", PickMarkX) == "X"
-    end
-
-    test "when there is infinit loop" do
-      defmodule PickBlank do
-        def get_player_marks(_), do: ""
-        def print(_message), do: nil
-      end
-
-      defmodule TestCall_1 do
-        def test_call(_, _), do: :was_called
-      end 
-      assert Configuration.set_player_marks(false, "", PickBlank, &TestCall_1.test_call/2) == :was_called
-    end
-  end
-
-  describe ".get_player_marks" do
+  describe ".get_human_mark" do
     test "when user enters 'X' as mark" do
       defmodule PickMarkX_2 do
-        def get_player_marks(_), do: "X"
+        def get_human_mark(_), do: "X"
         def print(_message), do: nil
       end
-      assert Configuration.get_player_marks("", PickMarkX_2) == "X"
+      assert Configuration.get_human_mark("", PickMarkX_2) == "X"
     end
 
     test "when the user enters a blank mark, and there is an infinit loop" do
       defmodule PickBlank_3 do
-        def get_player_marks(_), do: ""
+        def get_human_mark(_), do: ""
         def print(_message), do: nil
       end
 
       defmodule BlankFakeMark do
-        def set_player_marks(_, _), do: :was_called
+        def get_human_mark(_), do: "x" 
       end 
-      assert Configuration.get_player_marks("", PickBlank_3, BlankFakeMark) == :was_called
+      assert Configuration.get_human_mark("", PickBlank_3, &BlankFakeMark.get_human_mark/1) == "x"
     end
   end
 
-  describe ".get_marks_for_human_vs_computer_game" do
+  describe ".get_computer_mark" do
     test "when user enters 'X' as mark" do
-      defmodule ComputerPickO do
-        def get_player_marks(_), do: "X"
-        def print(_message), do: nil
-      end
-      assert Configuration.get_marks(2, ComputerPickO) == {%Human{mark: "X"}, %Computer{mark: "O"}}
+      assert Configuration.get_computer_mark("X") == "O"
     end
 
     test "when user enters 'x' as mark" do
-      defmodule ComputerPickO_2 do
-        def get_player_marks(_), do: "x"
-        def print(_message), do: nil
+      assert Configuration.get_computer_mark("x") == "o"
+    end
+
+    test "when user enters 'O' as mark" do
+      assert Configuration.get_computer_mark("O") == "X"
+    end
+
+    test "when user enters 'o' as mark" do
+      assert Configuration.get_computer_mark("o") == "x"
+    end
+
+    test "when user enters letter that is not x or o as mark" do
+      defmodule ComputerPickRandomF do
+        def get_random_letter, do: "F"
       end
-      assert Configuration.get_marks(2, ComputerPickO_2) == {%Human{mark: "x"}, %Computer{mark: "o"}}
+      assert Configuration.get_computer_mark("w", ComputerPickRandomF) == "F"
+    end
+
+    test "when user enters letter that is not x or o as mark and computer picks the same" do
+      defmodule ComputerPickRandomK do
+        def get_random_letter, do: "F"
+      end
+      defmodule ComputerPickRandomM do
+        def get_random_letter, do: "M"
+      end
+      assert Configuration.get_computer_mark("F", ComputerPickRandomK, ComputerPickRandomM) == "M"
     end
   end
 
-  describe ".get_marks_for_human_vs_human_game" do
-    test "when user enters the same marks" do
-      defmodule HumanPick do
-        def get_player_marks(_), do: "X"
+  describe ".get_human_vs_computer_marks" do
+    test "when user enters 'X' as mark" do
+      defmodule HumanPickX do
+        def get_human_mark(_), do: "X"
         def print(_message), do: nil
       end
-      
-      defmodule Human2_Pick do
-        def get_player_marks(_), do: "W"
+      assert Configuration.get_human_vs_computer_marks(HumanPickX) == {%Human{mark: "X"}, %Computer{mark: "O"}}
+    end
+
+    test "when user enters 'x' as mark" do
+      defmodule HumanPickx do
+        def get_human_mark(_), do: "x"
+        def print(_message), do: nil
+      end
+      assert Configuration.get_human_vs_computer_marks(HumanPickx) == {%Human{mark: "x"}, %Computer{mark: "o"}}
+    end
+
+    test "when user enters 'O' as mark" do
+      defmodule HumanPickO do
+        def get_human_mark(_), do: "O"
+        def print(_message), do: nil
+      end
+      assert Configuration.get_human_vs_computer_marks(HumanPickO) == {%Human{mark: "O"}, %Computer{mark: "X"}}
+    end
+
+    test "when user enters 'o' as mark" do
+      defmodule HumanPicko do
+        def get_human_mark(_), do: "o"
+        def print(_message), do: nil
+      end
+      assert Configuration.get_human_vs_computer_marks(HumanPicko) == {%Human{mark: "o"}, %Computer{mark: "x"}}
+    end
+    
+    test "when user enters mark other than o or x " do
+      defmodule HumanPickNotONotx do
+        def get_human_mark(_), do: "w"
         def print(_message), do: nil
       end
 
-      assert Configuration.get_marks(1, HumanPick, Human2_Pick) == {%Human{mark: "X"}, %Human{mark: "W"}}
+      defmodule ComputerPickRandom do
+        def get_computer_mark(_), do: "F"
+      end
+      assert Configuration.get_human_vs_computer_marks(HumanPickNotONotx, ComputerPickRandom) == {%Human{mark: "w"}, %Computer{mark: "F"}}
+    end
+  end
+
+  describe ".get_human_vs_human_marks" do
+    test "when user enters different marks" do
+      defmodule HumanPickDiffMark do
+        def get_human_mark(_), do: "X"
+        def print(_message), do: nil
+      end
+      
+      defmodule HumanPickDiffMark2 do
+        def get_human_mark(_), do: "W"
+        def print(_message), do: nil
+      end
+
+      assert Configuration.get_human_vs_human_marks(HumanPickDiffMark, HumanPickDiffMark2) == {%Human{mark: "X"}, %Human{mark: "W"}}
+    end
+  
+    test "when user enters same marks" do
+      defmodule HumanPickSameMark do
+        def get_human_mark(_), do: "X"
+        def print(_message), do: nil
+      end
+      
+      defmodule HumanPickSameMark2 do
+        def get_human_mark(_), do: "X"
+        def print(_message), do: nil
+      end
+
+      defmodule HumanPickSameMarkInvalid do
+        def test_call, do: :was_called
+      end
+
+      assert Configuration.get_human_vs_human_marks(HumanPickSameMark, HumanPickSameMark2, &HumanPickSameMarkInvalid.test_call/0) == :was_called
     end
   end
 
@@ -154,27 +169,30 @@ defmodule ConfigurationTest do
   describe ".get_board_size" do
     test "when the user picks option 1, the game board size is 3x3" do
       defmodule PicksOptionOne do
+        def get_board_size, do: "1"
         def print(_message), do: nil
       end
-      assert Configuration.set_board_size({:ok, 3}, PicksOptionOne) == 3
+      assert Configuration.get_board_size( PicksOptionOne) == 3
     end
 
     test "when the user picks option 2, the game board size is 4x4" do
       defmodule PicksOptionTwo do
+        def get_board_size, do: "2"
         def print(_message), do: nil
       end
-      assert Configuration.set_board_size({:ok, 4}, PicksOptionTwo) == 4
+      assert Configuration.get_board_size( PicksOptionTwo) == 4
     end
 
     test "when the user picks invalid option" do
       defmodule PicksInvalidGameTypeOption do
+        def get_board_size, do: "3"
         def print(_message), do: nil
       end
 
       defmodule TestCall_2 do
         def test_call(_), do: :was_called
       end 
-      assert Configuration.set_board_size({:error, ""}, PicksInvalidGameTypeOption, &TestCall_2.test_call/1) == :was_called
+      assert Configuration.get_board_size( PicksInvalidGameTypeOption, &TestCall_2.test_call/1) == :was_called
     end
   end
 end

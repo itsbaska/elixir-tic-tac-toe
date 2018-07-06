@@ -51,10 +51,11 @@ defmodule ValidatorTest do
     end
 
     test "user chooses human vs human game" do
-      assert Validator.check_game_type("1") ==  {:ok, 1}
+      assert Validator.check_game_type("1") ==  {:ok, :human_vs_human}
     end
+    
     test "user chooses human vs computer game" do
-      assert Validator.check_game_type("2") ==  {:ok, 2}
+      assert Validator.check_game_type("2") ==  {:ok, :human_vs_computer}
     end
   end
   

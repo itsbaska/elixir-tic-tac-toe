@@ -23,7 +23,7 @@ defmodule Message do
               1) Human VS Human
               2) Human VS Computer
               """,
-            get_player_marks: """
+            get_human_mark: """
               Please select a single letter, number, or symbol to be your mark.
               """,
             instructions: """
@@ -44,7 +44,7 @@ defmodule Message do
 
               """,
             mark_length: """
-              Mark cannot be more than 1 character long.
+              Mark must be 1 character long.
               Please try again.
               """,
 
