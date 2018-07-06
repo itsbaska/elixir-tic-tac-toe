@@ -59,7 +59,7 @@ defmodule Configuration do
   end
 
   def get_human_vs_computer_marks(console \\ Console, configuration \\ Configuration) do
-    player = console.get_human_mark(%Message{}.player_1)
+    player = %Message{}.player_1 |> get_human_mark(console)
     computer = configuration.get_computer_mark(player)
     {%Human{mark: player}, %Computer{mark: computer}}
   end
