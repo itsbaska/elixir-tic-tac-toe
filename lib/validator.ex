@@ -16,7 +16,7 @@ defmodule Validator do
   end
   
   def is_a_digit?(input), do: Regex.match?(~r/\d/, input)
-  def is_less_than_two_digit?(input), do: input |> String.length <= 2
+  def is_less_than_two_digit?(input), do: input |> String.length <= 2 && input |> is_a_digit?
 
   def check_board_size("1"), do: {:ok, 3}
   def check_board_size("2"), do: {:ok, 4}

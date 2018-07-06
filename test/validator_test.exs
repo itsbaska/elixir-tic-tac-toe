@@ -17,6 +17,20 @@ defmodule ValidatorTest do
     end
   end
 
+  describe ".is_a_digit" do
+    test "user inputs correct input" do
+      assert Validator.is_a_digit?("1") == true
+    end
+
+    test "user inputs letter" do
+      assert Validator.is_a_digit?("C") == false
+    end
+
+    test "user inputs number that is out of bounds" do
+      assert Validator.is_a_digit?("*") == false
+    end
+  end
+
   describe ".is_valid_input, when the user is playign a 4x4 game" do
     test "user inputs a valid entry" do
       assert Validator.is_valid_input?("11", 4) == true
@@ -53,7 +67,7 @@ defmodule ValidatorTest do
     test "user chooses human vs human game" do
       assert Validator.check_game_type("1") ==  {:ok, :human_vs_human}
     end
-    
+
     test "user chooses human vs computer game" do
       assert Validator.check_game_type("2") ==  {:ok, :human_vs_computer}
     end
@@ -69,6 +83,21 @@ defmodule ValidatorTest do
     end
   end
 
+  describe ".is_less_than_two_digit?" do
+    test "when user enters a digit with 1 length" do
+      assert Validator.is_less_than_two_digit?("1") == true
+    end
+
+    test "when user enters a digit with length longer than 1" do
+      assert Validator.is_less_than_two_digit?("222") == false
+    end
+
+    test "when user enters a letter" do
+      assert Validator.is_less_than_two_digit?("d") == false
+    end
+  end
+
+
   describe ".is_valid_length?" do
     test "when user enters a mark with 1 length" do
       assert Validator.is_valid_length?("X") == true
@@ -76,6 +105,16 @@ defmodule ValidatorTest do
 
     test "when user enters a mark with length longer than 1" do
       assert Validator.is_valid_length?("XXX") == false
+    end
+  end
+
+  describe ".is_valid_mark_length?" do
+    test "when user enters a mark with 1 length" do
+      assert Validator.is_valid_mark_length?("X") == {:ok, "X"}
+    end
+
+    test "when user enters a mark with length longer than 1" do
+      assert Validator.is_valid_mark_length?("XXX") == {:error, %Message{}.mark_length}
     end
   end
 
