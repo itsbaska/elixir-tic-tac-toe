@@ -1,18 +1,18 @@
 defmodule Game do
+  alias Game.Board, as: Board
+
   defstruct player_1: nil, 
             player_2: nil, 
             current_player: nil, 
-            winner: nil, 
             board: [],
-            over: false,
             size: nil
-            
-  defp check_win(line) do
+
+  defp winner(line) do
     possible_winner = line |> Enum.dedup
     if possible_winner |> length > 1, do: nil, else: possible_winner |> List.first
   end
 
-  defp check_line([line | rest_of_the_board]), do: [check_win(line) | check_line(rest_of_the_board)]
+  defp check_line([line | rest_of_the_board]), do: [winner(line) | check_line(rest_of_the_board)]
   defp check_line([]), do: []
 
   defp convert_to_columns(game) do
@@ -52,21 +52,13 @@ defmodule Game do
       convert_to_columns(game)
         |> check_line
         |> Enum.find(&(&1)) 
-    winner = diagonals || rows || columns
-    over =
-      if winner == nil, do: false, else: true
-    
-    %{game | winner: winner, over: over} 
+    diagonals || rows || columns
   end
 
   def is_tie?(game), do: Board.available_spaces(game) |> length == 0
 
   def over?(game) do  
-    cond do
-      get_winner(game).winner() -> true
-      is_tie?(game) -> true
-      true -> false
-    end
+    if get_winner(game) || is_tie?(game), do: true, else: false
   end
 
   def change_turn(game) do
@@ -75,8 +67,7 @@ defmodule Game do
     %{ game | current_player: player}
   end
 
-  def mark_spot(game, space) do
+  def mark_spot(space, game) do
     %{game | board: Board.make_mark(game, space)}
-    |> change_turn
   end
 end

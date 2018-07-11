@@ -1,7 +1,9 @@
 defmodule Player do
-  defstruct mark: nil
+  @fields mark: nil
+  defstruct @fields
+  def fields, do: @fields
+end
 
-  def move(game, space) do
-    Game.mark_spot(game, space)
-  end
+defprotocol Player.Move do
+  def move(_current_player, game, console \\ Console)
 end

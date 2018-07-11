@@ -1,6 +1,5 @@
 defmodule Console do
 
-
   def print_board(game) do
     board = game.board
     case game.size do 
@@ -41,8 +40,8 @@ defmodule Console do
     IO.write message
   end
 
-  def play_again do
-    String.trim(IO.gets %Message{}.play_again) |> String.downcase()
+  def prompt_new_game do
+    String.trim(IO.gets %Message{}.prompt_new_game) |> String.downcase()
   end
 
   def get_move do
@@ -57,7 +56,8 @@ defmodule Console do
     String.trim(IO.gets %Message{}.game_type)
   end
 
-  def get_player_marks(player) do
-    String.trim(IO.gets player <> %Message{}.get_player_marks)
+  def get_human_mark(player) do
+    String.trim(IO.gets player <> %Message{}.get_human_mark)
   end
+
 end

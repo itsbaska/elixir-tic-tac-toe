@@ -1,16 +1,15 @@
-defmodule Computer do
-  defstruct mark: nil
-
-  def move(game) do
-    Game.mark_spot(game, get_best_move(game))
-  end
+defmodule Player.Computer do
+  defstruct Player.fields
+  alias Game.Board, as: Board
+  alias Player.Human, as: Human
+  alias Player.Computer, as: Computer
 
   def get_best_move(game, over \\ false, scores \\ [], depth \\ 0)
   def get_best_move(game, true, _scores, depth), do: hueristic_score(game, depth)    
   def get_best_move(game, false, _scores, depth) do
     scores = 
       Enum.map(game |> Board.available_spaces, fn(space) ->
-        game = Game.mark_spot(game, space) 
+        game = Game.mark_spot(space, game) |> Game.change_turn
         score = if depth < 4, do: get_best_move(game, Game.over?(game), [], depth + 1)
         {space, score}
       end)
@@ -23,11 +22,11 @@ defmodule Computer do
     com_player = 
       if player_1 == Computer, do: game.player_1, else: game.player_2
     hum_player =
-      if player_1 == Player, do: game.player_1, else: game.player_2
+      if player_1 == Human, do: game.player_1, else: game.player_2
     cond do
-      Game.get_winner(game).winner() == com_player.mark -> 10 + depth
-      Game.get_winner(game).winner() == hum_player.mark -> -10 + depth
-      Game.is_tie?(game) -> 0
+      game |> Game.get_winner == com_player.mark -> 10 + depth
+      game |> Game.get_winner == hum_player.mark -> -10 + depth
+      game |> Game.is_tie? -> 0
     end
   end
 
@@ -37,7 +36,7 @@ defmodule Computer do
     |> elem(1)
   end
 
-  def minimax_score(Player, scores) do
+  def minimax_score(Human, scores) do
     scores
     |> Enum.min_by(fn({_space, score}) -> score end) 
     |> elem(1)
@@ -47,5 +46,11 @@ defmodule Computer do
     scores 
     |> Enum.max_by(fn({_space, score}) -> score end)
     |> elem(0)
+  end
+end
+
+defimpl Player.Move, for: Player.Computer do
+  def move(_current_player, game, _console) do
+    Player.Computer.get_best_move(game)
   end
 end
